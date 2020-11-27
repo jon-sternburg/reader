@@ -35,7 +35,7 @@ bin/published.js
 test/**/public
 .gatsby-context.js
 .DS_Store
-public/
+#public/
 node_modules/
 e2e-tests/gatsby-pnp/
 .cache/
