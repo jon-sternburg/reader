@@ -26,7 +26,7 @@ import Sidebar from './Sidebar'
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Top_Bar_Book from './Top_Bar_Book'
-import ReactHtmlParser from 'react-html-parser';
+import parse from 'html-react-parser';
 import { motion, AnimatePresence  } from "framer-motion"
 import {AiFillHome} from "react-icons/ai"
 import {FaEllipsisV} from "react-icons/fa"
@@ -441,7 +441,7 @@ el.id = `marked${mark_count}`
 
 let obj = {
   original: x.s[0].excerpt, 
-  excerpt: ReactHtmlParser(e_html), 
+  excerpt: parse(e_html), 
   cfi: x.s[0].cfi, 
   href: x.x.href, 
   data: matching[0], 
