@@ -1,0 +1,56 @@
+
+
+
+
+.homepage_frame {
+
+position: absolute;
+right: 0;
+top: 0;
+width: 100vw;
+min-height: 100vh;
+height: 100%;
+overflow-y: auto;
+overflow-x: hidden;
+
+}
+
+.topbar_search_wrap_mobile {
+
+display: flex;
+justify-content: center;
+align-items: center;
+
+top: 5vh;
+width: 100vw;
+right: 0;
+left: 0;
+margin: 0 auto;
+}
+
+#book_icon {
+width: 1.85em !important;
+height: 1.85em !important;
+margin: 5px 20px;
+ color: rgba(0, 0, 0, 0.74);
+}
+
+#title {
+  font-family: 'Rubik', sans-serif !important;
+  font-size: 28px;
+  color: rgba(0, 0, 0, 0.74);
+}
+
+
+.title_wrap {
+margin-top: 20px;
+
+display: flex;
+
+align-items: flex-start;
+width: 100%;
+
+flex-direction: row;
+flex-wrap: nowrap;
+
+}
