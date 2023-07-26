@@ -84,8 +84,8 @@ let title = this.props.selected_book == null ? 'Reader' : this.props.selected_bo
 const Result_Text = (kv, arr) => {
 
 
-return arr.map(x => {
-return <li>{x}<span id ='hl'>{kv}</span></li>
+return arr.map((x, i) => {
+return <li key = {i}>{x}<span id ='hl'>{kv}</span></li>
 
 
 

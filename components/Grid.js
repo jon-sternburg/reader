@@ -65,7 +65,7 @@ key = {x + i}
 <span> Classics  </span>
 {book_data.map((x, i) => {
 return <div key = {x.title + i} className = {styles.grid_box} style = {{backgroundColor: '#fff'}} onClick ={() => this.props.select_book(x)}>
-<img id = {styles.book_img} src = {`/covers/${x.id}.jpg`} /> 
+<img alt = {`book cover for ${x.title}`}id = {styles.book_img} src = {`/covers/${x.id}.jpg`} /> 
 {/* <BsBook id = 'grid_book_icon' />
 */}
 
