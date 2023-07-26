@@ -3,7 +3,6 @@ import React, { Component, Fragment, useState, useEffect} from 'react'
 import styles from '../sidebar_styles.module.css'
 import { motion, AnimatePresence  } from "framer-motion"
 import {MdClose} from "react-icons/md"
-import ReactHtmlParser from 'react-html-parser';
 import {BiCommentAdd} from "react-icons/bi"
 import {FaSearch} from "react-icons/fa"
 import {FaHighlighter} from "react-icons/fa"

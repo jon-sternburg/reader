@@ -7,7 +7,6 @@ import { AiFillHome } from "react-icons/ai"
 import { AiFillSetting } from "react-icons/ai"
 import _ from 'lodash'
 import { MdClose } from "react-icons/md"
-import ReactHtmlParser from 'react-html-parser';
 import ePub from 'epubjs'
 import {EpubCFI} from 'epubjs'
 import { AiOutlineLeft } from "react-icons/ai"

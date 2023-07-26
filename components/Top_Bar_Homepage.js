@@ -8,7 +8,7 @@ import { AiFillHome } from "react-icons/ai"
 import { AiFillSetting } from "react-icons/ai"
 import _ from 'lodash'
 import { MdClose } from "react-icons/md"
-import ReactHtmlParser from 'react-html-parser';
+import parse from 'html-react-parser';
 import ePub from 'epubjs'
 import {EpubCFI} from 'epubjs'
 import { AiOutlineLeft } from "react-icons/ai"
@@ -80,7 +80,7 @@ let el = range.endContainer.parentElement
 el.id = `marked${mark_count}`
 let obj = {
   original: x.s[0].excerpt, 
-  excerpt: ReactHtmlParser(e_html), 
+  excerpt: parse(e_html), 
   cfi: x.s[0].cfi, 
   href: x.x.href, 
   data: matching[0], 
