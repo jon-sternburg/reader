@@ -4,12 +4,10 @@ import styles from '../homepage_styles.module.css'
 import Sidebar from './Sidebar'
 import Top_Bar_Homepage from './Top_Bar_Homepage'
 import Top_Bar_Homepage_mobile from './Top_Bar_Homepage_mobile'
-
 import Grid from './Grid'
 import Book_Box from './Book_Box'
-import ePub from 'epubjs'
 
-import { FaBookOpen } from "react-icons/fa"
+
 
 export default class Homepage extends Component {
 constructor(props) {
@@ -48,7 +46,8 @@ if (this.state.width !== prevState.width) {
 }
 
   render() {
-    return <main id = 'main'><div className = {styles.homepage_frame} style = {{backgroundColor: this.state.selected_book == null ? 'whitesmoke' : '#FFF'}}>
+    return <main id = 'main'>
+    <div className = {styles.homepage_frame} style = {{backgroundColor: this.state.selected_book == null ? 'whitesmoke' : '#FFF'}}>
 {this.state.width >= 1000 && this.state.selected_book == null  && ( 
 <Top_Bar_Homepage
 rendition = {this.state.rendition}

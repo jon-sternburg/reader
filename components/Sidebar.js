@@ -1,11 +1,10 @@
 
-import React, { Component, Fragment, useState, useEffect} from 'react'
+import React, { Component, Fragment} from 'react'
 import styles from '../sidebar_styles.module.css'
-import { motion, AnimatePresence  } from "framer-motion"
+import { motion  } from "framer-motion"
 import {MdClose} from "react-icons/md"
 import {BiCommentAdd} from "react-icons/bi"
 import {FaSearch} from "react-icons/fa"
-import {FaHighlighter} from "react-icons/fa"
 import {FaListOl} from "react-icons/fa"
 import {FaStickyNote} from "react-icons/fa"
 import { AiFillSetting } from "react-icons/ai"
@@ -14,7 +13,6 @@ import Select from 'react-select';
 import { CgFormatJustify } from "react-icons/cg"
 import {GiMouse} from "react-icons/gi"
 import {CgArrowsH} from "react-icons/cg"
-import {MdExpandMore} from "react-icons/md"
 import {MdEdit} from "react-icons/md"
 import { IoIosArrowBack } from "react-icons/io"
 
@@ -92,7 +90,7 @@ let title = this.props.sidebar == 'toc' ? 'Contents' :
 			this.props.sidebar == 'settings' ? 'Settings' :
       this.props.sidebar == 'menu' ? 'Menu' :
 			this.props.sidebar == 'annotations' ? 'Annotations' :
-			this.props.sidebar == 'search' ? 'Search' : 
+			this.props.sidebar == 'search' ? `Search for '${this.props.keyvalue}'` : 
       this.props.sidebar == 'new_annotation' ? 'New Annotation' : null
 
     return <Fragment>
@@ -139,17 +137,21 @@ className = {styles.sidebar_inner_frame}>
 {this.props.sidebar == 'toc' && this.props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => this.props.set_sidebar('menu')} ><IoIosArrowBack id = {styles.toc} /></div>)}
 {this.props.sidebar == 'annotations'  && this.props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => this.props.set_sidebar('menu')} ><IoIosArrowBack id = {styles.toc} /></div>)}
  </div> 
+
+
 {this.props.sidebar == 'search' && this.props.results.length > 0 && (
-<div className = {styles.search_results_wrap_sidebar} role="search">
+<div className = {styles.search_results_wrap_sidebar} >
 {this.props.results.length > 0 && (
-<Fragment>
+
+<div className = {styles.search_results_wrap_sidebar_inner}>
 {this.props.results.map((x, i) => {
 
+return <Search_Section_Result key = {i} x={x} i={i} get_context = {this.props.get_context} />
 
+})}
+</div>
+)}
 
-return <li className = {i == this.props.si ? styles["search_li"] + " " + styles["selected"] : styles["search_li"] }  key = {x + i} onClick = {() => this.props.get_context(x, i)}>
-<span>{x.excerpt}</span><span>{x.section}</span></li>})}
-</Fragment>)}
 </div>)}
 </motion.div>
 
@@ -158,7 +160,7 @@ return <li className = {i == this.props.si ? styles["search_li"] + " " + styles[
 {this.props.sidebar == 'toc' && (
 <div id = {styles.toc_items}>
 {this.props.toc.map((x, i) => {
-return <li key = {x + i} onClick = {() => this.props.set_location(x, i)}>{x.label}</li>
+return <li key = {x.label + i} onClick = {() => this.props.set_location(x, i)}>{x.label}</li>
 })}
 </div>) }
 
@@ -305,12 +307,8 @@ return(
 
 
 function Annotation(props) {
-//const [options, toggleOptions] = useState(false);
-
 
  function element_clicked(s) {
- // toggleOptions(!options)
-
   props.get_annotation(props.x, props.i)
   }
 
@@ -326,19 +324,16 @@ let notes_preview = notes? notes : ''
 let title_ = title ? title : 'untitled'
   return (
 
+<li className = {props.selected ? styles["result_li"] + " " + styles["selected"] : styles["result_li"]  } key = {props.x + props.i} >
 
-
-
-<li className = {props.selected ? styles["result_li"] + " " + styles["selected"] : styles["result_li"]  } key = {props.x + props.i} onClick = {() => element_clicked(selected)}>
-
-<span id = {styles.annotation_title} className = {props.selected ? styles.selected_title: {} }>{title_}</span>
+<h3 id = {styles.annotation_title} className = {props.selected ? styles.selected_title: {} }>{title_}</h3>
 
 
 <Fragment>
 {section && section.length > 0 && (
-<span id = {styles.section}  style = {{fontStyle: 'italic'}}>{section}</span>
+<p id = {styles.section}  style = {{fontStyle: 'italic'}}>{section}</p>
 )}
-<span id = {styles.preview} style = {{fontStyle: 'italic'}}>...{preview}...</span>
+<p onClick = {() => element_clicked(selected)} id = {styles.preview} style = {{fontStyle: 'italic'}}>...{preview}...</p>
 <Fragment>
 {notes_preview && notes_preview.length > 0 && (
 <span id = {styles.annotation_notes} >{notes_preview}</span>
@@ -360,3 +355,37 @@ let title_ = title ? title : 'untitled'
   );
 }
 
+class Search_Section_Result extends Component {
+  constructor(props) {
+    super(props);
+    this.state =  {open: this.props.i == 0 ? true : false}
+  }
+
+
+toggle_section = () => this.setState({open: !this.state.open})
+
+  render() {
+
+return (
+<div className = {styles.search_result_section_wrap}>
+<h4 onClick = {() => this.toggle_section()}>{`${this.props.x.s.length} results found in ${this.props.x.label}`}</h4>
+
+
+{this.state.open && (
+
+<div className = {styles.search_result_item}>
+{this.props.x.s.map((y,i_) => {
+
+return <p key = {i_} onClick = {() => this.props.get_context(y, i_)}>{y.excerpt}</p>
+
+})}
+</div>
+  )}
+
+</div>
+)
+
+
+  }
+
+}

@@ -16,20 +16,20 @@
     "color": "#2a9d8f"
 },
 {
-    "title": "The Yellow Wallpaper",
-    "author": "Charlotte Perkins Gilman",
-    "url": "https://www.gutenberg.org/ebooks/1952.epub.noimages",
-    "id": "1952",
-    "path": "/files/1952.epub",
-    "color": "#e9c46a"
-},
-{
     "title": "Walden, and On The Duty Of Civil Disobedience",
     "author": "Henry David Thoreau",
     "url": "https://www.gutenberg.org/ebooks/205.epub.noimages",
     "id": "205",
     "path": "/files/205.epub",
     "color": "#f4a261"
+},
+{
+    "title": "The Yellow Wallpaper",
+    "author": "Charlotte Perkins Gilman",
+    "url": "https://www.gutenberg.org/ebooks/1952.epub.noimages",
+    "id": "1952",
+    "path": "/files/1952.epub",
+    "color": "#e9c46a"
 },
 {
     "title": "Great Expectations",

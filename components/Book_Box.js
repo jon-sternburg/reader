@@ -1,27 +1,12 @@
 
 import React, { Component, Fragment} from 'react'
-import ReactDOM from 'react-dom'
 import styles from '../book_box_styles.module.css'
 import ePub from 'epubjs'
 import {Annotation} from 'epubjs'
 import { IoIosArrowBack } from "react-icons/io"
 import { IoIosArrowForward } from "react-icons/io"
-import { AiOutlineLeft } from "react-icons/ai"
-import { AiFillSetting } from "react-icons/ai"
-import { AiOutlineRight } from "react-icons/ai"
-import Select from 'react-select';
-import { BsBookHalf } from "react-icons/bs"
-import { BsBook } from "react-icons/bs"
-import { CgFormatJustify } from "react-icons/cg"
-import {GiMouse} from "react-icons/gi"
-import {CgArrowsH} from "react-icons/cg"
-import {VscTextSize} from "react-icons/vsc"
-import {MdClose} from "react-icons/md"
 import {IoIosCreate} from "react-icons/io"
 import {FaHighlighter} from "react-icons/fa"
-import {FaListOl} from "react-icons/fa"
-import {FaSearch} from "react-icons/fa"
-import {FaStickyNote} from "react-icons/fa"
 import Sidebar from './Sidebar'
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
@@ -30,17 +15,10 @@ import parse from 'html-react-parser';
 import { motion, AnimatePresence  } from "framer-motion"
 import {AiFillHome} from "react-icons/ai"
 import {FaEllipsisV} from "react-icons/fa"
-
+import apply_ref_styles from '../util/apply_ref_styles'
+import getTimeStamp from '../util/getTimeStamp'
 
 const storage = global.localStorage || null;
-
-
-const text_size_options = [
-  { value: 'x-large', label: 'X-Large' },
-  { value: 'large', label: 'Large' },
-  { value: 'medium', label: 'Medium' },
-  { value: 'small', label: 'Small' }
-]
 
 
 export default class Book_Box extends Component {
@@ -48,68 +26,44 @@ export default class Book_Box extends Component {
     super(props);
     this.state =  {
           toc: [],
-          show_toc: false,
-          key: null,
-          show_settings: false,
           spread: 'auto',
           width: this.props.w - 40,
           height: this.props.h,
           text_size: { value: 'medium', label: 'Medium' },
           keyvalue: '',
-          value: '',
           results: [],
-          el_range: null,
-          el_cfi: null,
+          search_highlights: [],
           si: null,
-          mark_id: null,
-          mark_count: 0,
           flow: 'paginated',
           annotations: null,
-          show_note_popup: false,
-          px: null,
-          py: null,
-          textAreaValue: '',
-          inputValue: '',
-          capture_text: false,
           draft_cfi: null,
           sidebar: null,
-          draft_loc: null,
           book: null,
           rendition: null,
           empty_results: false,
           loading: true,
           editing: false,
-          locations: [],
           page: 1
                   }
                 
-    this.note_window = React.createRef();
     this.textarea_ref = React.createRef();
     this.input_ref = React.createRef();
-    this.annotation_span_ref = React.createRef();
     this.annotation_icon_ref = React.createRef(); 
-    this.highlight_span_ref = React.createRef();
     this.highlight_icon_ref = React.createRef(); 
     this.annotation_ref = React.createRef();
     this.highlight_ref = React.createRef();       
     this.popup_ref = React.createRef();
     this.frame_ref = React.createRef();
     this.book_ref = React.createRef();
-
-
 }
-
-
 
 toggle_flow = () => this.setState({flow: this.state.flow == 'paginated' ? 'scrolled' : 'paginated'})
 toggle_spread = () => this.setState({spread: this.state.spread == 'auto' ? 'none' : 'auto'})
-toggle_toc = () => this.setState({show_toc: !this.state.show_toc})
 
 set_location = (x, i) => {
   this.state.rendition.display(x.href)
   this.set_sidebar(null)
 }
-
 set_text_size = (x) => {
 this.setState({text_size: x})
 this.state.rendition.themes.default({ "p": { "font-size": `${x.label} !important`}})
@@ -157,49 +111,38 @@ setTimeout(
 }}
 
 get_annotation = (x, i) => {
+  console.log('test')
 let cfi = x[1].cfiRange
 this.state.rendition.display(cfi)
-console.log(i)
-this.setState({si: i})
+this.setState({si: i, sidebar: null})
 }
-
-
 
 set_toc = (toc) => this.setState({ toc: toc.toc, toc_by_id: toc.tocById })
 
-highlight_cb = (x) => console.log('highlighted passage')
-
 annotation_cb = (cfi, loc) => this.setState({draft_cfi: cfi, sidebar: 'new_annotation', editing: false})
-
-
 
 handle_highlight = (e, cfiRange, text, selection) => {
 this.popup_ref.current.style.visibility = 'hidden'
-this.state.rendition.annotations.add('highlight', cfiRange, {text}, this.highlight_cb())
+this.state.rendition.annotations.add('highlight', cfiRange, {text}, () => {})
 }
+
+handle_search_highlight = (e, cfiRange, text, x) => {this.state.rendition.annotations.add('highlight', cfiRange, {text: text, data: `search for ${this.state.keyvalue}`}, this.set_search_highlights(x))}
+
+
+set_search_highlights = (x) => {this.setState({search_highlights: [...this.state.search_highlights, x]})}
 
 
 handle_annotation = (e, cfiRange, text, selection) => {
-
 let loc = this.state.rendition.currentLocation()
 let matching = this.state.toc.filter(y => y.href.slice(0, y.href.indexOf('#')) == loc.start.href)
-console.log(matching)
-
 let section_ = matching && matching[0] && matching[0].label ? matching[0].label : 'No chapter available'
-
-console.log(section_)
 this.state.rendition.annotations.add('highlight', cfiRange, {text: text, data: 'notes go here', section: section_, loc: loc},  this.annotation_cb(cfiRange, loc))
 this.popup_ref.current.style.visibility = 'hidden'
-
-
 }
 
 set_sidebar = (val) => {this.state.sidebar == val ? this.setState({sidebar: null}) : this.setState({sidebar: val}) }
 
-
-
-async componentDidMount() {
-
+componentDidMount() {
 let _book = ePub(this.props.selected_book.path)
 let _rendition = _book.renderTo("area", {
       width: "100%",
@@ -208,7 +151,6 @@ let _rendition = _book.renderTo("area", {
       manager: 'default',
       spread: 'auto'
     });
-
 let popup_ref = this.popup_ref
 let highlight_ref = this.highlight_ref
 let handle_annotation = this.handle_annotation
@@ -224,17 +166,7 @@ let loc = JSON.parse(localStorage.getItem(loc_key))
 let a = JSON.parse(localStorage.getItem(a_key))
 
 if (a && a !== null) {
-let arr = [...a]
-a.map(x => {
-let cfiRange = x[1].cfiRange
-let text = x[1].data.text
-let data = x[1].data.data
-let time = x[1].data.time
-let title = x[1].data.title
-let section = x[1].data.section
-_rendition.annotations.add('highlight', cfiRange, {text: text, data: data, section: section, time: time, title: title },  {})
-})}
-
+a.map(x => _rendition.annotations.add('highlight', x[1].cfiRange, {text: x[1].data.text, data: x[1].data.data, section: x[1].data.section, time: x[1].data.time, title: x[1].data.title },  {}))}
 return loc !== null && loc ? loc.start.cfi : undefined
 })
 .then((set) => {
@@ -245,7 +177,7 @@ _rendition.themes.default({ "*:hover": { "color": `black !important`}})
 if (set) {_rendition.display(set) } else {_rendition.display() }
 
 this.setState({rendition: _rendition, book: _book, loading: false })
-})})
+})}).catch(err => console.log(err))
 
 _book.spine.hooks.content.register((document_, section) => {
 let htmlCollection = document_.getElementsByTagName('a')
@@ -267,20 +199,14 @@ annotation_clicked(cfiRange, data)
 
 
 _rendition.on("selected", function(cfiRange, contents) {
-
-
 contents.window.addEventListener('mousedown', (e) => {
   if (e.target.id == '' || e.target.id == undefined) { 
   popup_ref.current.style.visibility = 'hidden'
 }
 })
 
-
 let selection =  contents.window.getSelection()
 let text = selection.toString()
-//selection.extentNode.after(popup_ref.current); 
-//selection.extentNode.parentElement.insertAdjacentElement("beforebegin", popup_ref.current); 
-
 apply_ref_styles(popup_ref, highlight_ref, annotation_ref)
 
 let annotation_icon_ref = annotation_ref.current.childNodes[0]
@@ -320,10 +246,8 @@ let cfi = annotations[i][1].cfiRange
 this.state.rendition.annotations.remove(cfi, 'highlight')
 }
 cancel_annotation = () => {
-console.log('editing: ', this.state.editing)
 if (!this.state.editing) {
 this.state.rendition.annotations.remove(this.state.draft_cfi, 'highlight')
-console.log(this.state.rendition.annotations)
 this.setState({sidebar: null})
 } else {
 this.textarea_ref.current.value = ''
@@ -348,8 +272,6 @@ let y = document.getElementsByClassName("sidebar_styles_selected_title__OLqfZ").
       }, 300);
 
 });
-
-
 }
 
 
@@ -369,116 +291,74 @@ this.setState({sidebar: 'annotations', si: index})
 
 componentWillUnmount() {
 
+if (this.state.results && this.state.results.length > 0) {this.clear_input()}
+
 let a = JSON.stringify(Object.entries(this.state.rendition.annotations._annotations)) //
 let loc = JSON.stringify(this.state.rendition.currentLocation())
-
 localStorage.setItem(this.state.book.key()+'-locations', loc);
 localStorage.setItem(this.state.book.key()+'-annotations', a);
-//this.state.rendition.destroy()
 }
 
 previous_page = (e) => {
-  e.preventDefault();
-  this.state.rendition.prev()
+e.preventDefault();
+this.state.rendition.prev()
 }
 next_page = (e) => {
 e.preventDefault();
- this.state.rendition.next() 
+this.state.rendition.next() 
 } 
 
-
 handleInputChange_text = keyvalue => {
-
-if (keyvalue.length == 0) {
-this.state.results.map(x => {
-x.e_cfi.id = ''
-})
-this.setState({keyvalue: keyvalue, sidebar: null, results: [], si: null})
-this.state.rendition.themes.default({ [this.state.mark_id]: { "background": `none !important`}})
-} else {
-
-  this.setState({keyvalue: keyvalue})
+if (keyvalue.length == 0) {this.clear_input()} else {this.setState({keyvalue: keyvalue})}
 }
-
-}
-
-
 
 handle_text_submit = (e) => {
 e.preventDefault();
-
 let book = this.state.book
 let keyvalue = this.state.keyvalue
 let rendition = this.state.rendition
-let mark_count = this.state.mark_count
 if (book && book != null && keyvalue.length > 2) {
 let results = []
 Promise.all(book.spine.spineItems.map(async x => {
 await x.load(book.load.bind(book))
-.then(async () => {
-return await x.find(keyvalue)
-})
+.then(() => x.find(keyvalue))
 .then((s) => {
-if (s.length > 0) {
-let obj = {s:s, x: x}
-results.push(obj)
-}
+if (s.length > 0) {results.push({s:s, x: x})}
 })
-}))
+})).catch(err => console.log(err))
 .then(() => {
-let c = results.flat().filter( x => x.s[0] && x.s[0].excerpt && x.s[0].excerpt.length > 0)
-
-return Promise.all(c.map(x => {
-let e = x.s[0].excerpt.replace(keyvalue, `<span id = 'hl'>${keyvalue}</span>`)
-let e_html = `<span>${e}</span>`
+let res_ = results.map(x => {
 let matching = this.state.toc.filter(y => y.href.slice(0, y.href.indexOf('#')) == x.x.href)
+let label = matching && matching[0] && matching[0].label ?  matching[0].label : ''
+let toc_id = matching && matching[0] && matching[0].id ?  matching[0].id : ''
+return {s: x.s, x: x.x, label: label, sd: toc_id}
 
-return new Promise((resolve,reject) => resolve(this.state.book.getRange(x.s[0].cfi)))
-.then((range) => {
-
-let el = range.endContainer.parentElement
-el.id = `marked${mark_count}`
-
-let obj = {
-  original: x.s[0].excerpt, 
-  excerpt: parse(e_html), 
-  cfi: x.s[0].cfi, 
-  href: x.x.href, 
-  data: matching[0], 
-  section: matching[0].label, 
-  sd: matching[0].id,
-  e_cfi: el
-}
-return obj
-})}))
-}).then((combined) => {
-
-  rendition.themes.default({ [`#marked${mark_count}`]: { "background": `#FFFF00 !important`} ,"*:hover": { "color": `black !important`}   })
-let res = combined.sort((a,b) => a.sd.replace('np-', '') - b.sd.replace('np-', ''))
+})
+let res = res_.sort((a,b) => a.sd.replace('np-', '') - b.sd.replace('np-', ''))
   this.setState({
     sidebar: res && res.length > 0 ? 'search' : null,
     empty_results:  res && res.length > 0 ? false : true,
-    mark_id: `#marked${mark_count}`, 
-    mark_count: mark_count + 1, 
-    results: res })
-})}}
+    results: res 
+  })
+
+}).catch(err => console.log(err))
+} }
 
 get_context = async (x, i) => {
-
-console.log(x)
-let el = x.e_cfi
 this.setState({si: i})
-this.state.rendition.display(x.cfi)  
+this.state.rendition.display(x.cfi)
+this.handle_search_highlight(null, x.cfi, x.excerpt, x)
 }
 
 
 clear_input = () => {
-this.state.results.map(x => {
-x.e_cfi.id = ''
+let annotations = Object.entries(this.state.rendition.annotations._annotations) 
+annotations.map((x,i) => {
+let cfi_ = x[1].cfiRange
+let matching = this.state.search_highlights.filter(y => y.cfi == cfi_)
+if (matching) { this.state.rendition.annotations.remove(cfi_, 'highlight')}
 })
-
-  this.setState({results: [], keyvalue: '', si: null, sidebar: null})
-  this.state.rendition.themes.default({ [this.state.mark_id]: { "background": `none !important`}})
+this.setState({results: [], keyvalue: '', si: null, sidebar: null, search_highlights: []})
 }
 
   render() {
@@ -503,13 +383,11 @@ Highlight
 <Fragment>
 <div className = {styles.bottom_bar_wrap}>
 <IoIosArrowBack id = {styles.left_arrow_icon} onClick = {(e) => this.previous_page(e)} />
-
 <AiFillHome id = {styles.home_mobile} onClick = {() => this.props.select_book(null)} />
 <FaEllipsisV id = {styles.settings_mobile} onClick = {() => this.set_sidebar('menu')} />
 <IoIosArrowForward id = {styles.right_arrow_icon} onClick = {(e) => this.next_page(e)} />
 </div>
 </Fragment>
-
   )}
 
 
@@ -571,6 +449,7 @@ edit_annotation = {this.edit_annotation}
 set_location = {this.set_location}
 spread = {this.state.spread}
 flow = {this.state.flow}
+keyvalue = {this.state.keyvalue}
 get_annotation = {this.get_annotation}
 results = {this.state.results}
 si = {this.state.si}
@@ -585,10 +464,6 @@ clear_input = {this.clear_input}
 
 <div  id = 'area' ref = {this.book_ref}  className = {styles.book_box_inner_wrap}>
 
-
-
-
-
 {this.props.w > 1000 && ( 
   <Fragment>
 {this.state.sidebar == null && (<div className = {styles.arrow_left_arrow_wrap} onClick = {(e) => this.previous_page(e)}><IoIosArrowBack id = {styles.left_arrow_icon} /></div>)}
@@ -597,9 +472,7 @@ clear_input = {this.clear_input}
 
 </div>
 
-
-
-{this.props.w > 1000 && (
+{/*this.props.w > 1000 && (
 <div className = {styles.slider_wrap}>
 <Slider 
 defaultValue = {1}
@@ -611,7 +484,7 @@ onChange = {this.handle_slider}
 onAfterChange = {this.set_slider}
     />
 </div>
-  )}
+  )*/}
     </div>
     </div>
   }
@@ -620,49 +493,5 @@ onAfterChange = {this.set_slider}
 
 
 
-function getTimeStamp() {
-var now = new Date();
-return ((now.getMonth() + 1) + '/' + (now.getDate()) + '/' + now.getFullYear() + " " + now.getHours() + ':'
-+ ((now.getMinutes() < 10) ? ("0" + now.getMinutes()) : (now.getMinutes())) + ':' + ((now.getSeconds() < 10) ? ("0" + now
-.getSeconds()) : (now.getSeconds())));
-}
 
-function apply_ref_styles(popup_ref, highlight_ref, annotation_ref) {
 
-popup_ref.current.style.position = 'absolute'
-popup_ref.current.style.borderRadius = '12px'
-popup_ref.current.style.backgroundColor = '#fff'
-popup_ref.current.style.zIndex = '999999999999999999'
-popup_ref.current.style.boxShadow = '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)'
-popup_ref.current.style.display = 'flex'
-popup_ref.current.style.flexDirection = 'row'
-popup_ref.current.style.flexWrap = 'nowrap'
-popup_ref.current.style.justifyContent = 'space-around'
-popup_ref.current.style.userSelect = 'none'
-highlight_ref.current.style.display = 'flex'
-highlight_ref.current.style.borderLeft = '.5px solid lightgrey'
-highlight_ref.current.style.padding = '10px'
-highlight_ref.current.style.flexWrap = 'wrap'
-highlight_ref.current.style.flexDirection = 'row'
-highlight_ref.current.style.justifyContent = 'center'
-highlight_ref.current.style.alignItems = 'center'
-highlight_ref.current.style.cursor = 'pointer'
-highlight_ref.current.style.borderTopRightRadius = '12px'
-highlight_ref.current.style.borderBottomRightRadius = '12px'
-highlight_ref.current.style.fontFamily = `'Open Sans', sans-serif`
-highlight_ref.current.style.zIndex = '999999999999999999'
-highlight_ref.current.style.userSelect = 'none'
-annotation_ref.current.style.display = 'flex'
-annotation_ref.current.style.borderRight = '.5px solid lightgrey'
-annotation_ref.current.style.padding = '10px'
-annotation_ref.current.style.flexWrap = 'wrap'
-annotation_ref.current.style.flexDirection = 'row'
-annotation_ref.current.style.justifyContent = 'center'
-annotation_ref.current.style.alignItems = 'center'
-annotation_ref.current.style.cursor = 'pointer'
-annotation_ref.current.style.borderTopLeftRadius = '12px'
-annotation_ref.current.style.borderBottomLeftRadius = '12px'
-annotation_ref.current.style.fontFamily = `'Open Sans', sans-serif`
-annotation_ref.current.style.zIndex = '999999999999999999'
-annotation_ref.current.style.userSelect = 'none'
-}
