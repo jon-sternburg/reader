@@ -1,4 +1,12 @@
+.topbar_search_wrap_mobile {
 
+width: 100%;
+
+display: flex;
+justify-content: center;
+margin-top: 90px;
+padding: 0;
+}
 .top_bar_frame {
 width: 100%;
 right: 0;

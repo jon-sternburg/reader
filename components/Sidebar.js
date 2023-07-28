@@ -65,6 +65,18 @@ const text_size_options = [
 export default class Sidebar extends Component {
 
 
+ cancel_search = () => {
+
+console.log('fired')
+this.props.clear_input()
+this.props.set_sidebar('menu')
+
+
+
+
+}
+
+
   render() {
 const SidebarVariants = {
  expanded: () => ({
@@ -89,6 +101,7 @@ let annotations = this.props.rendition !== null ?  Object.entries(this.props.ren
 let title = this.props.sidebar == 'toc' ? 'Contents' : 
 			this.props.sidebar == 'settings' ? 'Settings' :
       this.props.sidebar == 'menu' ? 'Menu' :
+      this.props.sidebar == 'mobile_search' ? 'Search' :
 			this.props.sidebar == 'annotations' ? 'Annotations' :
 			this.props.sidebar == 'search' ? `Search for '${this.props.keyvalue}'` : 
       this.props.sidebar == 'new_annotation' ? 'New Annotation' : null
@@ -128,11 +141,13 @@ className = {styles.sidebar_inner_frame}>
 {this.props.sidebar == 'settings' && (<div className = {styles.active_icon} id = {styles.settings_icon} ><AiFillSetting className = {styles.active_icon} id = {styles.settings} /></div>)}
 {this.props.sidebar == 'annotations' && (<div className = {styles.active_icon} id = {styles.annotations_icon} ><FaStickyNote className = {styles.active_icon} id = {styles.annotations} /></div>)}
 {this.props.sidebar == 'new_annotation' && (<div className = {styles.active_icon} id = {styles.new_annotation_icon} ><BiCommentAdd className = {styles.active_icon} id = {styles.new_annotation} /></div>)}
+{this.props.sidebar == 'mobile_search' && (<div className = {styles.active_icon} id = {styles.new_annotation_icon} ><FaSearch className = {styles.active_icon} id = {styles.new_annotation} /></div>)}
 </div>
 
 
 <div className = {styles.sidebar_title}> <span>{title}</span>
-{this.props.sidebar == 'menu' && this.props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => this.props.set_sidebar('menu')} ><MdClose id = {styles.toc} /></div>)}
+{(this.props.sidebar == 'menu' || this.props.sidebar == 'mobile_search') && this.props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => this.props.set_sidebar('menu')} ><MdClose id = {styles.toc} /></div>)}
+{this.props.sidebar == 'search' && this.props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => this.cancel_search()} ><MdClose id = {styles.toc} /></div>)}
 {this.props.sidebar == 'settings'  && this.props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => this.props.set_sidebar('menu')} ><IoIosArrowBack id = {styles.toc} /></div>)}
 {this.props.sidebar == 'toc' && this.props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => this.props.set_sidebar('menu')} ><IoIosArrowBack id = {styles.toc} /></div>)}
 {this.props.sidebar == 'annotations'  && this.props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => this.props.set_sidebar('menu')} ><IoIosArrowBack id = {styles.toc} /></div>)}
@@ -181,11 +196,22 @@ return <li key = {x.label + i} onClick = {() => this.props.set_location(x, i)}>{
 <div id = {annotations.length > 0 ? styles.annotations_icon_mobile : styles.annotations_icon_mobile_disabled} ><FaStickyNote id = 'annotations' />
 </div>Annotations
 </div>
+<div className = {styles.settings_option_mobile} onClick = {() =>  this.props.set_sidebar('mobile_search') }>
+<div id = {styles.annotations_icon_mobile} ><FaSearch id = 'search' />
+</div>Search Text
+</div>
+
+
 {this.props.results.length > 0 && (<div className = {styles.indicator_icon} id = {styles.search_icon} onClick = {() => this.props.set_sidebar('search')}><FaSearch className = {styles.indicator} id = 'search' /></div>)}
 </div>
 
   )}
+{this.props.sidebar == 'mobile_search' && (
+<div className = {styles.mobile_search_frame}>
+  {this.props.mobile_search}
+</div>
 
+  )}
 
 {this.props.sidebar == 'settings' && (
 <div className = {styles.settings_wrap}>
@@ -324,19 +350,19 @@ let notes_preview = notes? notes : ''
 let title_ = title ? title : 'untitled'
   return (
 
-<li className = {props.selected ? styles["result_li"] + " " + styles["selected"] : styles["result_li"]  } key = {props.x + props.i} >
+<li className = {props.selected ? styles["result_li"] + " " + styles["selected"] : styles["result_li"]  }   >
 
-<h3 id = {styles.annotation_title} className = {props.selected ? styles.selected_title: {} }>{title_}</h3>
+<h3  className = {props.selected ? styles.selected_title: styles.not_selected_title }>{title_}</h3>
 
 
 <Fragment>
 {section && section.length > 0 && (
-<p id = {styles.section}  style = {{fontStyle: 'italic'}}>{section}</p>
+<p className = {styles.section}  style = {{fontStyle: 'italic'}}>{section}</p>
 )}
-<p onClick = {() => element_clicked(selected)} id = {styles.preview} style = {{fontStyle: 'italic'}}>...{preview}...</p>
+<p onClick = {() => element_clicked(selected)} className= {styles.preview} style = {{fontStyle: 'italic'}}>...{preview}...</p>
 <Fragment>
 {notes_preview && notes_preview.length > 0 && (
-<span id = {styles.annotation_notes} >{notes_preview}</span>
+<p className = {styles.annotation_notes} >{notes_preview}</p>
   )}
 
 

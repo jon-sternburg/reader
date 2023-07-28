@@ -11,6 +11,7 @@ import Sidebar from './Sidebar'
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Top_Bar_Book from './Top_Bar_Book'
+import Mobile_Search from './Mobile_Search'
 import parse from 'html-react-parser';
 import { motion, AnimatePresence  } from "framer-motion"
 import {AiFillHome} from "react-icons/ai"
@@ -111,7 +112,6 @@ setTimeout(
 }}
 
 get_annotation = (x, i) => {
-  console.log('test')
 let cfi = x[1].cfiRange
 this.state.rendition.display(cfi)
 this.setState({si: i, sidebar: null})
@@ -241,10 +241,13 @@ this.setState({sidebar: 'new_annotation', draft_cfi: _cfi, si: i, editing: true}
 }
 
 delete_annotation = (x, i) => {
+  console.log('deleting ', x, ' i=', i)
 let annotations = Object.entries(this.state.rendition.annotations._annotations) 
 let cfi = annotations[i][1].cfiRange
 this.state.rendition.annotations.remove(cfi, 'highlight')
+this.setState({si: null})
 }
+
 cancel_annotation = () => {
 if (!this.state.editing) {
 this.state.rendition.annotations.remove(this.state.draft_cfi, 'highlight')
@@ -365,7 +368,9 @@ this.setState({results: [], keyvalue: '', si: null, sidebar: null, search_highli
 let slider_styles = {color: "whitesmoke"}
 let annotations = this.state.rendition !== null ?  Object.entries(this.state.rendition.annotations._annotations) : []
 let flag = this.state.empty_results && this.state.results.length == 0
-return <div>
+return (
+
+  <Fragment>
 
 <div ref = {this.popup_ref} id = {styles.popup} onClick = {(e) => e.preventDefault()} >
 <div ref = {this.annotation_ref} id ='annotation' >
@@ -405,25 +410,18 @@ No results.  Try another search!
 
 {this.props.w > 1000 && ( 
 <Top_Bar_Book
-rendition = {this.state.rendition}
-toggle_settings = {this.toggle_settings} 
-book = {this.state.book} 
 select_book = {this.props.select_book} 
 selected_book = {this.props.selected_book}
-toc = {this.state.toc} 
-toggle_notes = {this.toggle_notes}
-show_notes = {this.state.show_notes}
 clear_input = {this.clear_input}
 results = {this.state.results}
 keyvalue = {this.state.keyvalue}
 handle_text_submit = {this.handle_text_submit}
 handleInputChange_text = {this.handleInputChange_text}
-si = {this.state.si}
 w={this.props.w}
 />
 )}
 
-
+{this.state.rendition !== null &&(
 <div  className = {styles.book_box_frame} ref = {this.frame_ref}  style = {{width: this.props.w <= 1000 ? this.props.w :  this.props.w - 80}} >
 
 {this.state.sidebar !== null && this.props.w > 1000 && (<div className = {styles.book_tint}  onClick = {() => this.set_sidebar(null)}/>)}
@@ -433,9 +431,18 @@ book_title = {this.props.selected_book.title}
 sidebar = {this.state.sidebar} 
 set_sidebar = {this.set_sidebar}
 book = {this.state.book}
-save_annotation_edit = {this.save_annotation_edit}
 toc = {this.state.toc}
 w={this.props.w}
+mobile_search={<Mobile_Search
+select_book = {this.props.select_book} 
+selected_book = {this.props.selected_book}
+clear_input = {this.clear_input}
+results = {this.state.results}
+keyvalue = {this.state.keyvalue}
+handle_text_submit = {this.handle_text_submit}
+handleInputChange_text = {this.handleInputChange_text}
+w={this.props.w}
+/>}
 textarea_ref = {this.textarea_ref}
 input_ref = {this.input_ref}
 rendition = {this.state.rendition}
@@ -472,6 +479,19 @@ clear_input = {this.clear_input}
 
 </div>
 
+
+    </div>
+
+   )}
+    </Fragment>
+  )}
+}
+
+
+
+
+
+
 {/*this.props.w > 1000 && (
 <div className = {styles.slider_wrap}>
 <Slider 
@@ -485,13 +505,3 @@ onAfterChange = {this.set_slider}
     />
 </div>
   )*/}
-    </div>
-    </div>
-  }
-}
-
-
-
-
-
-
