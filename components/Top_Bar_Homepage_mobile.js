@@ -30,6 +30,7 @@ this.input = React.createRef();
 }
 
 
+cancel_search = () => this.setState({results: [], keyvalue: ''})
 
 handleInputChange_text = keyvalue => this.setState({keyvalue: keyvalue})
 
@@ -86,14 +87,22 @@ let title = this.props.selected_book == null ? 'Reader' : this.props.selected_bo
 
 <Fragment>
 {this.props.selected_book == null ? 
+<Fragment>
 <ul className = {styles.search_results_homepage_mobile}>
 {this.state.results.map((x, i) => {
 return <li key = {x + i} onClick = {() => this.props.select_book(x)}>
-<span id = {styles.res_title}>{x.title}</span>,
-<span id = {styles.res_author}> {x.author}</span>
+<p>
+
+{x.title}, <span style = {{fontStyle: 'italic'}}> {x.author} </span>
+
+</p>
+
 </li>
 })}
 </ul>
+
+<div onClick = {() => this.cancel_search()} className = {styles.cancel_mobile_search}>Cancel search</div>
+</Fragment>
 : null }
 </Fragment>
 :  null}
@@ -108,7 +117,6 @@ return <li key = {x + i} onClick = {() => this.props.select_book(x)}>
 <form  onSubmit={(e) => e.preventDefault()}  role="search">
     <input 
     id="search_input_homepage" 
-    type="search" 
     placeholder="Search..." 
     value={this.state.keyvalue}
     onChange={(e) => this.handleInputChange(e.target.value)}

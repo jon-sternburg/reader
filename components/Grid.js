@@ -12,23 +12,13 @@ let book_data = require('./update_books.json')
 let featured = require('./featured.json')
 
 
-export default class Grid extends Component {
-/*
-componentDidMount() {
+export default function Grid(props) {
 
-console.log('mounted')
 
-featured.map((x, i) => {
-  const img = new Image();
-  img.src = `/covers/${x.id}.jpg`
 
-	})
+    return (
 
-}
-  */
-
-  render() {
-    return <div className = {styles.frame}>
+      <div className = {styles.frame}>
 
 
 
@@ -37,7 +27,7 @@ featured.map((x, i) => {
 <span> Popular  </span>
 
 {featured.map((x, i) => {
-return <div key = {x + i} className = {styles.grid_box}  style = {{backgroundColor: x.color}} onClick ={() => this.props.select_book(x)}>
+return <div key = {x + i} className = {styles.grid_box}  style = {{backgroundColor: x.color}} onClick ={() => props.select_book(x)}>
 <AnimatePresence>
 <motion.img
 key = {x + i}
@@ -64,12 +54,8 @@ key = {x + i}
 <div className = {styles.featured_frame}>
 <span> Classics  </span>
 {book_data.map((x, i) => {
-return <div key = {x.title + i} className = {styles.grid_box} style = {{backgroundColor: '#fff'}} onClick ={() => this.props.select_book(x)}>
+return <div key = {x.title + i} className = {styles.grid_box} style = {{backgroundColor: '#fff'}} onClick ={() => props.select_book(x)}>
 <img alt = {`book cover for ${x.title}`}id = {styles.book_img} src = {`/covers/${x.id}.jpg`} /> 
-{/* <BsBook id = 'grid_book_icon' />
-*/}
-
-
 <div className = {styles.underbox_small}> 
 <div className = {styles.title}>{x.title}</div>
 <div className = {styles.author}>{x.author}</div>
@@ -89,5 +75,5 @@ return <div key = {x.title + i} className = {styles.grid_box} style = {{backgrou
 
 
     </div>
-  }
+  )
 }

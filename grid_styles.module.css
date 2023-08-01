@@ -11,10 +11,19 @@ left: 5%;
 
 
 }
+.featured_frame a {
+	text-decoration: none;
+	color: black;
+}
+.grid_box h4 {
+
+	margin-block-start: .2em;
+	margin-block-end: .2em;
+}
 .featured_frame span {
 
 width: 100%;
-margin-left: 2.5%;
+margin-left: 8%;
 font-family: 'Roboto', sans-serif;
 font-weight: 900;
 font-size: 28px;

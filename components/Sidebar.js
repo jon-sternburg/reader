@@ -68,8 +68,9 @@ export default class Sidebar extends Component {
  cancel_search = () => {
 
 console.log('fired')
-this.props.clear_input()
 this.props.set_sidebar('menu')
+this.props.clear_input()
+
 
 
 
@@ -161,7 +162,7 @@ className = {styles.sidebar_inner_frame}>
 <div className = {styles.search_results_wrap_sidebar_inner}>
 {this.props.results.map((x, i) => {
 
-return <Search_Section_Result key = {i} x={x} i={i} get_context = {this.props.get_context} />
+return <Search_Section_Result key = {i} w ={this.props.w} x={x} i={i} get_context = {this.props.get_context} />
 
 })}
 </div>
@@ -392,6 +393,7 @@ toggle_section = () => this.setState({open: !this.state.open})
 
   render() {
 
+
 return (
 <div className = {styles.search_result_section_wrap}>
 <h4 onClick = {() => this.toggle_section()}>{`${this.props.x.s.length} results found in ${this.props.x.label}`}</h4>
@@ -402,7 +404,7 @@ return (
 <div className = {styles.search_result_item}>
 {this.props.x.s.map((y,i_) => {
 
-return <p key = {i_} onClick = {() => this.props.get_context(y, i_)}>{y.excerpt}</p>
+return <p key = {i_} onClick = {() => this.props.get_context(y, i_, this.props.w < 1000)}>{y.excerpt}</p>
 
 })}
 </div>

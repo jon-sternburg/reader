@@ -93,11 +93,10 @@ margin: 0;
 
 }
 
-@media (min-width: 999px) {
 .sidebar_frame {
-    position: absolute;
+    position: fixed;
     left: 4vw;
-    top: 0;
+    top: 7.5vh;
     background-color: #fff;
 
     z-index: 999999999;
@@ -107,14 +106,11 @@ margin: 0;
 
     display: flex;
     justify-content: center;
-
-
-height: calc(92.5vh + 10px);
+height: calc(92.5vh);
 
 }
 
 
-    }
 
 
 .active_icon {
@@ -597,8 +593,10 @@ right: 0;
 #annotations,
 #settings {
     color: rgba(0, 0, 0, 0.84);
+    /*
     height: 1.2em;
     width: 1.2em;
+    */
 }
 
 #toc:hover,
@@ -606,8 +604,10 @@ right: 0;
 #annotations:hover,
 #settings:hover {
     color: whitesmoke;
+      /*
     height: 1.2em;
     width: 1.2em;
+      */
 }
 
 #toc_icon:hover,
@@ -638,15 +638,13 @@ right: 0;
 
 
 }
-#toc_icon_back_mobile:hover {
-background:salmon;
-    }
+
 
 #toc_icon_back_mobile {
 
 
     border-radius: 50%;
-    background: #00b4c5;
+    background: salmon;
     display: flex;
     justify-content: center;
     align-items: center;

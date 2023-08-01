@@ -6,7 +6,13 @@ import { FaBookOpen } from "react-icons/fa"
 import { AiFillHome } from "react-icons/ai"
 import _ from 'lodash'
 import parse from 'html-react-parser';
+import OutsideAlerter from '../util/OutsideAlerter'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
+
+
 let book_data = require('./update_books.json')
+
 
 export default class Top_Bar_Homepage extends Component {
 constructor(props) {
@@ -17,6 +23,13 @@ constructor(props) {
   };
 
 this.input = React.createRef();
+
+}
+
+
+cancel_search = () => {
+
+this.setState({results: [], keyvalue: ''})
 
 }
 
@@ -59,12 +72,9 @@ let title = this.props.selected_book == null ? 'Reader' : this.props.selected_bo
     return <div className = {styles.top_bar_frame}>
 
 
-<div className = {styles.title_wrap}>
-    <div className = {styles.book_icon_wrap} onClick = {() => this.props.select_book(null)}>
-    <FaBookOpen id = {styles.book_icon} />
-    </div>
-    <div id = {styles.title} onClick = {() => this.props.select_book(null)}>{title}</div>
-   </div>
+<Link key = {'home'} href={`/`} className = {styles.title_wrap}>
+<FaBookOpen id = {styles.book_icon} /><span id = {styles.title} onClick = {() => this.props.select_book(null)}>{title}</span>
+</Link>
 
 {this.props.selected_book !== null && (
 <div id = {styles.home_button} onClick = {() => this.props.select_book(null)}> <AiFillHome id = {styles.home} /></div> )}
@@ -74,14 +84,20 @@ let title = this.props.selected_book == null ? 'Reader' : this.props.selected_bo
 
 <Fragment>
 {this.props.selected_book == null ? 
+<OutsideAlerter cancel_search = {this.cancel_search}>
 <ul className = {styles.search_results_homepage}>
 {this.state.results.map((x, i) => {
 return <li key = {x + i} onClick = {() => this.props.select_book(x)}>
-<span id = {styles.res_title}>{x.title}</span>,
-<span id = {styles.res_author}> {x.author}</span>
+<p>
+
+{x.title}, <span style = {{fontStyle: 'italic'}}> {x.author} </span>
+
+</p>
+
 </li>
 })}
 </ul>
+</OutsideAlerter>
 : null }
 </Fragment>
 :  null}
@@ -94,7 +110,6 @@ return <li key = {x + i} onClick = {() => this.props.select_book(x)}>
 <form  onSubmit={(e) => e.preventDefault()}  role="search">
     <input 
     id="search_input_homepage" 
-    type="search" 
     placeholder="Search books..." 
     value={this.state.keyvalue}
     onChange={(e) => this.handleInputChange(e.target.value)}

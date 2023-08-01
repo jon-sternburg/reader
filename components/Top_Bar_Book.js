@@ -5,6 +5,9 @@ import { FaBookOpen } from "react-icons/fa"
 import { AiFillHome } from "react-icons/ai"
 import _ from 'lodash'
 import { MdClose } from "react-icons/md"
+import { useRouter } from 'next/router'
+import Link from 'next/link'
+
 let book_data = require('./update_books.json')
 
 export default class Top_Bar_Book extends Component {
@@ -19,15 +22,15 @@ let title = this.props.selected_book == null ? 'Reader' : this.props.selected_bo
     return <div className = {styles.top_bar_frame}>
 
 
-<div className = {styles.title_wrap}>
-    <div className = {styles.book_icon_wrap} onClick = {() => this.props.select_book(null)}>
+<div className = {styles.title_wrap} >
+    <div className = {styles.book_icon_wrap} >
     <FaBookOpen id = {styles.book_icon} />
     </div>
-    <div id = {styles.title} onClick = {() => this.props.selected_book == null ? this.props.select_book(null) : {}}>{title}</div>
+    <div id = {styles.title} >{title}</div>
    </div>
 
 
-    <div id = {styles.home_button}onClick = {() => this.props.select_book(null)}> 
+    <div id = {styles.home_button} onClick = {() => this.props.select_book(null)}> 
     <AiFillHome id = {styles.home} />
     </div>
 
