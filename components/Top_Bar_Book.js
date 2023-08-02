@@ -10,16 +10,14 @@ import Link from 'next/link'
 
 let book_data = require('./update_books.json')
 
-export default class Top_Bar_Book extends Component {
-constructor(props) {
-  super(props);
+export default function Top_Bar_Book(props){
 
-}
 
-  render() {
-let title = this.props.selected_book == null ? 'Reader' : this.props.selected_book.title
 
-    return <div className = {styles.top_bar_frame}>
+let title = props.selected_book == null ? 'Reader' : props.selected_book.title
+
+    return (
+      <div className = {styles.top_bar_frame}>
 
 
 <div className = {styles.title_wrap} >
@@ -30,24 +28,24 @@ let title = this.props.selected_book == null ? 'Reader' : this.props.selected_bo
    </div>
 
 
-    <div id = {styles.home_button} onClick = {() => this.props.select_book(null)}> 
+    <div id = {styles.home_button} onClick = {() => props.select_book(null)}> 
     <AiFillHome id = {styles.home} />
     </div>
 
 <div className = {styles.header_wrap}>
 
 
-{this.props.w > 1000 && ( 
+{props.w > 1000 && ( 
 <div className = {styles.topbar_search_wrap} role="search">
-<form onSubmit={(e) => this.props.handle_text_submit(e)} >
+<form onSubmit={(e) => props.handle_text_submit(e)} >
     <input 
     id="search_text_book"  
-    value={this.props.keyvalue}
+    value={props.keyvalue}
     placeholder="Search text..." 
-    onChange={(e) => this.props.handleInputChange_text(e.target.value)}
+    onChange={(e) => props.handleInputChange_text(e.target.value)}
     />
 </form>
-{this.props.results.length > 0 && (<MdClose id = {styles.quit_search} onClick = {() => this.props.clear_input()}/>)}
+{props.results.length > 0 && (<MdClose id = {styles.quit_search} onClick = {() => props.clear_input()}/>)}
 </div>
 )}
 
@@ -55,6 +53,6 @@ let title = this.props.selected_book == null ? 'Reader' : this.props.selected_bo
   </div>
 
     </div>
-  }
+  )
 }
 

@@ -7,25 +7,22 @@ import _ from 'lodash'
 import { MdClose } from "react-icons/md"
 let book_data = require('./update_books.json')
 
-export default class Mobile_Search extends Component {
-constructor(props) {
-  super(props);
+export default function Mobile_Search(props){
 
-}
 
-  render() {
-let title = this.props.selected_book == null ? 'Reader' : this.props.selected_book.title
+let title = props.selected_book == null ? 'Reader' : props.selected_book.title
 
-    return <div className = {styles.topbar_search_wrap_mobile} role="search">
-<form onSubmit={(e) => this.props.handle_text_submit(e)} >
+    return (
+      <div className = {styles.topbar_search_wrap_mobile} role="search">
+<form onSubmit={(e) => props.handle_text_submit(e)} >
     <input 
     id="search_text_book"  
-    value={this.props.keyvalue}
+    value={props.keyvalue}
     placeholder="Search text..." 
-    onChange={(e) => this.props.handleInputChange_text(e.target.value)}
+    onChange={(e) => props.handleInputChange_text(e.target.value)}
     />
 </form>
-{this.props.results.length > 0 && (<MdClose id = {styles.quit_search} onClick = {() => this.props.clear_input()}/>)}
+{props.results.length > 0 && (<MdClose id = {styles.quit_search} onClick = {() => props.clear_input()}/>)}
 </div>
 
 
@@ -33,6 +30,6 @@ let title = this.props.selected_book == null ? 'Reader' : this.props.selected_bo
 
 
  
-  }
+  )
 }
 

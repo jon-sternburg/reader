@@ -1,6 +1,6 @@
 
 
-import React, { Component, Fragment, PureComponent} from 'react'
+import React, { Component, Fragment, useRef, useState, useEffect} from 'react'
 //import '../pages/css/top_bar.css'
 import styles from '../top_bar_styles.module.css'
 import { FaBookOpen } from "react-icons/fa"
@@ -17,59 +17,54 @@ import { FaStickyNote } from "react-icons/fa"
 
 let book_data = require('./update_books.json')
 
-export default class Top_Bar_Homepage extends Component {
-constructor(props) {
-  super(props);
-  this.state = { 
-    keyvalue: '',
-    results: [],
-  };
 
-this.input = React.createRef();
+export default function Top_Bar_Homepage_Mobile(props) {
 
+const [keyvalue, set_keyvalue] = useState('')
+const [results, set_results] = useState([])
+const input = useRef();
+
+useEffect(() => {
+if (keyvalue !== '') {handleSearchChange()}
+}, [keyvalue])
+
+function cancel_search() {
+set_results([])
+set_keyvalue('')
 }
 
-
-cancel_search = () => this.setState({results: [], keyvalue: ''})
-
-handleInputChange_text = keyvalue => this.setState({keyvalue: keyvalue})
-
-
-handleInputChange = (keyvalue) => {
-this.setState({keyvalue: keyvalue})
-this.handleSearchChange()
-  };
+function handleInputChange(keyvalue) {
+set_keyvalue(keyvalue)
+  }
 
 
-  handleSearchChange = (e) => {
+  function handleSearchChange(e) {
     setTimeout(() => {
-      if (this.state.keyvalue.length < 1) 
-        this.setState({keyvalue: '', results: []})
-
-
-    const re = new RegExp(_.escapeRegExp(this.state.keyvalue), "i");
+      if (keyvalue.length < 1) {
+      set_results([])
+      set_keyvalue('')
+}
+    const re = new RegExp(_.escapeRegExp(keyvalue), "i");
     const isMatch_title = (result) => re.test(result.title);
     const isMatch_author = (result) => re.test(result.author)
 
     let _source = book_data
     let results_title = _.filter(_source, isMatch_title)
     let results_author = _.filter(_source, isMatch_author)
-    let results = results_title.concat(results_author)
+    let results_ = results_title.concat(results_author)
 
-if (this.state.keyvalue.length > 2) {
-
-this.setState({results: results})
+if (keyvalue.length > 2) {
+set_results(results_)
 }}, 500);
     
 }
 
 
+let title = props.selected_book == null ? 'Reader!' : props.selected_book.title
 
+    return ( 
 
-  render() {
-let title = this.props.selected_book == null ? 'Reader' : this.props.selected_book.title
-
-    return <div className = {styles.top_bar_frame}>
+    <div className = {styles.top_bar_frame}>
 
 
 <div className = {styles.title_wrap_mobile}>
@@ -79,18 +74,18 @@ let title = this.props.selected_book == null ? 'Reader' : this.props.selected_bo
     <div id = {styles.title_mobile} >{title}</div>
    </div>
 
-{this.props.selected_book !== null && (
-<div id = {styles.home_button} onClick = {() => this.props.select_book(null)}> <AiFillHome id = {styles.home} /></div> )}
+{props.selected_book !== null && (
+<div id = {styles.home_button} onClick = {() => props.select_book(null)}> <AiFillHome id = {styles.home} /></div> )}
 
 
-{this.state.results.length > 0    ?
+{results.length > 0    ?
 
 <Fragment>
-{this.props.selected_book == null ? 
+{props.selected_book == null ? 
 <Fragment>
 <ul className = {styles.search_results_homepage_mobile}>
-{this.state.results.map((x, i) => {
-return <li key = {x + i} onClick = {() => this.props.select_book(x)}>
+{results.map((x, i) => {
+return <li key = {x + i} onClick = {() => props.select_book(x)}>
 <p>
 
 {x.title}, <span style = {{fontStyle: 'italic'}}> {x.author} </span>
@@ -101,7 +96,7 @@ return <li key = {x + i} onClick = {() => this.props.select_book(x)}>
 })}
 </ul>
 
-<div onClick = {() => this.cancel_search()} className = {styles.cancel_mobile_search}>Cancel search</div>
+<div onClick = {() => cancel_search()} className = {styles.cancel_mobile_search}>Cancel search</div>
 </Fragment>
 : null }
 </Fragment>
@@ -118,8 +113,8 @@ return <li key = {x + i} onClick = {() => this.props.select_book(x)}>
     <input 
     id="search_input_homepage" 
     placeholder="Search..." 
-    value={this.state.keyvalue}
-    onChange={(e) => this.handleInputChange(e.target.value)}
+    value={keyvalue}
+    onChange={(e) => handleInputChange(e.target.value)}
     />
 </form>
 </div>
@@ -129,6 +124,6 @@ return <li key = {x + i} onClick = {() => this.props.select_book(x)}>
   </div>
 
     </div>
-  }
+  )
 }
 

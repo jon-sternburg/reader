@@ -2,8 +2,9 @@ export default function apply_ref_styles(popup_ref, highlight_ref, annotation_re
 
 popup_ref.current.style.position = 'absolute'
 popup_ref.current.style.borderRadius = '12px'
-popup_ref.current.style.backgroundColor = '#00bf7d'
+popup_ref.current.style.backgroundColor = '#b3c7f7'
 popup_ref.current.style.zIndex = '999999999999999999'
+popup_ref.current.style.border = '2px solid #8babf1'
 popup_ref.current.style.boxShadow = '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)'
 popup_ref.current.style.display = 'flex'
 popup_ref.current.style.flexDirection = 'row'

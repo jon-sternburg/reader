@@ -1,5 +1,5 @@
 
-import React, { Component, Fragment} from 'react'
+import React, { Component, Fragment, useState} from 'react'
 import styles from '../sidebar_styles.module.css'
 import { motion  } from "framer-motion"
 import {MdClose} from "react-icons/md"
@@ -62,26 +62,19 @@ const text_size_options = [
 
 
 
-export default class Sidebar extends Component {
+export default function Sidebar(props){
 
 
- cancel_search = () => {
-
-console.log('fired')
-this.props.set_sidebar('menu')
-this.props.clear_input()
-
-
-
-
-
+ function cancel_search() {
+props.set_sidebar('menu')
+props.clear_input()
 }
 
 
-  render() {
+
 const SidebarVariants = {
  expanded: () => ({
-   width: this.props.w <= 1000 ? '100vw'  : '50vw',
+   width: props.w <= 1000 ? '100vw'  : '50vw',
    transition: {
 
      width: { type: "keyframes", values: [0, 100, 0] }
@@ -95,27 +88,29 @@ const SidebarVariants = {
    }
  })
 };
-let sidebarCollapsed = this.props.sidebar == null
+let sidebarCollapsed = props.sidebar == null
 
-let annotations = this.props.rendition !== null ?  Object.entries(this.props.rendition.annotations._annotations) : []
+let annotations = props.rendition !== null ?  Object.entries(props.rendition.annotations._annotations) : []
 
-let title = this.props.sidebar == 'toc' ? 'Contents' : 
-			this.props.sidebar == 'settings' ? 'Settings' :
-      this.props.sidebar == 'menu' ? 'Menu' :
-      this.props.sidebar == 'mobile_search' ? 'Search' :
-			this.props.sidebar == 'annotations' ? 'Annotations' :
-			this.props.sidebar == 'search' ? `Search for '${this.props.keyvalue}'` : 
-      this.props.sidebar == 'new_annotation' ? 'New Annotation' : null
+let title = props.sidebar == 'toc' ? 'Contents' : 
+			props.sidebar == 'settings' ? 'Settings' :
+      props.sidebar == 'menu' ? 'Menu' :
+      props.sidebar == 'mobile_search' ? 'Search' :
+			props.sidebar == 'annotations' ? 'Annotations' :
+			props.sidebar == 'search' ? `Search for '${props.keyvalue}'` : 
+      props.sidebar == 'new_annotation' ? 'New Annotation' : null
 
-    return <Fragment>
-{this.props.w > 1000 && (
+    return (
+
+    <Fragment>
+{props.w > 1000 && (
 <Sidebar_Icons_Fixed
-set_sidebar = {this.props.set_sidebar}
-cancel_annotation = {this.props.cancel_annotation}
-results = {this.props.results}
-sidebar = {this.props.sidebar}
+set_sidebar = {props.set_sidebar}
+cancel_annotation = {props.cancel_annotation}
+results = {props.results}
+sidebar = {props.sidebar}
 annotations = {annotations}
-clear_input = {this.props.clear_input}
+clear_input = {props.clear_input}
  />
 )}
 
@@ -138,31 +133,31 @@ className = {styles.sidebar_inner_frame}>
 
 <motion.div className = {styles.sidebar_header}>
 <div className ={styles.sidebar_icons}>
-{this.props.sidebar == 'toc' && (<div className = {styles.active_icon} id ={styles.toc_icon_active}  ><FaListOl className = {styles.active_icon} id = {styles.toc} /></div>)}
-{this.props.sidebar == 'settings' && (<div className = {styles.active_icon} id = {styles.settings_icon} ><AiFillSetting className = {styles.active_icon} id = {styles.settings} /></div>)}
-{this.props.sidebar == 'annotations' && (<div className = {styles.active_icon} id = {styles.annotations_icon} ><FaStickyNote className = {styles.active_icon} id = {styles.annotations} /></div>)}
-{this.props.sidebar == 'new_annotation' && (<div className = {styles.active_icon} id = {styles.new_annotation_icon} ><BiCommentAdd className = {styles.active_icon} id = {styles.new_annotation} /></div>)}
-{this.props.sidebar == 'mobile_search' && (<div className = {styles.active_icon} id = {styles.new_annotation_icon} ><FaSearch className = {styles.active_icon} id = {styles.new_annotation} /></div>)}
+{props.sidebar == 'toc' && (<div className = {styles.active_icon} id ={styles.toc_icon_active}  ><FaListOl className = {styles.active_icon} id = {styles.toc} /></div>)}
+{props.sidebar == 'settings' && (<div className = {styles.active_icon} id = {styles.settings_icon} ><AiFillSetting className = {styles.active_icon} id = {styles.settings} /></div>)}
+{props.sidebar == 'annotations' && (<div className = {styles.active_icon} id = {styles.annotations_icon} ><FaStickyNote className = {styles.active_icon} id = {styles.annotations} /></div>)}
+{props.sidebar == 'new_annotation' && (<div className = {styles.active_icon} id = {styles.new_annotation_icon} ><BiCommentAdd className = {styles.active_icon} id = {styles.new_annotation} /></div>)}
+{props.sidebar == 'mobile_search' && (<div className = {styles.active_icon} id = {styles.new_annotation_icon} ><FaSearch className = {styles.active_icon} id = {styles.new_annotation} /></div>)}
 </div>
 
 
 <div className = {styles.sidebar_title}> <span>{title}</span>
-{(this.props.sidebar == 'menu' || this.props.sidebar == 'mobile_search') && this.props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => this.props.set_sidebar('menu')} ><MdClose id = {styles.toc} /></div>)}
-{this.props.sidebar == 'search' && this.props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => this.cancel_search()} ><MdClose id = {styles.toc} /></div>)}
-{this.props.sidebar == 'settings'  && this.props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => this.props.set_sidebar('menu')} ><IoIosArrowBack id = {styles.toc} /></div>)}
-{this.props.sidebar == 'toc' && this.props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => this.props.set_sidebar('menu')} ><IoIosArrowBack id = {styles.toc} /></div>)}
-{this.props.sidebar == 'annotations'  && this.props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => this.props.set_sidebar('menu')} ><IoIosArrowBack id = {styles.toc} /></div>)}
+{(props.sidebar == 'menu' || props.sidebar == 'mobile_search') && props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><MdClose id = {styles.toc} /></div>)}
+{props.sidebar == 'search' && props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => cancel_search()} ><MdClose id = {styles.toc} /></div>)}
+{props.sidebar == 'settings'  && props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><IoIosArrowBack id = {styles.toc} /></div>)}
+{props.sidebar == 'toc' && props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><IoIosArrowBack id = {styles.toc} /></div>)}
+{props.sidebar == 'annotations'  && props.w <= 1000 && (<div id ={styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><IoIosArrowBack id = {styles.toc} /></div>)}
  </div> 
 
 
-{this.props.sidebar == 'search' && this.props.results.length > 0 && (
+{props.sidebar == 'search' && props.results.length > 0 && (
 <div className = {styles.search_results_wrap_sidebar} >
-{this.props.results.length > 0 && (
+{props.results.length > 0 && (
 
 <div className = {styles.search_results_wrap_sidebar_inner}>
-{this.props.results.map((x, i) => {
+{props.results.map((x, i) => {
 
-return <Search_Section_Result key = {i} w ={this.props.w} x={x} i={i} get_context = {this.props.get_context} />
+return <Search_Section_Result key = {i} w ={props.w} x={x} i={i} get_context = {props.get_context} />
 
 })}
 </div>
@@ -173,58 +168,58 @@ return <Search_Section_Result key = {i} w ={this.props.w} x={x} i={i} get_contex
 
 
 
-{this.props.sidebar == 'toc' && (
+{props.sidebar == 'toc' && (
 <div id = {styles.toc_items}>
-{this.props.toc.map((x, i) => {
-return <li key = {x.label + i} onClick = {() => this.props.set_location(x, i)}>{x.label}</li>
+{props.toc.map((x, i) => {
+return <li key = {x.label + i} onClick = {() => props.set_location(x, i)}>{x.label}</li>
 })}
 </div>) }
 
 
 
-{this.props.sidebar == 'menu' && (
+{props.sidebar == 'menu' && (
 <div className = {styles.settings_wrap}>
-<div className = {styles.settings_option_mobile} onClick = {() => this.props.set_sidebar('toc')}>
+<div className = {styles.settings_option_mobile} onClick = {() => props.set_sidebar('toc')}>
 <div id ={styles.toc_icon_mobile}  ><FaListOl id = {styles.toc} />
 </div>
 <span>Table of Contents</span>
 </div>
-<div className = {styles.settings_option_mobile} onClick = {() => this.props.set_sidebar('settings')}>
+<div className = {styles.settings_option_mobile} onClick = {() => props.set_sidebar('settings')}>
 <div id = {styles.settings_icon_mobile} ><AiFillSetting id = {styles.settings} />
 </div>Settings
 </div>
-<div className = {styles.settings_option_mobile} onClick = {() => annotations.length > 0 ? this.props.set_sidebar('annotations') : {} }>
+<div className = {styles.settings_option_mobile} onClick = {() => annotations.length > 0 ? props.set_sidebar('annotations') : {} }>
 <div id = {annotations.length > 0 ? styles.annotations_icon_mobile : styles.annotations_icon_mobile_disabled} ><FaStickyNote id = 'annotations' />
 </div>Annotations
 </div>
-<div className = {styles.settings_option_mobile} onClick = {() =>  this.props.set_sidebar('mobile_search') }>
+<div className = {styles.settings_option_mobile} onClick = {() =>  props.set_sidebar('mobile_search') }>
 <div id = {styles.annotations_icon_mobile} ><FaSearch id = 'search' />
 </div>Search Text
 </div>
 
 
-{this.props.results.length > 0 && (<div className = {styles.indicator_icon} id = {styles.search_icon} onClick = {() => this.props.set_sidebar('search')}><FaSearch className = {styles.indicator} id = 'search' /></div>)}
+{props.results.length > 0 && (<div className = {styles.indicator_icon} id = {styles.search_icon} onClick = {() => props.set_sidebar('search')}><FaSearch className = {styles.indicator} id = 'search' /></div>)}
 </div>
 
   )}
-{this.props.sidebar == 'mobile_search' && (
+{props.sidebar == 'mobile_search' && (
 <div className = {styles.mobile_search_frame}>
-  {this.props.mobile_search}
+  {props.mobile_search}
 </div>
 
   )}
 
-{this.props.sidebar == 'settings' && (
+{props.sidebar == 'settings' && (
 <div className = {styles.settings_wrap}>
 
-{this.props.w > 1000 && (
+{props.w > 1000 && (
 <div className = {styles.settings_option}>
 <span id = {styles.setting_name}>Page layout</span>
 <div id = {styles.options}>
-<div className = {this.props.spread =='none' ? styles["single_wrap"] + " " + styles["enabled"] : styles["single_wrap"] + " " + styles["disabled"]} onClick = {() => this.props.toggle_spread()}>
+<div className = {props.spread =='none' ? styles["single_wrap"] + " " + styles["enabled"] : styles["single_wrap"] + " " + styles["disabled"]} onClick = {() => props.toggle_spread()}>
 <CgFormatJustify id = {styles.single_page} />
 </div>
-<div className = {this.props.spread =='auto' ? styles["single_wrap"] + " " + styles["enabled"] : styles["single_wrap"] + " " + styles["disabled"]} onClick = {() => this.props.toggle_spread()} >
+<div className = {props.spread =='auto' ? styles["single_wrap"] + " " + styles["enabled"] : styles["single_wrap"] + " " + styles["disabled"]} onClick = {() => props.toggle_spread()} >
 <CgFormatJustify id = {styles.double_page} />
 <CgFormatJustify id = {styles.double_page} />
 </div>
@@ -234,10 +229,10 @@ return <li key = {x.label + i} onClick = {() => this.props.set_location(x, i)}>{
 <div className = {styles.settings_option}>
 <span id = {styles.setting_name}>Navigation</span>
 <div id = {styles.options}>
-<div className = {this.props.flow !== 'paginated' ? styles["scroll_flow"] + " " + styles["enabled"] : styles["scroll_flow"] + " " + styles["disabled"]} onClick = {() => this.props.toggle_flow()}>
+<div className = {props.flow !== 'paginated' ? styles["scroll_flow"] + " " + styles["enabled"] : styles["scroll_flow"] + " " + styles["disabled"]} onClick = {() => props.toggle_flow()}>
 <GiMouse id = {styles.scroll_flow_icon} />
 </div>
-<div className = {this.props.flow == 'paginated' ? styles["arrow_flow"] + " " + styles["enabled"] : styles["arrow_flow"] + " " + styles["disabled"]} onClick = {() => this.props.toggle_flow()}>
+<div className = {props.flow == 'paginated' ? styles["arrow_flow"] + " " + styles["enabled"] : styles["arrow_flow"] + " " + styles["disabled"]} onClick = {() => props.toggle_flow()}>
 <CgArrowsH id ={styles.arrow_flow_icon} />
 </div>
 </div>
@@ -247,10 +242,10 @@ return <li key = {x.label + i} onClick = {() => this.props.set_location(x, i)}>{
 <span id = {styles.setting_name}>Text Size</span>
 <div className = {styles.dropdown_wrap}>
 <Select
-value={this.props.text_size}
-onChange={this.props.set_text_size}
+value={props.text_size}
+onChange={props.set_text_size}
 options={text_size_options}
-placeholder = {this.props.text_size}
+placeholder = {props.text_size}
 defaultValue = {text_size_options[2]}
 isSearchable = {false}
 styles = {customStyles}
@@ -260,36 +255,36 @@ styles = {customStyles}
 </div>
   )}
 
-{this.props.sidebar == 'annotations' && (
+{props.sidebar == 'annotations' && (
 <div className = {styles.annotations_list_wrap}>
 {annotations.map((x, i) => {
 
-let selected = this.props.si == i
+let selected = props.si == i
 
 return <Annotation 
 key = {x + i} 
 selected = {selected} 
 x = {x} 
 i = {i} 
-get_annotation = {this.props.get_annotation} 
-edit_annotation = {this.props.edit_annotation} 
-delete_annotation = {this.props.delete_annotation} 
+get_annotation = {props.get_annotation} 
+edit_annotation = {props.edit_annotation} 
+delete_annotation = {props.delete_annotation} 
 />
 })}
 </div> )}
 
 
-{this.props.sidebar == 'new_annotation' && (
+{props.sidebar == 'new_annotation' && (
 <div  className = {styles.annotation_text_wrap}  >
 <div className = {styles.annotation_title_wrap}>
-<input ref = {this.props.input_ref} id = {styles.title_input_search} placeholder="Title..." name="annotation_title_search" type="text"  />
+<input ref = {props.input_ref} id = {styles.title_input_search} placeholder="Title..." name="annotation_title_search" type="text"  />
 </div>
 <div className = {styles.annotation_text_wrap_inner}>
-<textarea ref = {this.props.textarea_ref} id = {styles.textarea_id} placeholder = {'Notes...'}  />
+<textarea ref = {props.textarea_ref} id = {styles.textarea_id} placeholder = {'Notes...'}  />
 </div>
 <div className = {styles.button_wrap}>
-<div id = {styles.save} onClick ={() => this.props.save_annotation()}>Save</div>
-<div id = {styles.cancel} onClick ={() => this.props.cancel_annotation()}>Cancel</div>
+<div id = {styles.save} onClick ={() => props.save_annotation()}>Save</div>
+<div id = {styles.cancel} onClick ={() => props.cancel_annotation()}>Cancel</div>
 </div>
 </div> )}
 
@@ -297,10 +292,10 @@ delete_annotation = {this.props.delete_annotation}
 </motion.div>
 </Fragment>
 
-  }
+  )
 }
 
-const Sidebar_Icons = (props) => {
+function Sidebar_Icons(props) {
 
   return(
 <div className ={styles.sidebar_icons}>
@@ -382,29 +377,25 @@ let title_ = title ? title : 'untitled'
   );
 }
 
-class Search_Section_Result extends Component {
-  constructor(props) {
-    super(props);
-    this.state =  {open: this.props.i == 0 ? true : false}
-  }
+function Search_Section_Result(props) {
+const [open, set_open] = useState(props.i == 0 ? true : false)
 
-
-toggle_section = () => this.setState({open: !this.state.open})
-
-  render() {
+function toggle_section() {
+set_open(!open)
+}
 
 
 return (
 <div className = {styles.search_result_section_wrap}>
-<h4 onClick = {() => this.toggle_section()}>{`${this.props.x.s.length} results found in ${this.props.x.label}`}</h4>
+<h4 onClick = {() => toggle_section()}>{`${props.x.s.length} results found in ${props.x.label}`}</h4>
 
 
-{this.state.open && (
+{open && (
 
 <div className = {styles.search_result_item}>
-{this.props.x.s.map((y,i_) => {
+{props.x.s.map((y,i_) => {
 
-return <p key = {i_} onClick = {() => this.props.get_context(y, i_, this.props.w < 1000)}>{y.excerpt}</p>
+return <p key = {i_} onClick = {() => props.get_context(y, i_, props.w < 1000)}>{y.excerpt}</p>
 
 })}
 </div>
@@ -414,6 +405,6 @@ return <p key = {i_} onClick = {() => this.props.get_context(y, i_, this.props.w
 )
 
 
-  }
+  
 
 }

@@ -3,10 +3,11 @@ import React, { Component } from 'react'
 import Link from 'next/link'
 import styles from '../grid_styles.module.css'
 import { GiWhiteBook } from "react-icons/gi"
-import { motion, AnimatePresence  } from "framer-motion"
+import Image from 'next/image'
 import { BsBook } from "react-icons/bs"
 import { AiFillTrophy } from "react-icons/ai"
 
+let all_book_data = require('./all_book_data.json')
 
 let book_data = require('./update_books.json')
 let featured = require('./featured.json')
@@ -15,6 +16,37 @@ let featured = require('./featured.json')
 export default function Grid(props) {
 
 
+/*
+Promise.all(all_book_data.map(x => {
+return new Promise((resolve, reject) => {
+const img = new Image();
+img.src = `/covers/${x.id}.jpg`
+img.onload = () => {
+
+    let data_ = {
+        ...x,
+    height: img.height,
+    width: img.width
+}
+
+resolve(data_)
+}
+
+
+
+})
+
+
+
+
+
+})).then((covers) => {
+
+ console.log(JSON.stringify(covers))
+
+ })
+
+*/
 
     return (
 
@@ -23,48 +55,55 @@ export default function Grid(props) {
 
 
 
-<div className = {styles.featured_frame}>
-<span> Popular  </span>
+<section className = {styles.featured_frame}>
+<h2> Popular  </h2>
 
 {featured.map((x, i) => {
-return <div key = {x + i} className = {styles.grid_box}  style = {{backgroundColor: x.color}} onClick ={() => props.select_book(x)}>
-<AnimatePresence>
-<motion.img
-key = {x + i}
-     initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        id = {styles.book_img} 
- src = {`/covers/${x.id}.jpg`} />
-<div className = {styles.underbox}> 
-<div className = {styles.title}>{x.title}</div>
-<div className = {styles.author}>{x.author}</div>
-</div>
-</AnimatePresence>
+return <article key = {x + i} className = {styles.grid_box}  style = {{backgroundColor: x.color}} onClick ={() => props.select_book(x)}>
 
-</div>
+<Image
+alt = {`book cover for ${x.title}`} 
+id = {styles.book_img} 
+src = {`/covers/${x.id}.jpg`}
+height = {x.height}
+width = {x.width}
+ />
+
+<header className = {styles.underbox}> 
+<h4 className = {styles.title}>{x.title}</h4>
+<h5 className = {styles.author}>{x.author}</h5>
+</header>
+
+
+</article>
 
 })}
-</div>
+</section>
 
 
 
 
 
-<div className = {styles.featured_frame}>
-<span> Classics  </span>
+<section className = {styles.featured_frame}>
+<h2> Classics  </h2>
 {book_data.map((x, i) => {
-return <div key = {x.title + i} className = {styles.grid_box} style = {{backgroundColor: '#fff'}} onClick ={() => props.select_book(x)}>
-<img alt = {`book cover for ${x.title}`}id = {styles.book_img} src = {`/covers/${x.id}.jpg`} /> 
-<div className = {styles.underbox_small}> 
-<div className = {styles.title}>{x.title}</div>
-<div className = {styles.author}>{x.author}</div>
-</div>
+return <article key = {x.title + i} className = {styles.grid_box} style = {{backgroundColor: '#fff'}} onClick ={() => props.select_book(x)}>
+<Image
+alt = {`book cover for ${x.title}`} 
+id = {styles.book_img} 
+src = {`/covers/${x.id}.jpg`}
+height = {x.height}
+width = {x.width}
+ />
+<header className = {styles.underbox_small}> 
+<h4 className = {styles.title}>{x.title}</h4>
+<h5 className = {styles.author}>{x.author}</h5>
+</header>
 
 
-</div>
+</article>
 })}
-</div>
+</section>
 
 
 

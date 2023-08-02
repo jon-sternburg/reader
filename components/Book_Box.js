@@ -19,6 +19,7 @@ import {FaEllipsisV} from "react-icons/fa"
 import apply_ref_styles from '../util/apply_ref_styles'
 import getTimeStamp from '../util/getTimeStamp'
 import { useRouter } from 'next/router'
+var qs = require('qs');
 const storage = global.localStorage || null;
 
 
@@ -55,6 +56,24 @@ const popup_ref = useRef();
 const frame_ref = useRef();
 const book_ref =useRef();
 
+useEffect(() => {
+
+router.beforePopState((x) => {
+  
+if (x.as !== router.asPath && qs.parse(x.as).cfi) {
+  rendition.current.display(qs.parse(x.as).cfi)
+} else {
+props.select_book(null)
+}
+        return true;
+    });
+
+    return () => {
+        router.beforePopState(() => true);
+    };
+}, [router]); 
+
+
 
 
 useEffect(() => {
@@ -73,27 +92,15 @@ rendition.current= book.current.renderTo("area", {
 book.current.ready.then(function(){
 
 
-let a = localStorage.getItem(book.current.key()+'-annotations') !== undefined ? JSON.parse(localStorage.getItem(book.current.key()+'-annotations')) : []
+let a = localStorage.getItem(props.selected_book.id+'-annotations') !== undefined ? JSON.parse(localStorage.getItem(props.selected_book.id+'-annotations')) : []
 if (a && a !== null && a.length > 0) {
 a.map(x => rendition.current.annotations.add('highlight', x[1].cfiRange, {text: x[1].data.text, data: x[1].data.data, section: x[1].data.section, time: x[1].data.time, title: x[1].data.title },  {}))
 }
 
 
-console.log('loc_query ', props.loc_query)
-
-if (props.loc_query == null) { 
-
-let loc = localStorage.getItem(book.current.key()+'-locations') !== undefined ? JSON.parse(localStorage.getItem(book.current.key()+'-locations')) : null
-
-if (loc !== null && loc && loc.start) { 
-first_loc.current =  loc !== null && loc && loc.start ? loc.start.cfi : null
-router.push( `/?book=${props.selected_book.id}&cfi=${loc.start.cfi}`, `/?book=${props.selected_book.id}&cfi=${loc.start.cfi}`, {shallow: true})
-}
-
-} else {
-first_loc.current = props.loc_query
-router.push( `/?book=${props.selected_book.id}&cfi=${props.loc_query}`, `/?book=${props.selected_book.id}&cfi=${props.loc_query}`, {shallow: true})
-
+if (props.query_cfi !== null) { 
+first_loc.current = props.query_cfi
+router.push( `/?book=${props.selected_book.id}&cfi=${props.query_cfi}`, `/?book=${props.selected_book.id}&cfi=${props.query_cfi}`, {shallow: true})
 }
 
 
@@ -145,22 +152,15 @@ return () => {
 
 if (search_highlights.current && search_highlights.current.length > 0) {clear_input()}
   console.log('adding ', Object.entries(rendition.current.annotations._annotations), ' to local storage...')
-localStorage.setItem(book.current.key()+'-annotations', JSON.stringify(Object.entries(rendition.current.annotations._annotations)));
-localStorage.setItem(book.current.key()+'-locations', JSON.stringify(rendition.current.location));
+localStorage.setItem(props.selected_book.id+'-annotations', JSON.stringify(Object.entries(rendition.current.annotations._annotations)));
+localStorage.setItem(props.selected_book.id+'-locations', JSON.stringify(rendition.current.location));
 
 }
 
  }, [])
 
 useEffect(() => { if (rendition.current && !loading) { 
-
-  if (first_loc.current !== null) {  
-    rendition.current.display(first_loc.current)} else {  
-
-      rendition.current.display() }
-
-
-
+if (first_loc.current !== null) {  rendition.current.display(first_loc.current)} else {  rendition.current.display() }
 }}, [loading])
 
 useEffect(() => {
@@ -223,14 +223,6 @@ rendition.current.themes.default({ "p": { "font-size": `${x.label} !important`}}
 rendition.current.resize()
 }
 
-function handle_slider(x) {
-set_page(toc.current[page - 1])
-}
-
-function set_slider() {
-rendition.current.display(toc.current[page - 1])
-set_url_loc()
-}
 
 function get_annotation(x, i) {
 rendition.current.display(x[1].cfiRange)
@@ -295,7 +287,7 @@ let annotations = Object.entries(rendition.current.annotations._annotations)
 return new Promise((resolve,reject) => {
 resolve(rendition.current.annotations.remove(annotations[i][1].cfiRange, 'highlight'))
 }).then(() => {
-localStorage.setItem(book.current.key()+'-annotations', JSON.stringify(Object.entries(rendition.current.annotations._annotations)));
+localStorage.setItem(props.selected_book.id+'-annotations', JSON.stringify(Object.entries(rendition.current.annotations._annotations)));
 set_si(si == i ? null : i)
 }).catch(err => console.log(err))
 }
@@ -306,7 +298,7 @@ if (!editing.current) {
 return new Promise((resolve,reject) => {
 resolve(rendition.current.annotations.remove(draft_cfi.current, 'highlight'))
 }).then(() => {
-localStorage.setItem(book.current.key()+'-annotations', JSON.stringify(Object.entries(rendition.current.annotations._annotations)));
+localStorage.setItem(props.selected_book.id+'-annotations', JSON.stringify(Object.entries(rendition.current.annotations._annotations)));
 set_sidebar(null)
 }).catch(err => console.log(err))
 } else {
@@ -349,7 +341,7 @@ let index = annotations.map(x => x[1]).indexOf(f)
 return new Promise((resolve,reject) => {
 resolve(matching[0][1].update({text: text, data: textarea_ref.current.value, title: input_ref.current.value,  section: section, time: time}))
 }).then(() => {
-localStorage.setItem(book.current.key()+'-annotations', JSON.stringify(Object.entries(rendition.current.annotations._annotations)));
+localStorage.setItem(props.selected_book.id+'-annotations', JSON.stringify(Object.entries(rendition.current.annotations._annotations)));
 set_sidebar('annotations')
 set_si(index)
 }).catch(err => console.log(err))
@@ -429,7 +421,7 @@ let cfi_ = x[1].cfiRange
 let matching = search_highlights.current.filter(y => y.cfi == cfi_)
 if (matching && matching.length > 0) {rendition.current.annotations.remove(cfi_, 'highlight')}
 })).then(() => {
-localStorage.setItem(book.current.key()+'-annotations', JSON.stringify(Object.entries(rendition.current.annotations._annotations)));
+localStorage.setItem(props.selected_book.id+'-annotations', JSON.stringify(Object.entries(rendition.current.annotations._annotations)));
 set_results([])
 set_keyvalue('')
 set_si(null)
@@ -564,20 +556,3 @@ clear_input = {clear_input}
 
 
 
-
-
-
-
-{/*props.w > 1000 && (
-<div className = {styles.slider_wrap}>
-<Slider 
-defaultValue = {1}
-value = {page}
-min = {1}
-max = {toc.length}
-dots = {false}
-onChange = {handle_slider}
-onAfterChange = {set_slider}
-    />
-</div>
-  )*/}

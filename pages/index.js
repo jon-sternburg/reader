@@ -3,7 +3,10 @@ import Homepage from '../components/Homepage'
 import { useRouter } from 'next/router'
 import all_book_data from '../components/all_book_data.json'
 var qs = require('qs');
+import Head from 'next/head'
 
+
+const storage = global.localStorage || null;
 
 const App = (props) => {
 const [size, set_dim] = useState({width: 0, height: 0})
@@ -23,7 +26,10 @@ let test = qs.parse(router.asPath)
 if (router.asPath.includes('/?book=')) {
 let id_ = test.cfi ? test[`/?book`] : router.asPath.replace('/?book=', '')
 let book_ = all_book_data.filter( x => x.id == id_)
-set_book_query({data: book_[0], loc: test.cfi ? test.cfi : null})
+let loc = localStorage.getItem(book_[0].id+'-locations') !== undefined ? JSON.parse(localStorage.getItem(book_[0].id+'-locations')) : null
+let loc_ = loc !== null && loc && loc.start ? loc.start.cfi : null
+
+set_book_query({data: book_[0], loc: test.cfi ? test.cfi : loc_})
 } else {
 set_book_query({data: null, loc: null})
 }
@@ -38,8 +44,15 @@ set_dim({width: window.innerWidth, height: window.innerHeight})
 
  return (
 <Fragment>
+<Head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reader!</title>
+<link rel="icon" href="/favicon.ico" />
+
+</Head>
+
 {book_query.data !== 'not_set' && (
-<Homepage size = {size} book_query = {book_query.data} loc_query = {book_query.loc} />
+<Homepage size = {size} book_query = {book_query.data} query_cfi = {book_query.loc} />
 )}
 </Fragment>
 )}
