@@ -94,7 +94,11 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 }
+.epub-container {
 
+overflow-x: hidden !important;
+
+}
 .book_box_inner_wrap {
 border-radius: 10px;
 height: 92%;
@@ -105,8 +109,6 @@ width: 95%;
 -webkit-user-select: none; /* Chrome/Safari */        
 -moz-user-select: none; /* Firefox */
 -ms-user-select: none; /* IE10+ */
-
-/* Rules below not implemented in browsers yet */
 -o-user-select: none;
 user-select: none;
 

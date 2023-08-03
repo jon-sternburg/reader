@@ -51,8 +51,7 @@ const highlight_icon_ref = useRef();
 const annotation_ref = useRef();
 const highlight_ref = useRef();       
 const popup_ref = useRef();
-const frame_ref = useRef();
-const book_ref =useRef();
+
 
 useEffect(() => {
 
@@ -87,9 +86,9 @@ rendition.current= book.current.renderTo("area", {
 
 
 book.current.ready.then(function(){
+let ls_data = localStorage.getItem(props.selected_book.id+'-annotations')
 
-
-let a = localStorage.getItem(props.selected_book.id+'-annotations') !== undefined ? JSON.parse(localStorage.getItem(props.selected_book.id+'-annotations')) : []
+let a =  ls_data !== undefined && ls_data !== 'undefined' ? JSON.parse(ls_data) : []
 if (a && a !== null && a.length > 0) {
 a.map(x => rendition.current.annotations.add('highlight', x[1].cfiRange, {text: x[1].data.text, data: x[1].data.data, section: x[1].data.section, time: x[1].data.time, title: x[1].data.title },  {}))
 }
@@ -171,6 +170,8 @@ useEffect(() => {
     if (rendition.current && flow !== prev_flow.current) { 
 rendition.current.flow(flow)
 rendition.current.resize()
+rendition.current.themes.default({ "*:hover": { "color": `black !important`}})
+
 }
 }, [flow])
 
@@ -488,7 +489,7 @@ w={props.w}
 )}
 
 {rendition !== null &&(
-<div  className = {styles.book_box_frame} ref = {frame_ref}  style = {{width: props.w <= 1000 ? props.w :  props.w - 80}} >
+<div  className = {styles.book_box_frame}  style = {{width: props.w <= 1000 ? props.w :  props.w - 80}} >
 
 {sidebar !== null && props.w > 1000 && (<div className = {styles.book_tint}  onClick = {() => handle_set_sidebar(null)}/>)}
 
@@ -536,7 +537,7 @@ clear_input = {clear_input}
 
 {loading && (  <Loading_Circle />)}
 
-<section  id = 'area' ref = {book_ref}  className = {styles.book_box_inner_wrap}>
+<section  id = 'area'  className = {styles.book_box_inner_wrap}>
 
 {props.w > 1000 && ( 
   <Fragment>

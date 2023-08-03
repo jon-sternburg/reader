@@ -4,14 +4,14 @@ import React, { Component, Fragment, useRef, useState, useEffect} from 'react'
 import styles from '../top_bar_styles.module.css'
 import { FaBookOpen } from "react-icons/fa"
 import { AiFillHome } from "react-icons/ai"
+import { FcBookmark } from "react-icons/fc"
 import _ from 'lodash'
 import parse from 'html-react-parser';
 import OutsideAlerter from '../util/OutsideAlerter'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import all_book_data from '../data/all_book_data.json'
 
-
-let book_data = require('./update_books.json')
 
 
 export default function Top_Bar_Homepage(props) {
@@ -44,7 +44,7 @@ set_keyvalue(keyvalue)
     const isMatch_title = (result) => re.test(result.title);
     const isMatch_author = (result) => re.test(result.author)
 
-    let _source = book_data
+    let _source = all_book_data
     let results_title = _.filter(_source, isMatch_title)
     let results_author = _.filter(_source, isMatch_author)
     let results_ = results_title.concat(results_author)
@@ -64,7 +64,7 @@ let title = props.selected_book == null ? 'Reader!' : props.selected_book.title
 
 
 <div  className = {styles.title_wrap}>
-<FaBookOpen className = {styles.book_icon} /><span className = {styles.title} onClick = {() => props.select_book(null)}>{title}</span>
+<FcBookmark className = {styles.book_icon} /><span className = {styles.title} onClick = {() => props.select_book(null)}>{title}</span>
 </div>
 
 {props.selected_book !== null && (

@@ -5,7 +5,7 @@ import { FaBookOpen } from "react-icons/fa"
 import { AiFillHome } from "react-icons/ai"
 import _ from 'lodash'
 import { MdClose } from "react-icons/md"
-let book_data = require('./update_books.json')
+
 
 export default function Mobile_Search(props){
 

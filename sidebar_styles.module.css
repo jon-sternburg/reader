@@ -205,13 +205,17 @@ border-radius: 50%;
     left: 0;
     top: 0;
     height: 92.5vh;
+    /*
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    border-right: .5px solid lightgrey;
     clip-path: inset(0px -15px 0px 0px);
-    background-color: #fff;
+        background-color: #fff;
+        */
+background: whitesmoke;
     z-index: 999999999;
     width: 4vw;
     padding-top: 10px;
-    border-right: .5px solid lightgrey;
+
 }
 
 .annotations_list_wrap {

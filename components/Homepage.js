@@ -7,7 +7,7 @@ import Top_Bar_Homepage_Mobile from './Top_Bar_Homepage_Mobile'
 import Grid from './Grid'
 import Book_Box from './Book_Box'
 import { useRouter } from 'next/router'
-import all_book_data from './all_book_data.json'
+import all_book_data from '../data/all_book_data.json'
 import Head from 'next/head'
 var qs = require('qs');
 const storage = global.localStorage || null;

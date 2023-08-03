@@ -3,6 +3,7 @@ import styles from '../top_bar_styles.module.css'
 import { FaBookOpen } from "react-icons/fa"
 import { AiFillHome } from "react-icons/ai"
 import { AiFillSetting } from "react-icons/ai"
+import { FcBookmark } from "react-icons/fc"
 import _ from 'lodash'
 import { MdClose } from "react-icons/md"
 import parse from 'html-react-parser';
@@ -12,7 +13,7 @@ import { AiOutlineLeft } from "react-icons/ai"
 import { AiOutlineRight } from "react-icons/ai"
 import { FaStickyNote } from "react-icons/fa"
 
-let book_data = require('./update_books.json')
+import all_book_data from '../data/all_book_data.json'
 
 
 export default function Top_Bar_Homepage_Mobile(props) {
@@ -45,7 +46,7 @@ set_keyvalue(keyvalue)
     const isMatch_title = (result) => re.test(result.title);
     const isMatch_author = (result) => re.test(result.author)
 
-    let _source = book_data
+    let _source = all_book_data
     let results_title = _.filter(_source, isMatch_title)
     let results_author = _.filter(_source, isMatch_author)
     let results_ = results_title.concat(results_author)
@@ -66,7 +67,7 @@ let title = props.selected_book == null ? 'Reader!' : props.selected_book.title
 
 <div className = {styles.title_wrap_mobile}>
     <div className = {styles.book_icon_wrap_mobile} >
-    <FaBookOpen className = {styles.book_icon_mobile} />
+    <FcBookmark className = {styles.book_icon_mobile} />
     </div>
     <div className = {styles.title_mobile} >{title}</div>
    </div>

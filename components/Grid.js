@@ -6,11 +6,9 @@ import { GiWhiteBook } from "react-icons/gi"
 import Image from 'next/image'
 import { BsBook } from "react-icons/bs"
 import { AiFillTrophy } from "react-icons/ai"
-
-let all_book_data = require('./all_book_data.json')
-
-let book_data = require('./update_books.json')
-let featured = require('./featured.json')
+import all_book_data from '../data/all_book_data.json'
+import book_data from '../data/update_books.json'
+import featured from '../data/featured.json'
 
 
 export default function Grid(props) {
@@ -56,7 +54,7 @@ resolve(data_)
 
 
 <section className = {styles.featured_frame}>
-<h2> Popular  </h2>
+<h2>Popular Books</h2>
 
 {featured.map((x, i) => {
 return <article key = {x.title + i} className = {styles.grid_box}  style = {{backgroundColor: x.color}} onClick ={() => props.select_book(x)}>
@@ -85,7 +83,7 @@ width = {x.width}
 
 
 <section className = {styles.featured_frame}>
-<h2> Classics  </h2>
+<h2>Classics</h2>
 {book_data.map((x, i) => {
 return <article key = {x.title + i} className = {styles.grid_box} style = {{backgroundColor: '#fff'}} onClick ={() => props.select_book(x)}>
 <Image
