@@ -1,5 +1,5 @@
 
-import React, { Component, useState, useEffect} from 'react'
+import React, { Component, useState, useEffect, Fragment} from 'react'
 import styles from '../homepage_styles.module.css'
 import Sidebar from './Sidebar'
 import Top_Bar_Homepage from './Top_Bar_Homepage'
@@ -8,6 +8,7 @@ import Grid from './Grid'
 import Book_Box from './Book_Box'
 import { useRouter } from 'next/router'
 import all_book_data from './all_book_data.json'
+import Head from 'next/head'
 var qs = require('qs');
 const storage = global.localStorage || null;
 
@@ -42,7 +43,6 @@ set_book({book: book_[0], query_cfi: cfi_})
 
 
 
-
 function select_book(book) {
 
 
@@ -66,9 +66,15 @@ set_book({book: book, query_cfi: null})
 
 
     return (
+        <Fragment>
+<Head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reader! {selected_book.book !== null ? selected_book.book.title : ''}</title>
+<link rel="icon" href="/favicon.ico" />
 
+</Head>
 <main className = {styles.main}>
-<div className = {styles.homepage_frame} style = {{backgroundColor: selected_book.book == null ? 'whitesmoke' : '#FFF'}}>
+<section className = {styles.homepage_frame} style = {{backgroundColor: selected_book.book == null ? 'whitesmoke' : '#FFF'}}>
 {props.size.width >= 1000 && selected_book.book == null  && ( 
 <Top_Bar_Homepage
 selected_book = {selected_book.book}
@@ -107,7 +113,8 @@ query_cfi = {selected_book.query_cfi}
 />
 }
 
-    </div>
+    </section>
     </main>
+    </Fragment>
 )
   }

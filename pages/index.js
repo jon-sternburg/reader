@@ -3,7 +3,7 @@ import Homepage from '../components/Homepage'
 import { useRouter } from 'next/router'
 import all_book_data from '../components/all_book_data.json'
 var qs = require('qs');
-import Head from 'next/head'
+
 
 
 const storage = global.localStorage || null;
@@ -44,17 +44,11 @@ set_dim({width: window.innerWidth, height: window.innerHeight})
 
  return (
 <Fragment>
-<Head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Reader!</title>
-<link rel="icon" href="/favicon.ico" />
-
-</Head>
-
 {book_query.data !== 'not_set' && (
 <Homepage size = {size} book_query = {book_query.data} query_cfi = {book_query.loc} />
 )}
 </Fragment>
 )}
 export default App
+
 

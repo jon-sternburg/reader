@@ -30,14 +30,14 @@ left: 0;
 margin: 0 auto;
 }
 
-#book_icon {
+.book_icon {
 width: 1.85em !important;
 height: 1.85em !important;
 margin: 5px 20px;
  color: rgba(0, 0, 0, 0.74);
 }
 
-#title {
+.title {
   font-family: 'Rubik', sans-serif !important;
   font-size: 28px;
   color: rgba(0, 0, 0, 0.74);

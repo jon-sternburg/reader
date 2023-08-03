@@ -63,12 +63,12 @@ let title = props.selected_book == null ? 'Reader!' : props.selected_book.title
       <div className = {styles.top_bar_frame}>
 
 
-<Link key = {'home'} href={`/`} className = {styles.title_wrap}>
-<FaBookOpen id = {styles.book_icon} /><span id = {styles.title} onClick = {() => props.select_book(null)}>{title}</span>
-</Link>
+<div  className = {styles.title_wrap}>
+<FaBookOpen className = {styles.book_icon} /><span className = {styles.title} onClick = {() => props.select_book(null)}>{title}</span>
+</div>
 
 {props.selected_book !== null && (
-<div id = {styles.home_button} onClick = {() => props.select_book(null)}> <AiFillHome id = {styles.home} /></div> )}
+<div className = {styles.home_button} onClick = {() => props.select_book(null)}> <AiFillHome className = {styles.home} /></div> )}
 
 
 {results.length > 0    ?

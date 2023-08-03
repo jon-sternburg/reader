@@ -22,15 +22,15 @@ let title = props.selected_book == null ? 'Reader' : props.selected_book.title
 
 <div className = {styles.title_wrap} >
     <div className = {styles.book_icon_wrap} >
-    <FaBookOpen id = {styles.book_icon} />
+    <FaBookOpen className = {styles.book_icon} />
     </div>
-    <div id = {styles.title} >{title}</div>
+    <div className = {styles.title} >{title}</div>
    </div>
 
 
-    <div id = {styles.home_button} onClick = {() => props.select_book(null)}> 
-    <AiFillHome id = {styles.home} />
-    </div>
+    <button type = {"button"} className = {styles.home_button} onClick = {() => props.select_book(null)}> 
+    <AiFillHome className = {styles.home} />
+    </button>
 
 <div className = {styles.header_wrap}>
 
@@ -45,7 +45,7 @@ let title = props.selected_book == null ? 'Reader' : props.selected_book.title
     onChange={(e) => props.handleInputChange_text(e.target.value)}
     />
 </form>
-{props.results.length > 0 && (<MdClose id = {styles.quit_search} onClick = {() => props.clear_input()}/>)}
+{props.results.length > 0 && (<MdClose className = {styles.quit_search} onClick = {() => props.clear_input()}/>)}
 </div>
 )}
 

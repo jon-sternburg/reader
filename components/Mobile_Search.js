@@ -22,7 +22,7 @@ let title = props.selected_book == null ? 'Reader' : props.selected_book.title
     onChange={(e) => props.handleInputChange_text(e.target.value)}
     />
 </form>
-{props.results.length > 0 && (<MdClose id = {styles.quit_search} onClick = {() => props.clear_input()}/>)}
+{props.results.length > 0 && (<MdClose className = {styles.quit_search} onClick = {() => props.clear_input()}/>)}
 </div>
 
 

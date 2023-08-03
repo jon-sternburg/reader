@@ -81,14 +81,14 @@ background: lightgrey;
 }
 
 
-#single_page  {
+.single_page  {
 color: 121212;
 height: 1.5em;
 width: 1.5em;
 
 }
 
-#double_page {
+.double_page {
 height: 1.5em;
 width: 1.5em;
 color: 121212;
@@ -151,20 +151,20 @@ border-radius: 50%;
 }
 
 
-#arrow_flow_icon {
+.arrow_flow_icon {
 height: 1.5em;
 width: 1.5em;
 color: 121212;
 
 }
-#scroll_flow_icon {
+.scroll_flow_icon {
 height: 1.5em;
 width: 1.5em;
 color: 121212;
 	
 }
 
-#options {
+.options {
 display: flex;
 width: 60%;
 flex-direction: row;

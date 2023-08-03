@@ -2,14 +2,12 @@
 import React, { Component, Fragment, useState, useEffect, useRef} from 'react'
 import styles from '../book_box_styles.module.css'
 import ePub from 'epubjs'
-import {Annotation} from 'epubjs'
 import { IoIosArrowBack } from "react-icons/io"
 import { IoIosArrowForward } from "react-icons/io"
 import {IoIosCreate} from "react-icons/io"
 import {FaHighlighter} from "react-icons/fa"
 import Sidebar from './Sidebar'
-import Slider from 'rc-slider';
-import 'rc-slider/assets/index.css';
+import Loading_Circle from './Loading_Circle'
 import Top_Bar_Book from './Top_Bar_Book'
 import Mobile_Search from './Mobile_Search'
 import parse from 'html-react-parser';
@@ -78,7 +76,6 @@ props.select_book(null)
 
 useEffect(() => {
 
-console.log('fired main UE')
 book.current  = ePub(props.selected_book.path)
 rendition.current= book.current.renderTo("area", {
       width: "100%",
@@ -181,7 +178,7 @@ useEffect(() => {
  if (empty_results) {
 setTimeout(
     function() {
-        setState({ empty_results: false });
+        set_empty_results(false);
     }
     .bind(this),
     2000
@@ -431,7 +428,7 @@ search_highlights.current = []
 }
 
 
-const slider_styles = {color: "whitesmoke"}
+
 const flag = empty_results && results.length == 0
 
 return (
@@ -440,26 +437,26 @@ return (
 
 {!loading && (
 <Fragment>
-<div ref = {popup_ref} id = {styles.popup} onClick = {(e) => e.preventDefault()} >
-<div ref = {annotation_ref} id ='annotation' >
-<IoIosCreate  id = {styles.annotation_icon} />
-Annotation
-</div>
- <div ref = {highlight_ref} id='highlight' >
-<FaHighlighter id = {styles.highlight_icon} />
-Highlight
-</div>
+<div ref = {popup_ref} className = {styles.popup} onClick = {(e) => e.preventDefault()} >
+<button type = {"button"} ref = {annotation_ref} >
+<IoIosCreate  className = {styles.annotation_icon} />
+<span>Annotation</span>
+</button>
+ <button type = {"button"} ref = {highlight_ref} >
+<FaHighlighter className = {styles.highlight_icon} />
+<span>Highlight</span>
+</button>
 </div>
 
 
 {props.w <= 1000 && sidebar == null && ( 
 <Fragment>
-<div className = {styles.bottom_bar_wrap}>
-<IoIosArrowBack id = {styles.left_arrow_icon} onClick = {(e) => previous_page(e)} />
-<AiFillHome id = {styles.home_mobile} onClick = {() => props.select_book(null)} />
-<FaEllipsisV id = {styles.settings_mobile} onClick = {() => handle_set_sidebar('menu')} />
-<IoIosArrowForward id = {styles.right_arrow_icon} onClick = {(e) => next_page(e)} />
-</div>
+<footer className = {styles.bottom_bar_wrap}>
+<IoIosArrowBack className = {styles.left_arrow_icon} onClick = {(e) => previous_page(e)} />
+<AiFillHome className = {styles.home_mobile} onClick = {() => props.select_book(null)} />
+<FaEllipsisV className = {styles.settings_mobile} onClick = {() => handle_set_sidebar('menu')} />
+<IoIosArrowForward className = {styles.right_arrow_icon} onClick = {(e) => next_page(e)} />
+</footer>
 </Fragment>
   )}
 
@@ -537,18 +534,17 @@ cancel_annotation = {cancel_annotation}
 clear_input = {clear_input}
 />
 
-{loading && (  <div className = {styles.loading}><div className={styles.lds_default}>
-  <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>)}
+{loading && (  <Loading_Circle />)}
 
-<div  id = 'area' ref = {book_ref}  className = {styles.book_box_inner_wrap}>
+<section  id = 'area' ref = {book_ref}  className = {styles.book_box_inner_wrap}>
 
 {props.w > 1000 && ( 
   <Fragment>
-{sidebar == null && (<div className = {styles.arrow_left_arrow_wrap} onClick = {(e) => previous_page(e)}><IoIosArrowBack id = {styles.left_arrow_icon} /></div>)}
-<div className ={styles.arrow_right_arrow_wrap}  onClick = {(e) => next_page(e)}><IoIosArrowForward id = {styles.right_arrow_icon} /></div>
+{sidebar == null && (<button type = {"button"} className = {styles.arrow_left_arrow_wrap} onClick = {(e) => previous_page(e)}><IoIosArrowBack className = {styles.left_arrow_icon} /></button>)}
+<button type = {"button"} className ={styles.arrow_right_arrow_wrap}  onClick = {(e) => next_page(e)}><IoIosArrowForward className = {styles.right_arrow_icon} /></button>
 </Fragment>)}
 
-</div>
+</section>
     </div>
    )}
     </Fragment>

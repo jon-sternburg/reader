@@ -59,11 +59,11 @@ resolve(data_)
 <h2> Popular  </h2>
 
 {featured.map((x, i) => {
-return <article key = {x + i} className = {styles.grid_box}  style = {{backgroundColor: x.color}} onClick ={() => props.select_book(x)}>
+return <article key = {x.title + i} className = {styles.grid_box}  style = {{backgroundColor: x.color}} onClick ={() => props.select_book(x)}>
 
 <Image
 alt = {`book cover for ${x.title}`} 
-id = {styles.book_img} 
+className = {styles.book_img} 
 src = {`/covers/${x.id}.jpg`}
 height = {x.height}
 width = {x.width}
@@ -90,7 +90,7 @@ width = {x.width}
 return <article key = {x.title + i} className = {styles.grid_box} style = {{backgroundColor: '#fff'}} onClick ={() => props.select_book(x)}>
 <Image
 alt = {`book cover for ${x.title}`} 
-id = {styles.book_img} 
+className = {styles.book_img} 
 src = {`/covers/${x.id}.jpg`}
 height = {x.height}
 width = {x.width}
