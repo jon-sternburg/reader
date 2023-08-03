@@ -133,11 +133,11 @@ className = {styles.sidebar_inner_frame}>
 
 <motion.div className = {styles.sidebar_header}>
 <div className ={styles.sidebar_icons}>
-{props.sidebar == 'toc' && (<button type = {"button"} className = {styles.active_icon} className = {styles.toc_icon_active}  ><FaListOl className = {styles.active_icon} className = {styles.toc} /></button>)}
-{props.sidebar == 'settings' && (<button type = {"button"} className = {styles.active_icon} className = {styles.settings_icon} ><AiFillSetting className = {styles.active_icon} className = {styles.settings} /></button>)}
-{props.sidebar == 'annotations' && (<button type = {"button"} className = {styles.active_icon} className = {styles.annotations_icon} ><FaStickyNote className = {styles.active_icon} className = {styles.annotations} /></button>)}
-{props.sidebar == 'new_annotation' && (<button type = {"button"} className = {styles.active_icon} className = {styles.new_annotation_icon} ><BiCommentAdd className = {styles.active_icon} className = {styles.new_annotation} /></button>)}
-{props.sidebar == 'mobile_search' && (<button type = {"button"} className = {styles.active_icon} className = {styles.new_annotation_icon} ><FaSearch className = {styles.active_icon} className = {styles.new_annotation} /></button>)}
+{props.sidebar == 'toc' && (<button type = {"button"}  className = {styles.toc_icon_active}  ><FaListOl  className = {styles.toc} /></button>)}
+{props.sidebar == 'settings' && (<button type = {"button"}  className = {styles.settings_icon} ><AiFillSetting  className = {styles.settings} /></button>)}
+{props.sidebar == 'annotations' && (<button type = {"button"}  className = {styles.annotations_icon} ><FaStickyNote  className = {styles.annotations} /></button>)}
+{props.sidebar == 'new_annotation' && (<button type = {"button"}  className = {styles.new_annotation_icon} ><BiCommentAdd  className = {styles.new_annotation} /></button>)}
+{props.sidebar == 'mobile_search' && (<button type = {"button"}  className = {styles.new_annotation_icon} ><FaSearch  className = {styles.new_annotation} /></button>)}
 </div>
 
 
@@ -189,16 +189,16 @@ return <p key = {x.label + i} onClick = {() => props.set_location(x, i)}>{x.labe
 </button>Settings
 </div>
 <div className = {styles.settings_option_mobile} onClick = {() => annotations.length > 0 ? props.set_sidebar('annotations') : {} }>
-<button type = {"button"} className = {annotations.length > 0 ? styles.annotations_icon_mobile : styles.annotations_icon_mobile_disabled} ><FaStickyNote className = 'annotations' />
+<button type = {"button"} className = {annotations.length > 0 ? styles.annotations_icon_mobile : styles.annotations_icon_mobile_disabled} ><FaStickyNote />
 </button>Annotations
 </div>
 <div className = {styles.settings_option_mobile} onClick = {() =>  props.set_sidebar('mobile_search') }>
-<button type = {"button"} className = {styles.annotations_icon_mobile} ><FaSearch className = 'search' />
+<button type = {"button"} className = {styles.annotations_icon_mobile} ><FaSearch />
 </button>Search Text
 </div>
 
 
-{props.results.length > 0 && (<div className = {styles.indicator_icon} className = {styles.search_icon} onClick = {() => props.set_sidebar('search')}><FaSearch className = {styles.indicator} className = 'search' /></div>)}
+{props.results.length > 0 && (<div className = {styles.indicator_icon}  onClick = {() => props.set_sidebar('search')}><FaSearch className = {styles.indicator} /></div>)}
 </section>
 
   )}
@@ -301,8 +301,8 @@ function Sidebar_Icons(props) {
 <div className ={styles.sidebar_icons}>
 <button type = {"button"} className = {styles.toc_icon} onClick = {() => props.set_sidebar('toc')} ><FaListOl className = {styles.toc} /></button>
 <button type = {"button"} className = {styles.settings_icon} onClick = {() => props.set_sidebar('settings')}><AiFillSetting className = {styles.settings} /></button>
-<button type = {"button"} className = {props.annotations.length > 0 ? styles.annotations_icon : styles.annotations_icon_disabled} onClick = {() => props.annotations.length > 0 ? props.set_sidebar('annotations') : {} }><FaStickyNote className = 'annotations' /></button>
-{props.results.length > 0 && (<button type = {"button"} className = {styles.indicator_icon} className = {styles.search_icon} onClick = {() => props.set_sidebar('search')}><FaSearch className = {styles.indicator} className = 'search' /></button>)}
+<button type = {"button"} className = {props.annotations.length > 0 ? styles.annotations_icon : styles.annotations_icon_disabled} onClick = {() => props.annotations.length > 0 ? props.set_sidebar('annotations') : {} }><FaStickyNote  /></button>
+{props.results.length > 0 && (<button type = {"button"} className = {styles.indicator_icon} className = {styles.search_icon} onClick = {() => props.set_sidebar('search')}><FaSearch className = {styles.indicator}  /></button>)}
 </div>
 
 )}
