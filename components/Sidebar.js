@@ -302,7 +302,7 @@ function Sidebar_Icons(props) {
 <button type = {"button"} className = {styles.toc_icon} onClick = {() => props.set_sidebar('toc')} ><FaListOl className = {styles.toc} /></button>
 <button type = {"button"} className = {styles.settings_icon} onClick = {() => props.set_sidebar('settings')}><AiFillSetting className = {styles.settings} /></button>
 <button type = {"button"} className = {props.annotations.length > 0 ? styles.annotations_icon : styles.annotations_icon_disabled} onClick = {() => props.annotations.length > 0 ? props.set_sidebar('annotations') : {} }><FaStickyNote  /></button>
-{props.results.length > 0 && (<button type = {"button"} className = {styles.indicator_icon} className = {styles.search_icon} onClick = {() => props.set_sidebar('search')}><FaSearch className = {styles.indicator}  /></button>)}
+{props.results.length > 0 && (<button type = {"button"} className = {styles.indicator_icon} onClick = {() => props.set_sidebar('search')}><FaSearch className = {styles.indicator}  /></button>)}
 </div>
 
 )}
