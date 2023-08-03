@@ -1,7 +1,4 @@
-
-
 import React, { Component, Fragment, useRef, useState, useEffect} from 'react'
-//import '../pages/css/top_bar.css'
 import styles from '../top_bar_styles.module.css'
 import { FaBookOpen } from "react-icons/fa"
 import { AiFillHome } from "react-icons/ai"
