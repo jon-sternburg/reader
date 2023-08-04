@@ -357,6 +357,11 @@ margin: 5px;
     margin-left: 10px;
 }
 
+.sidebar_title h5 {
+
+    font-size: 18px;
+}
+
 .search_result_item{
 
 
@@ -646,17 +651,30 @@ right: 0;
 
 }
 
+.close_menu {
+
+color: darkred;
+    width: 2em;
+    height: 2em;
+
+}
+.toc_mobile_icon {
+
+
+}
+
 
 .toc_icon_back_mobile {
 
     border: none;
-    border-radius: 50%;
-    background: salmon;
+   border-radius: 100%;
+   padding: 0;
+   margin: 0;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.5em;
-    height: 1.5em;
+background: white;
     position: absolute;
     right: 20px;
 
@@ -707,13 +725,12 @@ color: red;
 .settings_icon {
 
     margin: 30px auto;
-    border-radius: 50%;
-    background: whitesmoke;
+    border-radius: 100%;
+    background: none;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 2.5em;
-    height: 2.5em;
+
 }
 
 
@@ -976,19 +993,41 @@ margin: 20px auto 10px auto;
 }
 
 
-
-.settings_option_mobile {
-
+.settings_mobile_icon {
 
 
+    margin-right: 10px;
+}
+.settings_option_mobile_disabled {
+
+color: grey;
+    border: none;
     display: flex;
     background-color: #EEEEEE;
     width: 100%;
     justify-content: flex-start;
     flex-wrap: nowrap;
-    height: 55px;
+    height: 75px;
     align-items: center;
-    font-size: 14px;
+    font-size: 18px;
+    font-family: 'Lato', sans-serif;
+    padding: 15px;
+    margin: 2px auto;
+    font-family: 'Open Sans', sans-serif;
+
+    } 
+.settings_option_mobile {
+
+    color: black;
+    border: none;
+    display: flex;
+    background-color: #EEEEEE;
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    height: 75px;
+    align-items: center;
+    font-size: 18px;
     font-family: 'Lato', sans-serif;
     padding: 15px;
     margin: 2px auto;
@@ -996,10 +1035,7 @@ margin: 20px auto 10px auto;
 
  
 }
-.settings_option_mobile button {
 
-    border: none;
-}
 
 @media (max-width: 999px) {
 .sidebar_frame {
@@ -1032,5 +1068,41 @@ margin: 0 auto;
 
 
 }
+.toc, .settings, .annotation, .new_annotation{
 
+height: 2em;
+width: 2em;
+
+}
+
+.sidebar_title h5 {
+
+    font-size: 22px;
+}
+
+.scroll_flow_icon, .arrow_flow_icon {
+color: black;
+width: 2em;
+height: 2em;
+
+}
+.scroll_flow {
+height: 40px;
+width: 40px;
+display: flex;
+justify-content: center;
+padding: 5px;
+align-items: center;
+border-radius: 50%;
+}
+.arrow_flow {
+height: 40px;
+width: 40px;
+
+display: flex;
+justify-content: center;
+padding: 5px;
+align-items: center;
+border-radius: 50%;
+}
     }

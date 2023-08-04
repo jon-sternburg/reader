@@ -7,7 +7,7 @@ import {BiCommentAdd} from "react-icons/bi"
 import {FaSearch} from "react-icons/fa"
 import {FaListOl} from "react-icons/fa"
 import {FaStickyNote} from "react-icons/fa"
-import { AiFillSetting } from "react-icons/ai"
+import { AiFillSetting, AiFillCloseCircle } from "react-icons/ai"
 import { IoMdTrash } from "react-icons/io"
 import Select from 'react-select';
 import { CgFormatJustify } from "react-icons/cg"
@@ -142,8 +142,8 @@ className = {styles.sidebar_inner_frame}>
 
 
 <header className = {styles.sidebar_title}> <h5>{title}</h5>
-{(props.sidebar == 'menu' || props.sidebar == 'mobile_search') && props.w <= 1000 && (<button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><MdClose className = {styles.toc} /></button>)}
-{props.sidebar == 'search' && props.w <= 1000 && (<button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => cancel_search()} ><MdClose className = {styles.toc} /></button>)}
+{(props.sidebar == 'menu' || props.sidebar == 'mobile_search') && props.w <= 1000 && (<button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><AiFillCloseCircle className = {styles.close_menu} /></button>)}
+{props.sidebar == 'search' && props.w <= 1000 && (<button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => cancel_search()} ><AiFillCloseCircle className = {styles.toc} /></button>)}
 {props.sidebar == 'settings'  && props.w <= 1000 && (<button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><IoIosArrowBack className = {styles.toc} /></button>)}
 {props.sidebar == 'toc' && props.w <= 1000 && (<button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><IoIosArrowBack className = {styles.toc} /></button>)}
 {props.sidebar == 'annotations'  && props.w <= 1000 && (<button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><IoIosArrowBack className = {styles.toc} /></button>)}
@@ -179,23 +179,28 @@ return <p key = {x.label + i} onClick = {() => props.set_location(x, i)}>{x.labe
 
 {props.sidebar == 'menu' && (
 <section className = {styles.settings_wrap}>
-<div className = {styles.settings_option_mobile} onClick = {() => props.set_sidebar('toc')}>
-<button type = {"button"} className = {styles.toc_icon_mobile}  ><FaListOl className = {styles.toc} />
-</button>
+
+<button type = {"button"} className = {styles.settings_option_mobile} onClick = {() => props.set_sidebar('toc')}>
+<FaListOl className = {styles.settings_mobile_icon} />
 <span>Table of Contents</span>
-</div>
-<div className = {styles.settings_option_mobile} onClick = {() => props.set_sidebar('settings')}>
-<button type = {"button"} className = {styles.settings_icon_mobile} ><AiFillSetting className = {styles.settings} />
-</button>Settings
-</div>
-<div className = {styles.settings_option_mobile} onClick = {() => annotations.length > 0 ? props.set_sidebar('annotations') : {} }>
-<button type = {"button"} className = {annotations.length > 0 ? styles.annotations_icon_mobile : styles.annotations_icon_mobile_disabled} ><FaStickyNote />
-</button>Annotations
-</div>
-<div className = {styles.settings_option_mobile} onClick = {() =>  props.set_sidebar('mobile_search') }>
-<button type = {"button"} className = {styles.annotations_icon_mobile} ><FaSearch />
-</button>Search Text
-</div>
+</button>
+
+<button type = {"button"} className = {styles.settings_option_mobile} onClick = {() => props.set_sidebar('settings')}>
+<AiFillSetting className = {styles.settings_mobile_icon} />
+<span>Settings</span>
+</button>
+
+
+
+<button type = {"button"} className = {annotations.length > 0 ? styles.settings_option_mobile : styles.settings_option_mobile_disabled} onClick = {() => annotations.length > 0 ? props.set_sidebar('annotations') : {} }>
+<FaStickyNote className = {styles.settings_mobile_icon} />
+<span>Annotations</span>
+</button>
+
+<button type = {"button"} className = {styles.settings_option_mobile} onClick = {() =>  props.set_sidebar('mobile_search') }>
+<FaSearch  className = {styles.settings_mobile_icon} />
+<span>Search Text</span>
+</button>
 
 
 {props.results.length > 0 && (<div className = {styles.indicator_icon}  onClick = {() => props.set_sidebar('search')}><FaSearch className = {styles.indicator} /></div>)}

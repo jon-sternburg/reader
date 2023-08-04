@@ -10,7 +10,7 @@ import parse from 'html-react-parser';
 import ePub from 'epubjs'
 import {EpubCFI} from 'epubjs'
 import { AiOutlineLeft } from "react-icons/ai"
-import { AiOutlineRight } from "react-icons/ai"
+import { AiOutlineRight, AiFillCloseCircle } from "react-icons/ai"
 import { FaStickyNote } from "react-icons/fa"
 
 import all_book_data from '../data/all_book_data.json'
@@ -107,6 +107,10 @@ return <li key = {x + i} onClick = {() => props.select_book(x)}>
 
 
 <div className = {styles.topbar_search_wrap_mobile}>
+{results.length > 0 && (
+<button type = {"button"}  className = {styles.cancel_search_topbar} onClick = {() => cancel_search()} ><AiFillCloseCircle className = {styles.cancel_mobile_search_icon_top} /></button>
+  )}
+
 <form  onSubmit={(e) => e.preventDefault()}  role="search">
     <input 
     id="search_input_homepage" 

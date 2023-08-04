@@ -121,6 +121,7 @@ contents.window.addEventListener('mousedown', (e) => {
 })
 
 let selection =  contents.window.getSelection()
+console.log('SELECTION ', selection)
 let text = selection.toString()
 apply_ref_styles(popup_ref, highlight_ref, annotation_ref)
 
@@ -450,16 +451,7 @@ return (
 </div>
 
 
-{props.w <= 1000 && sidebar == null && ( 
-<Fragment>
-<footer className = {styles.bottom_bar_wrap}>
-<IoIosArrowBack className = {styles.left_arrow_icon} onClick = {(e) => previous_page(e)} />
-<AiFillHome className = {styles.home_mobile} onClick = {() => props.select_book(null)} />
-<FaEllipsisV className = {styles.settings_mobile} onClick = {() => handle_set_sidebar('menu')} />
-<IoIosArrowForward className = {styles.right_arrow_icon} onClick = {(e) => next_page(e)} />
-</footer>
-</Fragment>
-  )}
+
 
 
 <AnimatePresence>
@@ -544,7 +536,16 @@ clear_input = {clear_input}
 {sidebar == null && (<button type = {"button"} className = {styles.arrow_left_arrow_wrap} onClick = {(e) => previous_page(e)}><IoIosArrowBack className = {styles.left_arrow_icon} /></button>)}
 <button type = {"button"} className ={styles.arrow_right_arrow_wrap}  onClick = {(e) => next_page(e)}><IoIosArrowForward className = {styles.right_arrow_icon} /></button>
 </Fragment>)}
-
+{props.w <= 1000 && sidebar == null && ( 
+<Fragment>
+<footer className = {styles.bottom_bar_wrap}>
+<IoIosArrowBack className = {styles.left_arrow_icon} onClick = {(e) => previous_page(e)} />
+<AiFillHome className = {styles.home_mobile} onClick = {() => props.select_book(null)} />
+<FaEllipsisV className = {styles.settings_mobile} onClick = {() => handle_set_sidebar('menu')} />
+<IoIosArrowForward className = {styles.right_arrow_icon} onClick = {(e) => next_page(e)} />
+</footer>
+</Fragment>
+  )}
 </section>
     </div>
    )}

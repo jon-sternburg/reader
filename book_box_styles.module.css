@@ -84,7 +84,7 @@ width: 100vw;
 
 padding: 40px;
 width: calc(100vw - 80px);
-height: calc(92.5vh - 80px);
+height: calc(92.5dvh - 80px);
 overflow: hidden;
 position: absolute;
 top: 7.5vh;
@@ -101,7 +101,7 @@ overflow-x: hidden !important;
 }
 .book_box_inner_wrap {
 border-radius: 10px;
-height: 92%;
+height: 92.5dvh;
 position: absolute;
 right: 0;
 top: 20px;
@@ -280,9 +280,11 @@ z-index: 999999999999999;
 position: fixed;
 bottom: 0;
 width: 100vw;
-
+height: 7.5vh;
 display: flex;
-
+background: whitesmoke;
+display: flex;
+align-items: center;
 justify-content: space-between;
 
 }
@@ -299,7 +301,7 @@ padding: 5px;
 
 padding: 0;
 width: calc(100vw - 80px);
-height: calc(100vh - 5px);
+ height: -webkit-fill-available;
 overflow: hidden;
 position: absolute;
 top: 5px;
@@ -312,7 +314,7 @@ align-items: center;
 
 .book_box_inner_wrap {
 border-radius: 10px;
-height: calc(100vh - 80px);
+height: calc(92.5vh - 80px);
 position: absolute;
 right: 0;
 top: 20px;
