@@ -1,7 +1,7 @@
 import styles from '../book_box_styles.module.css'
 
 
-export default function Loading_Circle(props) {
+export default function Loading_Circle():JSX.Element {
 
 return (
 

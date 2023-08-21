@@ -1,5 +1,5 @@
 
-import React, { Component, Fragment, useState} from 'react'
+import React, { RefObject, Fragment, useState} from 'react'
 import styles from '../sidebar_styles.module.css'
 import { motion  } from "framer-motion"
 import {MdClose} from "react-icons/md"
@@ -15,6 +15,9 @@ import {GiMouse} from "react-icons/gi"
 import {CgArrowsH} from "react-icons/cg"
 import {MdEdit} from "react-icons/md"
 import { IoIosArrowBack } from "react-icons/io"
+import BookEpubType from '../node_modules/epubjs/types/book'
+import RenditionType from '../node_modules/epubjs/types/rendition'
+import SectionType from '../node_modules/epubjs/types/section'
 
  const customStyles = {
     control: (provided, state) => ({
@@ -59,10 +62,103 @@ const text_size_options = [
   { value: 'medium', label: 'Medium' },
   { value: 'small', label: 'Small' }
 ]
+type TextSizeState = {
+  value: 'x-large' | 'large' | 'medium' | 'small'
+  label: 'X-Large' | 'Large' | 'Medium' | 'Small'
+}
+
+type SidebarState = null | 'toc' | 'settings' | 'annotations' | 'new_annotation' | 'mobile_search' | 'menu' | 'search'  
+type NavItem = {
+  id: string,
+  href: string,
+  label: string,
+  subitems?: Array<NavItem>,
+  parent?: string
+}
+type TextSearchResultsData = {
+  cfi: string; 
+  excerpt: string; 
+}
+
+type LocType = {
+  href: string
+  id: string
+  label: string
+  parent: undefined 
+}
+type EditDraftCfiType = (string | AnnotationInner)[]
+type DraftCfiType = null | string | EditDraftCfiType
+
+type AnnotationData = (string | AnnotationInner)[]
+
+type AnnotationInner = {
+  type: string,
+  cfiRange: string,
+  data: {
+    data: string
+    epubcfi?:string
+    section: string
+    text: string
+    time: string
+    title: string
+  },
+  sectionIndex?: number,
+  cb?: Function,
+  className?: string,
+  styles?: object
+}
+
+type ResultsState = [] | ResultsData[]
+
+
+type ResultsData = {
+  label: string
+  s: TextSearchResultsData[] | []
+  sd: string
+  x: SectionType
+  }
+type S_Props = {
+
+  book_title: string
+  sidebar: SidebarState
+  set_sidebar:(x:SidebarState) => void
+  toc:(NavItem | [])[]
+  w:number
+  mobile_search: JSX.Element
+  textarea_ref: RefObject<HTMLTextAreaElement | null>
+  input_ref: RefObject<HTMLInputElement | null>
+  rendition: RenditionType
+  get_context:(x:TextSearchResultsData, i:number, mobile:boolean) => void
+  toggle_flow:() => void
+  toggle_spread:() => void
+  set_text_size:(x:TextSizeState) => void
+  text_size:TextSizeState
+  delete_annotation:(x:AnnotationData, i:number) => void
+  edit_annotation:(x:AnnotationData) => void
+  set_location:(x: LocType) => void
+  spread:'auto' | 'none'
+  flow:'paginated' | 'scrolled'
+  keyvalue:string
+  get_annotation:(x:AnnotationData, i:number) => void
+  results:ResultsState
+  si:number | null
+  draft_cfi:DraftCfiType
+  save_annotation:() => void
+  cancel_annotation:() => void
+  clear_input:() => void
 
 
 
-export default function Sidebar(props){
+}
+
+
+
+
+
+export default function Sidebar(props:S_Props){
+
+
+const isNavItem = (content: NavItem | []): content is NavItem => 'label' in content
 
 
  function cancel_search() {
@@ -90,7 +186,7 @@ const SidebarVariants = {
 };
 let sidebarCollapsed = props.sidebar == null
 
-let annotations = props.rendition !== null ?  Object.entries(props.rendition.annotations._annotations) : []
+let annotations = props.rendition !== null ?  props.rendition.annotations.each() : []
 
 let title = props.sidebar == 'toc' ? 'Contents' : 
 			props.sidebar == 'settings' ? 'Settings' :
@@ -168,10 +264,11 @@ return <Search_Section_Result key = {i} w ={props.w} x={x} i={i} get_context = {
 
 
 
-{props.sidebar == 'toc' && (
+{props.sidebar == 'toc' && props.toc.length > 0 && (
 <section className = {styles.toc_items}>
 {props.toc.map((x, i) => {
-return <p key = {x.label + i} onClick = {() => props.set_location(x, i)}>{x.label}</p>
+let label_ = isNavItem(x) ? x.label : ''
+return <p key = {label_ + i} onClick = {() => props.set_location(x)}>{label_}</p>
 })}
 </section>) }
 

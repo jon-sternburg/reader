@@ -1,0 +1,50 @@
+diff --git a/node_modules/epubjs/src/annotations.js b/node_modules/epubjs/src/annotations.js
+index ecbcb56..1676aaa 100644
+--- a/node_modules/epubjs/src/annotations.js
++++ b/node_modules/epubjs/src/annotations.js
+@@ -146,7 +146,8 @@ class Annotations {
+ 	 * iterate over annotations in the store
+ 	 */
+ 	each () {
+-		return this._annotations.forEach.apply(this._annotations, arguments);
++		//return this._annotations.forEach.apply(this._annotations, arguments);
++		return Object.entries(this._annotations)
+ 	}
+ 
+ 	/**
+diff --git a/node_modules/epubjs/types/rendition.d.ts b/node_modules/epubjs/types/rendition.d.ts
+index 489f3fa..30120ac 100644
+--- a/node_modules/epubjs/types/rendition.d.ts
++++ b/node_modules/epubjs/types/rendition.d.ts
+@@ -74,8 +74,11 @@ export default class Rendition {
+ 
+     clear(): void;
+ 
+-    currentLocation(): DisplayedLocation;
+-    currentLocation(): Promise<DisplayedLocation>;
++    //currentLocation(): DisplayedLocation;
++    //currentLocation(): Promise<DisplayedLocation>;
++
++    currentLocation(): Location;
++    currentLocation(): Promise<Location>;
+ 
+     destroy(): void;
+ 
+@@ -120,7 +123,7 @@ export default class Rendition {
+ 
+     requireView(view: string | Function | object): any;
+ 
+-    resize(width: number, height: number): void;
++    resize(width?: number, height?: number): void;
+ 
+     setManager(manager: Function): void;
+ 
+@@ -145,7 +148,7 @@ export default class Rendition {
+ 
+     private triggerViewEvent(e: Event, contents: Contents): void;
+ 
+-    private onResized(size: { width: number, height: number }): void;
++    private onResized(size: { width?: number, height?: number }): void;
+ 
+     private afterDisplayed(view: any): void;
+ 

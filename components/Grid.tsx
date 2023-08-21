@@ -1,50 +1,29 @@
 
-import React, { Component } from 'react'
-import Link from 'next/link'
+import React from 'react'
 import styles from '../grid_styles.module.css'
-import { GiWhiteBook } from "react-icons/gi"
 import Image from 'next/image'
-import { BsBook } from "react-icons/bs"
-import { AiFillTrophy } from "react-icons/ai"
-import all_book_data from '../data/all_book_data.json'
 import book_data from '../data/update_books.json'
 import featured from '../data/featured.json'
 
+type G_Props = {
+  select_book: (book: BookType | null) => void
+  w: number
+  h: number
+  }
+  
+  type BookType = {
+    title: string
+    author: string
+    url: string
+    id: string
+    path: string
+    height: number
+    width: number
+    color?: string
+  }
 
-export default function Grid(props) {
+export default function Grid(props:G_Props):JSX.Element {
 
-
-/*
-Promise.all(all_book_data.map(x => {
-return new Promise((resolve, reject) => {
-const img = new Image();
-img.src = `/covers/${x.id}.jpg`
-img.onload = () => {
-
-    let data_ = {
-        ...x,
-    height: img.height,
-    width: img.width
-}
-
-resolve(data_)
-}
-
-
-
-})
-
-
-
-
-
-})).then((covers) => {
-
- console.log(JSON.stringify(covers))
-
- })
-
-*/
 
     return (
 

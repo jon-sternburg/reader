@@ -1,6 +1,5 @@
-import React, {Fragment, useState, useEffect, useRef, useCallback  } from "react";
+import React, {Fragment, useState, useEffect } from "react";
 import styles from '../homepage_styles.module.css'
-import Sidebar from '../components/Sidebar'
 import Top_Bar_Homepage from '../components/Top_Bar_Homepage'
 import Top_Bar_Homepage_Mobile from '../components/Top_Bar_Homepage_Mobile'
 import Grid from '../components/Grid'
@@ -9,14 +8,34 @@ import { useRouter } from 'next/router'
 import all_book_data from '../data/all_book_data.json'
 import Head from 'next/head'
 var qs = require('qs');
-const storage = global.localStorage || null;
 
-export default function App(props) {
-const [selected_book, set_book] = useState({book: null, query_cfi: null, first_render: true}) 
-const [size, set_dim] = useState({width: 0, height: 0})
+type BookType = {
+    title: string
+    author: string
+    url: string
+    id: string
+    path: string
+    height: number
+    width: number
+    color?: string
+  }
 
+type BookState = {
+book: null | BookType
+query_cfi: string | null
+first_render: boolean
+}
+
+type Size = {
+    width: number
+    height: number
+}
+
+
+export default function App():JSX.Element {
+const [selected_book, set_book] = useState<BookState>({book: null, query_cfi: null, first_render: true}) 
+const [size, set_dim] = useState<Size>({width: 0, height: 0})
 const router = useRouter()
-
 
 
 useEffect(() => {
@@ -24,10 +43,12 @@ useEffect(() => {
 router.beforePopState((x) => {
 if (x.as !== router.asPath) {
 let test = qs.parse(x.as)
-let id_ = test.cfi ? test[`/?book`] : x.as.replace('/?book=', '')
+let id_:string = test.cfi ? test[`/?book`] : x.as.replace('/?book=', '')
 let book_ = all_book_data.filter( x => x.id == id_)
 let cfi_ = test.cfi ? test.cfi : null
-set_book({book: book_[0], query_cfi: cfi_})
+if (book_ && book_[0] !== null) {
+set_book({...selected_book, book: book_[0], query_cfi: cfi_})
+}
 }
         return true;
     });
@@ -51,7 +72,7 @@ if (router.asPath.includes('/?book=')) {
 let id_ = test.cfi ? test[`/?book`] : router.asPath.replace('/?book=', '')
 let book_ = all_book_data.filter( x => x.id == id_)
 let ls_data = localStorage.getItem(book_[0].id+'-locations')
-let loc = ls_data !== undefined && ls_data !== 'undefined' ? JSON.parse(ls_data) : null
+let loc = ls_data !== null && ls_data !== undefined && ls_data !== 'undefined' ? JSON.parse(ls_data) : null
 let loc_ = loc !== null && loc && loc.start ? loc.start.cfi : null
 set_book({book: book_[0], query_cfi: test.cfi ? test.cfi : loc_, first_render: false})
 } else {
@@ -66,31 +87,22 @@ function updateDimensions() {
 set_dim({width: window.innerWidth, height: window.innerHeight})
 }
 
-
-
-
-
-
-
-
-
-
-function select_book(book) {
+function select_book(book: BookType | null) {
 if (book !== null) {
 let ls_data = localStorage.getItem(book.id+'-locations')
-let loc = ls_data !== undefined && ls_data !== 'undefined' ? JSON.parse(ls_data) : null
+let loc = ls_data !== null && ls_data !== undefined && ls_data !== 'undefined' ? JSON.parse(ls_data) : null
 
 if (loc !== null && loc && loc.start) { 
 router.push( `/?book=${book.id}&cfi=${loc.start.cfi}`, `/?book=${book.id}&cfi=${loc.start.cfi}`, {shallow: true})
-set_book({book: book, query_cfi: loc.start.cfi})
+set_book({...selected_book, book: book, query_cfi: loc.start.cfi})
 } else {
 router.push( `/?book=${book.id}`,`/?book=${book.id}`,{shallow: true})    
-set_book({book: book, query_cfi: null})
+set_book({...selected_book, book: book, query_cfi: null})
 }
 
 } else {
 router.push( `/`,`/`)
-set_book({book: book, query_cfi: null})
+set_book({...selected_book, book: book, query_cfi: null})
 }
 }
 
@@ -133,7 +145,6 @@ h={size.height}
 
 {selected_book.book  == null ? 
 <Grid 
-selected_book = {selected_book.book}
 select_book = {select_book}
 w={size.width}
 h={size.height}
