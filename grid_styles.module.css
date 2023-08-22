@@ -218,3 +218,19 @@ font-size: 16px;
 margin: 2.5% 0 5% 0;
 }
 
+@media (max-width: 999px) {
+
+
+.featured_frame h2 {
+
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+
+
+
+
+
+
+}

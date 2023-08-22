@@ -1,8 +1,6 @@
-
 import React, { Fragment, useState, useEffect, useRef, MouseEvent, SyntheticEvent} from 'react'
 import styles from '../book_box_styles.module.css'
 import ePub from 'epubjs'
-import Annotations from 'epubjs'
 import { IoIosArrowBack } from "react-icons/io"
 import { IoIosArrowForward } from "react-icons/io"
 import {IoIosCreate} from "react-icons/io"
@@ -68,8 +66,8 @@ query_cfi: string | null
 }
 
 type TextSizeState = {
-  value: 'x-large' | 'large' | 'medium' | 'small'
-  label: 'X-Large' | 'Large' | 'Medium' | 'Small'
+  value: string//'x-large' | 'large' | 'medium' | 'small'
+  label:string //'X-Large' | 'Large' | 'Medium' | 'Small'
 }
 
 type SidebarState = null | 'toc' | 'settings' | 'annotations' | 'new_annotation' | 'mobile_search' | 'menu' | 'search'  
@@ -168,6 +166,11 @@ spineItems: SectionType[]
 spineNodeIndex: number
 }
 
+type RS_Option = {
+  label: string
+  value: string
+
+}
 export default function Book_Box(props: BB_Props) {
 const router = useRouter()
 const [spread, set_spread] = useState<'auto' | 'none'>('auto')
@@ -226,8 +229,24 @@ props.select_book(null)
     };
 }, [router]); 
 
+/*
+  const onKeyDown = (event) => {
 
 
+    if (event.keyCode == 39) { next_page(event)}
+
+    console.log(event)
+
+  };
+
+useEffect(() => {
+  document.addEventListener('keydown', onKeyDown);
+  return () => {
+    document.removeEventListener('keydown', onKeyDown);
+  };
+}, [onKeyDown]);
+;
+*/
 
 useEffect(() => {
 
@@ -299,7 +318,6 @@ return () => {
 if (search_highlights.current && search_highlights.current.length > 0) {clear_input()}
 
 let annotations = rendition.current.annotations.each()
-//localStorage.setItem(props.selected_book.id+'-annotations', JSON.stringify(Object.entries(rendition.current.annotations._annotations)));
 localStorage.setItem(props.selected_book.id+'-annotations', JSON.stringify(annotations));
 localStorage.setItem(props.selected_book.id+'-locations', JSON.stringify(rendition.current.location));
 
@@ -339,7 +357,7 @@ useEffect(() => {
 useEffect(() => {
 if (sidebar == 'annotations' && si !== null) { 
   let el = document.getElementsByClassName("sidebar_styles_selected_title__OLqfZ")[0] as HTMLElement
-  if (el !== null ){el.scrollIntoView({ behavior: "instant", block: "start" });}
+  if (el !== null && el !== undefined){el.scrollIntoView({ behavior: "instant", block: "start" });}
 
 } else if (sidebar == 'new_annotation' && draft_cfi.current !== null && editing.current) {
 update_text()
@@ -362,22 +380,22 @@ set_spread(spread == 'auto' ? 'none' : 'auto')
 
 
 
-function set_location(x: LocType) {
-rendition.current.display(x.href)
+function set_location(x: string) {
+rendition.current.display(x)
 set_url_loc()
 set_sidebar(null)
 }
-function handle_set_text_size(x:TextSizeState) {
+function handle_set_text_size(x:RS_Option | null) {
+  if (x !== null) {
 set_text_size(x)
 rendition.current.themes.default({ "p": { "font-size": `${x.label} !important`}})
 rendition.current.resize()
+  }
 }
 
 
-function get_annotation(x:AnnotationData, i:number) {
-
-let inner_data = x.filter(isAnnotationInner)
-rendition.current.display(inner_data[1].cfiRange)
+function get_annotation(x:string, i:number) {
+rendition.current.display(x)
 set_url_loc()
 set_si(i)
 set_sidebar(null)
@@ -448,13 +466,10 @@ draft_cfi.current = x
 set_sidebar('new_annotation')
 }
 
-function delete_annotation(x:AnnotationData, i:number) {
+async function delete_annotation(x:string, i:number) {
 
 return new Promise((resolve,reject) => {
-
-let to_delete = x.filter(isAnnotationInner)
-
-resolve(rendition.current.annotations.remove(to_delete[1].cfiRange, 'highlight'))
+resolve(rendition.current.annotations.remove(x, 'highlight'))
 }).then(() => {
 localStorage.setItem(props.selected_book.id+'-annotations', JSON.stringify(rendition.current.annotations.each()));
 set_si(si == i ? null : i)
@@ -505,7 +520,7 @@ set_si(i)
 }
 
 
-function save_annotation() {
+async function save_annotation() {
 let time = getTimeStamp()
 let annotations = rendition.current.annotations.each()
 let dc_ = isDraftCfiObj(draft_cfi.current)  &&  isAnnotationDataInner(draft_cfi.current[1]) ? draft_cfi.current[1].data.epubcfi : draft_cfi.current                                                
@@ -565,7 +580,6 @@ if (keyvalue.length == 0) {clear_input()} else {set_keyvalue(keyvalue)}
 
 
 
-
 function handle_text_submit(e:SyntheticEvent) {
 e.preventDefault();
 
@@ -578,7 +592,6 @@ let spine_ = book.current.spine
 let spine_items_ = isSpine(spine_) ? spine_.spineItems : []
 
 Promise.all(spine_items_.map(async x => {
-console.log(x, typeof x)
 return new Promise((resolve,reject) => {
 resolve(x.load(book.current.load.bind(book.current)))
 
@@ -591,7 +604,21 @@ if (s.length > 0) {results.push(obj_)}
 })
 })).catch(err => console.log(err))
 .then(() => {
-let res_ = results.map(x => {
+
+
+let no_duplicates:TextSearchResults[] = results.map(x=> {
+  let new_s:TextSearchResultsData[]   = [] 
+  let new_s_excerpts:string[] = []
+  x.s.map(y => {
+if (!new_s_excerpts.includes(y.excerpt)) { 
+  new_s_excerpts.push(y.excerpt)
+  new_s.push(y)
+}
+  })
+return {...x, s: new_s}
+})
+  
+let res_ = no_duplicates.map(x => {
 let matching = toc.current.filter(y => y.href.slice(0, y.href.indexOf('#')) == x.x.href)
 let label = matching && matching[0] && matching[0].label ?  matching[0].label : ''
 let toc_id = matching && matching[0] && matching[0].id ?  matching[0].id : ''
@@ -680,7 +707,7 @@ No results.  Try another search!
 select_book = {props.select_book} 
 selected_book = {props.selected_book}
 clear_input = {clear_input}
-results = {results}
+results_length = {results.length}
 keyvalue = {keyvalue}
 handle_text_submit = {handle_text_submit}
 handleInputChange_text = {handleInputChange_text}

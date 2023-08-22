@@ -1,23 +1,44 @@
 
-import React, { Component, Fragment} from 'react'
+import React, { SyntheticEvent} from 'react'
 import styles from '../top_bar_styles.module.css'
-import { FaBookOpen } from "react-icons/fa"
 import { AiFillHome } from "react-icons/ai"
 import { FcBookmark } from "react-icons/fc"
 import _ from 'lodash'
 import { MdClose } from "react-icons/md"
-import { useRouter } from 'next/router'
-import Link from 'next/link'
 
 
-export default function Top_Bar_Book(props){
+type BookType = {
+  title: string
+  author: string
+  url: string
+  id: string
+  path: string
+  height: number
+  width: number
+  color?: string
+}
+
+
+type TBB_Props = {
+select_book: (book: BookType | null) => void
+selected_book: BookType
+clear_input:() => void
+results_length: number
+keyvalue: string
+handle_text_submit:(e:SyntheticEvent) => void
+handleInputChange_text:(keyvalue: string) => void
+w: number
+}
+
+
+export default function Top_Bar_Book(props:TBB_Props){
 
 
 
 let title = props.selected_book == null ? 'Reader' : props.selected_book.title
 
     return (
-      <div className = {styles.top_bar_frame} style = {{backgroundColor: 'whitesmoke'}}>
+      <nav className = {styles.top_bar_frame} style = {{backgroundColor: 'whitesmoke'}}>
 
 
 <div className = {styles.title_wrap} >
@@ -43,16 +64,18 @@ let title = props.selected_book == null ? 'Reader' : props.selected_book.title
     value={props.keyvalue}
     placeholder="Search text..." 
     onChange={(e) => props.handleInputChange_text(e.target.value)}
+    type={"search"}
+    name={"search_text_book"}
     />
 </form>
-{props.results.length > 0 && (<MdClose className = {styles.quit_search} onClick = {() => props.clear_input()}/>)}
+{props.results_length > 0 && (<MdClose className = {styles.quit_search} onClick = {() => props.clear_input()}/>)}
 </div>
 )}
 
 
   </div>
 
-    </div>
+    </nav>
   )
 }
 

@@ -9,38 +9,39 @@ import {FaListOl} from "react-icons/fa"
 import {FaStickyNote} from "react-icons/fa"
 import { AiFillSetting, AiFillCloseCircle } from "react-icons/ai"
 import { IoMdTrash } from "react-icons/io"
-import Select from 'react-select';
+import Select, {ActionMeta, StylesConfig } from 'react-select';
 import { CgFormatJustify } from "react-icons/cg"
 import {GiMouse} from "react-icons/gi"
 import {CgArrowsH} from "react-icons/cg"
 import {MdEdit} from "react-icons/md"
 import { IoIosArrowBack } from "react-icons/io"
-import BookEpubType from '../node_modules/epubjs/types/book'
+import {Annotation} from '../node_modules/epubjs/types/annotations'
 import RenditionType from '../node_modules/epubjs/types/rendition'
 import SectionType from '../node_modules/epubjs/types/section'
 
- const customStyles = {
+
+ const customStyles: StylesConfig<RS_Option, false> = {
     control: (provided, state) => ({
       ...provided,
       background: '#fff',
       borderColor: '#9e9e9e',
       minHeight: '30px',
       height: '30px',
-      color: 'black',
-      boxShadow: state.isFocused ? null : null,
+      color: 'black'
     }),
 
-    valueContainer: (provided, state) => ({
+    valueContainer: (provided) => ({
       ...provided,
       height: '30px',
       padding: '0 6px'
     }),
-    indicatorsContainer: (provided, state) => ({
+    indicatorsContainer: (provided) => ({
       ...provided,
       height: '30px',
     })
   };
 
+  
 const contentVariants = {
  expanded: () => ({
    opacity: 1,
@@ -63,8 +64,8 @@ const text_size_options = [
   { value: 'small', label: 'Small' }
 ]
 type TextSizeState = {
-  value: 'x-large' | 'large' | 'medium' | 'small'
-  label: 'X-Large' | 'Large' | 'Medium' | 'Small'
+  value: string//'x-large' | 'large' | 'medium' | 'small'
+  label: string//'X-Large' | 'Large' | 'Medium' | 'Small'
 }
 
 type SidebarState = null | 'toc' | 'settings' | 'annotations' | 'new_annotation' | 'mobile_search' | 'menu' | 'search'  
@@ -72,7 +73,7 @@ type NavItem = {
   id: string,
   href: string,
   label: string,
-  subitems?: Array<NavItem>,
+  subitems?: Array<NavItem | []>,
   parent?: string
 }
 type TextSearchResultsData = {
@@ -80,12 +81,7 @@ type TextSearchResultsData = {
   excerpt: string; 
 }
 
-type LocType = {
-  href: string
-  id: string
-  label: string
-  parent: undefined 
-}
+
 type EditDraftCfiType = (string | AnnotationInner)[]
 type DraftCfiType = null | string | EditDraftCfiType
 
@@ -110,6 +106,11 @@ type AnnotationInner = {
 
 type ResultsState = [] | ResultsData[]
 
+type RS_Option = {
+  label: string
+  value: string
+
+}
 
 type ResultsData = {
   label: string
@@ -125,21 +126,21 @@ type S_Props = {
   toc:(NavItem | [])[]
   w:number
   mobile_search: JSX.Element
-  textarea_ref: RefObject<HTMLTextAreaElement | null>
-  input_ref: RefObject<HTMLInputElement | null>
+  textarea_ref: RefObject<HTMLTextAreaElement>
+  input_ref: RefObject<HTMLInputElement>
   rendition: RenditionType
   get_context:(x:TextSearchResultsData, i:number, mobile:boolean) => void
   toggle_flow:() => void
   toggle_spread:() => void
-  set_text_size:(x:TextSizeState) => void
+  set_text_size:(option: RS_Option | null, actionMeta: ActionMeta<RS_Option>) => void
   text_size:TextSizeState
-  delete_annotation:(x:AnnotationData, i:number) => void
+  delete_annotation:(x:string, i:number) => void
   edit_annotation:(x:AnnotationData) => void
-  set_location:(x: LocType) => void
+  set_location:(x: string) => void
   spread:'auto' | 'none'
   flow:'paginated' | 'scrolled'
   keyvalue:string
-  get_annotation:(x:AnnotationData, i:number) => void
+  get_annotation:(x:string, i:number) => void
   results:ResultsState
   si:number | null
   draft_cfi:DraftCfiType
@@ -147,16 +148,18 @@ type S_Props = {
   cancel_annotation:() => void
   clear_input:() => void
 
-
-
 }
+/*
+type Unpacked<T> = T extends (infer U)[] ? U : T;
+type InnerAnnotationUnpackedType = Unpacked<AnnotationsType>;
+*/
 
-
-
+type OptionType = { [key: string]: any }
+type OptionsType = Array<OptionType>
 
 
 export default function Sidebar(props:S_Props){
-
+const isAnnotationDataInner = (content: Annotation | AnnotationData | string): content is AnnotationData => typeof content !== 'string' && Array.isArray(content)  
 
 const isNavItem = (content: NavItem | []): content is NavItem => 'label' in content
 
@@ -203,9 +206,9 @@ let title = props.sidebar == 'toc' ? 'Contents' :
 <Sidebar_Icons_Fixed
 set_sidebar = {props.set_sidebar}
 cancel_annotation = {props.cancel_annotation}
-results = {props.results}
+results_length = {props.results.length}
 sidebar = {props.sidebar}
-annotations = {annotations}
+annotations_length = {annotations.length}
 clear_input = {props.clear_input}
  />
 )}
@@ -238,12 +241,27 @@ className = {styles.sidebar_inner_frame}>
 
 
 <header className = {styles.sidebar_title}> <h5>{title}</h5>
-{(props.sidebar == 'menu' || props.sidebar == 'mobile_search') && props.w <= 1000 && (<button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><AiFillCloseCircle className = {styles.close_menu} /></button>)}
-{props.sidebar == 'search' && props.w <= 1000 && (<button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => cancel_search()} ><AiFillCloseCircle className = {styles.toc} /></button>)}
-{props.sidebar == 'settings'  && props.w <= 1000 && (<button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><IoIosArrowBack className = {styles.toc} /></button>)}
-{props.sidebar == 'toc' && props.w <= 1000 && (<button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><IoIosArrowBack className = {styles.toc} /></button>)}
-{props.sidebar == 'annotations'  && props.w <= 1000 && (<button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><IoIosArrowBack className = {styles.toc} /></button>)}
- </header> 
+{(
+  props.sidebar == 'menu' || 
+  props.sidebar == 'mobile_search') 
+  && props.w <= 1000 && (
+  <button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><AiFillCloseCircle className = {styles.close_menu} /></button>
+  )}
+
+{
+props.sidebar == 'search' && props.w <= 1000 && (
+<button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => cancel_search()} ><AiFillCloseCircle className = {styles.toc} /></button>
+)}
+
+
+{(
+  props.sidebar == 'settings' || 
+  props.sidebar == 'toc' || 
+  props.sidebar == 'annotations') && props.w <= 1000 && (
+<button type = {"button"}  className = {styles.toc_icon_back_mobile} onClick = {() => props.set_sidebar('menu')} ><IoIosArrowBack className = {styles.toc} /></button>
+)}
+
+ </header>  
 
 
 {props.sidebar == 'search' && props.results.length > 0 && (
@@ -253,7 +271,7 @@ className = {styles.sidebar_inner_frame}>
 <div className = {styles.search_results_wrap_sidebar_inner}>
 {props.results.map((x, i) => {
 
-return <Search_Section_Result key = {i} w ={props.w} x={x} i={i} get_context = {props.get_context} />
+return <Search_Section_Result key = {i} w ={props.w} x={x} i={i} get_context = {props.get_context} keyvalue={props.keyvalue} />
 
 })}
 </div>
@@ -268,7 +286,8 @@ return <Search_Section_Result key = {i} w ={props.w} x={x} i={i} get_context = {
 <section className = {styles.toc_items}>
 {props.toc.map((x, i) => {
 let label_ = isNavItem(x) ? x.label : ''
-return <p key = {label_ + i} onClick = {() => props.set_location(x)}>{label_}</p>
+let href_ = isNavItem(x) ? x.href : ''
+return <p key = {label_ + i} onClick = {() => props.set_location(href_)}>{label_}</p>
 })}
 </section>) }
 
@@ -347,7 +366,7 @@ return <p key = {label_ + i} onClick = {() => props.set_location(x)}>{label_}</p
 value={props.text_size}
 onChange={props.set_text_size}
 options={text_size_options}
-placeholder = {props.text_size}
+placeholder = {props.text_size.label}
 defaultValue = {text_size_options[2]}
 isSearchable = {false}
 styles = {customStyles}
@@ -361,17 +380,19 @@ styles = {customStyles}
 <section className = {styles.annotations_list_wrap}>
 {annotations.map((x, i) => {
 
-let selected = props.si == i
+let x_ = isAnnotationDataInner(x) && typeof x !== 'string' ? x  : ''
 
-return <Annotation 
-key = {x + i} 
-selected = {selected} 
-x = {x} 
+if (typeof x_ !== 'string') { 
+return <AnnotationWrapper 
+key = {i} 
+x = {x_} 
 i = {i} 
+selected = {props.si == i}
 get_annotation = {props.get_annotation} 
 edit_annotation = {props.edit_annotation} 
 delete_annotation = {props.delete_annotation} 
 />
+}
 })}
 </section> )}
 
@@ -397,24 +418,40 @@ delete_annotation = {props.delete_annotation}
   )
 }
 
-function Sidebar_Icons(props) {
+type SI_Props = {
+  results_length: number
+  annotations_length: number
+  set_sidebar:(x:SidebarState) => void
+}
+
+function Sidebar_Icons(props:SI_Props) {
 
   return(
 <div className ={styles.sidebar_icons}>
 <button type = {"button"} className = {styles.toc_icon} onClick = {() => props.set_sidebar('toc')} ><FaListOl className = {styles.toc} /></button>
 <button type = {"button"} className = {styles.settings_icon} onClick = {() => props.set_sidebar('settings')}><AiFillSetting className = {styles.settings} /></button>
-<button type = {"button"} className = {props.annotations.length > 0 ? styles.annotations_icon : styles.annotations_icon_disabled} onClick = {() => props.annotations.length > 0 ? props.set_sidebar('annotations') : {} }><FaStickyNote  /></button>
-{props.results.length > 0 && (<button type = {"button"} className = {styles.indicator_icon} onClick = {() => props.set_sidebar('search')}><FaSearch className = {styles.indicator}  /></button>)}
+<button type = {"button"} className = {props.annotations_length > 0 ? styles.annotations_icon : styles.annotations_icon_disabled} onClick = {() => props.annotations_length > 0 ? props.set_sidebar('annotations') : {} }><FaStickyNote  /></button>
+{props.results_length > 0 && (<button type = {"button"} className = {styles.indicator_icon} onClick = {() => props.set_sidebar('search')}><FaSearch className = {styles.indicator}  /></button>)}
 </div>
 
 )}
 
+type SIF_Props = {
+  sidebar:SidebarState 
+  results_length: number
+  annotations_length: number
+  clear_input:() => void
+  set_sidebar:(x:SidebarState) => void
+  cancel_annotation:() => void
+  
+}
 
-const Sidebar_Icons_Fixed = (props) => {
+
+const Sidebar_Icons_Fixed = (props:SIF_Props) => {
 return(
 <div className = {styles.sidebar_icons_fixed_col}>
 {props.sidebar == null ?
-<Sidebar_Icons results = {props.results} annotations = {props.annotations}set_sidebar = {props.set_sidebar} />
+<Sidebar_Icons results_length = {props.results_length} annotations_length = {props.annotations_length} set_sidebar = {props.set_sidebar} />
 :
 <Fragment>
 <button type = {"button"}  className = {styles.close_sidebar_icon}  onClick = {() => props.sidebar == 'new_annotation' ? props.cancel_annotation() : props.set_sidebar(null)}>
@@ -428,24 +465,38 @@ return(
 </div>
 )}
 
+type A_Props = {
+  key:number 
+  x:AnnotationData
+  selected: boolean
+  i:number
+  get_annotation:(x:string, i:number) => void 
+  delete_annotation:(x:string, i:number) => void
+  edit_annotation:(x:AnnotationData) => void 
+}
 
 
-function Annotation(props) {
 
- function element_clicked(s) {
-  props.get_annotation(props.x, props.i)
+function AnnotationWrapper(props:A_Props) {
+  const isAnnotationDataInner_ = (content: string | AnnotationInner): content is AnnotationInner => typeof content == 'object'
+  let text = isAnnotationDataInner_(props.x[1]) ? props.x[1].data.text : ''
+  let notes = isAnnotationDataInner_(props.x[1]) ? props.x[1].data.data : ''
+  let section = isAnnotationDataInner_(props.x[1]) ? props.x[1].data.section : ''
+  let title = isAnnotationDataInner_(props.x[1]) ? props.x[1].data.title : ''
+  let cfiRange = isAnnotationDataInner_(props.x[1]) ? props.x[1].cfiRange : ''
+
+  let preview = text
+  let notes_preview = notes ? notes : ''
+  let title_ = title ? title : 'untitled'
+
+
+ function element_clicked() {
+  props.get_annotation(cfiRange, props.i)
   }
+ 
 
-let selected = props.selected
-let text = props.x[1].data.text
-let notes = props.x[1].data.data
-let cfi = props.x[1].data.epubcfi
-let section = props.x[1].data.section
-let time = props.x[1].data.time
-let title = props.x[1].data.title
-let preview = text//.substring(0, 200)
-let notes_preview = notes? notes : ''
-let title_ = title ? title : 'untitled'
+
+
   return (
 
 <div className = {props.selected ? styles["result_li"] + " " + styles["selected"] : styles["result_li"]  }   >
@@ -457,7 +508,7 @@ let title_ = title ? title : 'untitled'
 {section && section.length > 0 && (
 <p className = {styles.section}  style = {{fontStyle: 'italic'}}>{section}</p>
 )}
-<p onClick = {() => element_clicked(selected)} className= {styles.preview} style = {{fontStyle: 'italic'}}>...{preview}...</p>
+<p onClick = {() => element_clicked()} className= {styles.preview} style = {{fontStyle: 'italic'}}>...{preview}...</p>
 <Fragment>
 {notes_preview && notes_preview.length > 0 && (
 <p className = {styles.annotation_notes} >{notes_preview}</p>
@@ -465,8 +516,8 @@ let title_ = title ? title : 'untitled'
 
 
 <footer className = {styles.annotation_bottom_bar}>
-<MdEdit className = {styles.edit_annotation} onClick = {() => props.edit_annotation(props.x, props.i)}/>
-<IoMdTrash className = {styles.delete_annotation} onClick = {() => props.delete_annotation(props.x, props.i)} />
+<MdEdit className = {styles.edit_annotation} onClick = {() => props.edit_annotation(props.x)}/>
+<IoMdTrash className = {styles.delete_annotation} onClick = {() => props.delete_annotation(cfiRange, props.i)} />
 
 
 </footer>
@@ -479,11 +530,35 @@ let title_ = title ? title : 'untitled'
   );
 }
 
-function Search_Section_Result(props) {
+type SSR_Props = {
+key: number
+w: number
+x:ResultsData
+i: number
+get_context:(x:TextSearchResultsData, i:number, mobile:boolean) => void
+keyvalue: string
+}
+
+
+
+function Search_Section_Result(props: SSR_Props) {
 const [open, set_open] = useState(props.i == 0 ? true : false)
 
 function toggle_section() {
 set_open(!open)
+}
+
+
+function get_highlighted_text(text:string) {
+
+  let highlight = props.keyvalue
+
+  const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+  return <span> { parts.map((part, i) => 
+      <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { color: 'red' } : {} }>
+          { part }
+      </span>)
+  } </span>;
 }
 
 
@@ -497,7 +572,7 @@ return (
 <div className = {styles.search_result_item}>
 {props.x.s.map((y,i_) => {
 
-return <p key = {i_} onClick = {() => props.get_context(y, i_, props.w < 1000)}>{y.excerpt}</p>
+return <p key = {i_} onClick = {() => props.get_context(y, i_, props.w < 1000)}>{get_highlighted_text(y.excerpt)}</p>
 
 })}
 </div>

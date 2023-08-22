@@ -1,5 +1,9 @@
-export default function apply_ref_styles(popup_ref, highlight_ref, annotation_ref) {
+import { RefObject} from 'react'
 
+
+export default function apply_ref_styles(popup_ref: RefObject<HTMLDivElement>, highlight_ref: RefObject<HTMLButtonElement>, annotation_ref: RefObject<HTMLButtonElement>):void {
+
+    if (popup_ref.current !== null && highlight_ref.current !== null && annotation_ref.current !== null) {
 popup_ref.current.style.position = 'absolute'
 popup_ref.current.style.borderRadius = '12px'
 popup_ref.current.style.backgroundColor = '#b3c7f7'
@@ -37,4 +41,5 @@ annotation_ref.current.style.borderBottomLeftRadius = '12px'
 annotation_ref.current.style.fontFamily = `'Open Sans', sans-serif`
 annotation_ref.current.style.zIndex = '999999999999999999'
 annotation_ref.current.style.userSelect = 'none'
+}
 }

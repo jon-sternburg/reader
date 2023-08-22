@@ -1,66 +1,80 @@
-
-
-import React, { Component, Fragment, useRef, useState, useEffect} from 'react'
+import React, { ChangeEvent , Fragment, useMemo, useState, useEffect} from 'react'
 import styles from '../top_bar_styles.module.css'
-import { FaBookOpen } from "react-icons/fa"
 import { AiFillHome } from "react-icons/ai"
 import { FcBookmark } from "react-icons/fc"
 import _ from 'lodash'
-import parse from 'html-react-parser';
 import OutsideAlerter from '../util/OutsideAlerter'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
 import all_book_data from '../data/all_book_data.json'
+import debouce from "lodash.debounce";
+
+type BookType = {
+  title: string
+  author: string
+  url: string
+  id: string
+  path: string
+  height: number
+  width: number
+  color?: string
+}
 
 
+type TBH_Props = {
+  select_book: (book: BookType | null) => void
+  selected_book: BookType | null
+  w:number
+  h:number
+}
 
-export default function Top_Bar_Homepage(props) {
+type ResultsState = BookType[] | []
 
-const [keyvalue, set_keyvalue] = useState('')
-const [results, set_results] = useState([])
-const input = useRef();
+export default function Top_Bar_Homepage(props:TBH_Props) {
+
+
+const [results, set_results] = useState<ResultsState>([])
+
+
 
 useEffect(() => {
-if (keyvalue !== '') {handleSearchChange()}
-}, [keyvalue])
+  return () => {
+    debouncedResults.cancel();
+  };
+});
+
 
 function cancel_search() {
 set_results([])
-set_keyvalue('')
+
 }
 
-function handleInputChange(keyvalue) {
-set_keyvalue(keyvalue)
-  }
 
+function handleSearchChange(e:ChangeEvent<HTMLInputElement>) {
 
-  function handleSearchChange(e) {
-    setTimeout(() => {
-      if (keyvalue.length < 1) {
-      set_results([])
-      set_keyvalue('')
-}
-    const re = new RegExp(_.escapeRegExp(keyvalue), "i");
-    const isMatch_title = (result) => re.test(result.title);
-    const isMatch_author = (result) => re.test(result.author)
+  let kv = e.target.value
+  const re = new RegExp(_.escapeRegExp(kv), "i");
+  const isMatch_title = (result:BookType) => re.test(result.title);
+  const isMatch_author = (result:BookType) => re.test(result.author)
 
-    let _source = all_book_data
-    let results_title = _.filter(_source, isMatch_title)
-    let results_author = _.filter(_source, isMatch_author)
-    let results_ = results_title.concat(results_author)
-
-if (keyvalue.length > 2) {
+  let _source = all_book_data
+  let results_title = _.filter(_source, isMatch_title)
+  let results_author = _.filter(_source, isMatch_author)
+  let results_ = results_title.concat(results_author)
+if (kv.length > 2) {
 set_results(results_)
-}}, 500);
-    
 }
+
+}
+
+const debouncedResults = useMemo(() => {
+return debouce(handleSearchChange, 300);
+}, []);
 
 
 let title = props.selected_book == null ? 'Reader!' : props.selected_book.title
 
     return ( 
 
-      <div className = {styles.top_bar_frame}>
+      <nav className = {styles.top_bar_frame}>
 
 
 <div  className = {styles.title_wrap}>
@@ -78,7 +92,7 @@ let title = props.selected_book == null ? 'Reader!' : props.selected_book.title
 <OutsideAlerter cancel_search = {cancel_search}>
 <ul className = {styles.search_results_homepage}>
 {results.map((x, i) => {
-return <li key = {x + i} onClick = {() => props.select_book(x)}>
+return <li key = {i} onClick = {() => props.select_book(x)}>
 <p>
 
 {x.title}, <span style = {{fontStyle: 'italic'}}> {x.author} </span>
@@ -102,8 +116,9 @@ return <li key = {x + i} onClick = {() => props.select_book(x)}>
     <input 
     id="search_input_homepage" 
     placeholder="Search books..." 
-    value={keyvalue}
-    onChange={(e) => handleInputChange(e.target.value)}
+    onChange={debouncedResults}
+    type={"search"}
+    name={"search_input_homepage"}
     />
 </form>
 </div>
@@ -113,7 +128,7 @@ return <li key = {x + i} onClick = {() => props.select_book(x)}>
 
   </div>
 
-    </div>
+    </nav>
   )
 }
 

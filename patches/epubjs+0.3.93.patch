@@ -12,6 +12,19 @@ index ecbcb56..1676aaa 100644
  	}
  
  	/**
+diff --git a/node_modules/epubjs/types/annotations.d.ts b/node_modules/epubjs/types/annotations.d.ts
+index 718319d..397f8d4 100644
+--- a/node_modules/epubjs/types/annotations.d.ts
++++ b/node_modules/epubjs/types/annotations.d.ts
+@@ -25,7 +25,7 @@ export default class Annotations {
+   private clear(view: View): void;
+ }
+ 
+-declare class Annotation {
++export declare class Annotation {
+   constructor(options: {
+ 		type: string,
+ 		cfiRange: string,
 diff --git a/node_modules/epubjs/types/rendition.d.ts b/node_modules/epubjs/types/rendition.d.ts
 index 489f3fa..30120ac 100644
 --- a/node_modules/epubjs/types/rendition.d.ts

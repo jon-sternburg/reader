@@ -1,11 +1,16 @@
 .topbar_search_wrap_mobile {
 
 width: 100%;
-
+align-items: center;
 display: flex;
 justify-content: center;
 margin-top: 0;
 padding: 0;
+
+position: absolute;
+top: 60px;
+right: 0;
+
 }
 .top_bar_frame {
 width: 100%;
@@ -83,9 +88,9 @@ display: flex;
 align-items: center;
 }
 .book_icon_mobile {
-width: 1.2em !important;
-height: 1.2em !important;
-margin: 5px 12px;
+width: 1.45em !important;
+height: 1.45em !important;
+margin: 5px 5px 5px 10px;
  color: rgba(0, 0, 0, 0.74);
 }
 
@@ -95,17 +100,17 @@ display: flex;
 align-items: center;
 }
 .topbar_search_wrap_mobile form {
- width: 75%;
+ width: 70%;
     margin-left: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.34);
-    border-radius: .5rem;
-    height: 45px;
+    border: .5px solid rgba(0, 0, 0, 0.34);
+    border-radius: 4px;
+    
 
     display:flex;
     background: white;
     padding: 2.5px 5px;
     margin-right: 10px;
-    margin-top: 30px;
+    margin-top: 3px;
 }
 
 
@@ -122,7 +127,7 @@ align-items: center;
     -moz-appearance: none;
     appearance: none;
     z-index: 1;
-    font-size: 18px;
+    font-size: 15px;
 
 
     font-family: 'Lato', sans-serif;
@@ -264,18 +269,18 @@ padding: 0;
 .search_results_homepage_mobile li {
   font-size: 15px;
 padding: 7px;
-border-radius: .7rem;
-margin: 4px;
-background: ;
+
+margin: 4px 0;
+
 color: black;
 background: #b3c7f7;
 }
 .search_results_homepage li {
 	font-size: 15px;
 padding: 7px;
-border-radius: .7rem;
-margin: 4px;
-background: ;
+
+margin: 4px 0;
+
 color: black;
 background: #b3c7f7;
 }
@@ -361,11 +366,7 @@ align-items: center;
 
 margin-right: 150px;
 }
-.topbar_search_wrap input {
 
-
-
-}
 .quit_search:hover {
 
 cursor: pointer;
@@ -390,7 +391,7 @@ right: 100px;
 width: 20vw;
 margin: 0 auto;
 border: .5px solid  rgba(0, 0, 0, 0.34);
- border-radius: .7rem;
+ border-radius: 4px;
  overflow: hidden;
 }
 
@@ -435,13 +436,12 @@ padding: 10px;
 }
 .search_results_homepage {
     width: calc(20vw - 40px);
-height: 80vh;
+max-height: 80vh;
 overflow-y: auto;
-    display: flex;
+   
    cursor: pointer;
-    justify-content: flex-start;
-    flex-direction: row;
-    flex-wrap: wrap;
+
+
     position: absolute;
     right: 150px;
     top: calc(7.5vh);

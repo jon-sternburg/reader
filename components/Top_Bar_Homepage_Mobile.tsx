@@ -1,68 +1,80 @@
-import React, { Component, Fragment, useRef, useState, useEffect} from 'react'
+import React, { ChangeEvent , Fragment, useMemo, useState, useEffect} from 'react'
 import styles from '../top_bar_styles.module.css'
-import { FaBookOpen } from "react-icons/fa"
 import { AiFillHome } from "react-icons/ai"
-import { AiFillSetting } from "react-icons/ai"
 import { FcBookmark } from "react-icons/fc"
 import _ from 'lodash'
-import { MdClose } from "react-icons/md"
-import parse from 'html-react-parser';
-import ePub from 'epubjs'
-import {EpubCFI} from 'epubjs'
-import { AiOutlineLeft } from "react-icons/ai"
-import { AiOutlineRight, AiFillCloseCircle } from "react-icons/ai"
-import { FaStickyNote } from "react-icons/fa"
-
+import { AiFillCloseCircle } from "react-icons/ai"
 import all_book_data from '../data/all_book_data.json'
+import debouce from "lodash.debounce";
+
+type BookType = {
+  title: string
+  author: string
+  url: string
+  id: string
+  path: string
+  height: number
+  width: number
+  color?: string
+}
 
 
-export default function Top_Bar_Homepage_Mobile(props) {
+type TBHM_Props = {
+  select_book: (book: BookType | null) => void
+  selected_book: BookType | null
+  w:number
+  h:number
+}
 
-const [keyvalue, set_keyvalue] = useState('')
-const [results, set_results] = useState([])
-const input = useRef();
+
+
+type ResultsState = BookType[] | []
+
+export default function Top_Bar_Homepage_Mobile(props:TBHM_Props) {
+
+const [results, set_results] = useState<ResultsState>([])
+
 
 useEffect(() => {
-if (keyvalue !== '') {handleSearchChange()}
-}, [keyvalue])
+  return () => {
+    debouncedResults.cancel();
+  };
+});
+
 
 function cancel_search() {
 set_results([])
-set_keyvalue('')
+
 }
 
-function handleInputChange(keyvalue) {
-set_keyvalue(keyvalue)
-  }
 
 
-  function handleSearchChange(e) {
-    setTimeout(() => {
-      if (keyvalue.length < 1) {
-      set_results([])
-      set_keyvalue('')
-}
-    const re = new RegExp(_.escapeRegExp(keyvalue), "i");
-    const isMatch_title = (result) => re.test(result.title);
-    const isMatch_author = (result) => re.test(result.author)
+  function handleSearchChange(e:ChangeEvent<HTMLInputElement>) {
+
+    let kv = e.target.value
+    const re = new RegExp(_.escapeRegExp(kv), "i");
+    const isMatch_title = (result:BookType) => re.test(result.title);
+    const isMatch_author = (result:BookType) => re.test(result.author)
 
     let _source = all_book_data
     let results_title = _.filter(_source, isMatch_title)
     let results_author = _.filter(_source, isMatch_author)
     let results_ = results_title.concat(results_author)
-
-if (keyvalue.length > 2) {
+if (kv.length > 2) {
 set_results(results_)
-}}, 500);
-    
 }
 
+}
+
+const debouncedResults = useMemo(() => {
+  return debouce(handleSearchChange, 300);
+}, []);
 
 let title = props.selected_book == null ? 'Reader!' : props.selected_book.title
 
     return ( 
 
-    <div className = {styles.top_bar_frame}>
+    <nav className = {styles.top_bar_frame}>
 
 
 <div className = {styles.title_wrap_mobile}>
@@ -83,7 +95,7 @@ let title = props.selected_book == null ? 'Reader!' : props.selected_book.title
 <Fragment>
 <ul className = {styles.search_results_homepage_mobile}>
 {results.map((x, i) => {
-return <li key = {x + i} onClick = {() => props.select_book(x)}>
+return <li key = {i} onClick = {() => props.select_book(x)}>
 <p>
 
 {x.title}, <span style = {{fontStyle: 'italic'}}> {x.author} </span>
@@ -115,8 +127,9 @@ return <li key = {x + i} onClick = {() => props.select_book(x)}>
     <input 
     id="search_input_homepage" 
     placeholder="Search..." 
-    value={keyvalue}
-    onChange={(e) => handleInputChange(e.target.value)}
+    onChange={debouncedResults}
+    type={"search"}
+    name={"search_input_homepage"}
     />
 </form>
 </div>
@@ -125,7 +138,7 @@ return <li key = {x + i} onClick = {() => props.select_book(x)}>
 
   </div>
 
-    </div>
+    </nav>
   )
 }
 
