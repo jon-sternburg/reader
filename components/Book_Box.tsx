@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useRef, MouseEvent, SyntheticEvent} from 'react'
+import React, { Fragment, useState, useEffect, useRef, MouseEvent, SyntheticEvent, KeyboardEvent} from 'react'
 import styles from '../book_box_styles.module.css'
 import ePub from 'epubjs'
 import { IoIosArrowBack } from "react-icons/io"
@@ -20,8 +20,6 @@ import Spine from '../node_modules/epubjs/types/spine'
 import RenditionType from '../node_modules/epubjs/types/rendition'
 import BookEpubType from '../node_modules/epubjs/types/book'
 import ContentsType from '../node_modules/epubjs/types/contents'
-
-
 var qs = require('qs');
 
 type AnnotationData = (string | AnnotationInner)[]
@@ -52,6 +50,8 @@ type BookType = {
   path: string
   height: number
   width: number
+  bg: string
+  border: string
   color?: string
 }
 
@@ -144,12 +144,6 @@ type HighlightObj = {
   cfi: string
   excerpt: string
 }
-type LocType = {
-  href: string
-  id: string
-  label: string
-  parent: undefined 
-}
 
 
 type SpineLoaded = {
@@ -213,9 +207,7 @@ const isSpine = (content: Spine | SpineLoaded): content is SpineLoaded => 'spine
 
 
 useEffect(() => {
-
 router.beforePopState((x) => {
-  
 if (x.as !== router.asPath && qs.parse(x.as).cfi && rendition.current !== null) {
   rendition.current.display(qs.parse(x.as).cfi)
 } else {
@@ -223,30 +215,23 @@ props.select_book(null)
 }
         return true;
     });
-
     return () => {
         router.beforePopState(() => true);
     };
 }, [router]); 
 
-/*
-  const onKeyDown = (event) => {
+function handle_mouse_down(e:Event)  {
+  const target = e.target as HTMLElement
+  if ((target.id == '' || target.id == undefined) && popup_ref.current !== null && popup_ref.current !== undefined) { 
+  popup_ref.current.style.visibility = 'hidden'
+}
+}
 
-
-    if (event.keyCode == 39) { next_page(event)}
-
-    console.log(event)
-
-  };
-
-useEffect(() => {
-  document.addEventListener('keydown', onKeyDown);
-  return () => {
-    document.removeEventListener('keydown', onKeyDown);
-  };
-}, [onKeyDown]);
-;
-*/
+function keyListener(e: KeyboardEvent | Event) {
+  let e_ = e as KeyboardEvent
+  if (e_.key == 'ArrowRight') {next_page(e_)}
+  if (e_.key == 'ArrowLeft') {previous_page(e_)}
+}
 
 useEffect(() => {
 
@@ -268,19 +253,21 @@ router.push( `/?book=${props.selected_book.id}&cfi=${props.query_cfi}`, `/?book=
 }
 
 book.current.loaded.navigation.then((toc) => {
+
 rendition.current.themes.default({ "*:hover": { "color": `black !important`}})
+
+rendition.current.on("keyup", keyListener) 
+document.addEventListener("keyup", keyListener, false);
 
 rendition.current.on("markClicked", function(cfiRange:string, data: renditionMarkClickedData) {
 annotation_clicked(cfiRange)
 })
 
 rendition.current.on("selected", function(cfiRange: string, contents:ContentsType) {
-contents.window.addEventListener('mousedown', (e:Event) => {
-  const target = e.target as HTMLElement
-  if ((target.id == '' || target.id == undefined) && popup_ref.current !== null && popup_ref.current !== undefined) { 
-  popup_ref.current.style.visibility = 'hidden'
-}
-})
+contents.window.addEventListener('mousedown', handle_mouse_down)
+
+
+
 
 let selection =  contents.window.getSelection()
 let text = selection !== null ? selection.toString() : ''
@@ -314,6 +301,10 @@ set_loading(false)
 }).catch(err => console.log(err))
 
 return () => {
+
+
+  document.removeEventListener("keyup", keyListener);
+  document.removeEventListener("mousedown", handle_mouse_down)
 
 if (search_highlights.current && search_highlights.current.length > 0) {clear_input()}
 
@@ -560,15 +551,15 @@ let loc_ = rendition.current.currentLocation()
 router.push( `/?book=${props.selected_book.id}&cfi=${loc_.start.cfi}`, `/?book=${props.selected_book.id}&cfi=${loc_.start.cfi}`, {shallow: true})
 }
 
-function previous_page(e:MouseEvent) {
-e.preventDefault();
+function previous_page(e:MouseEvent | KeyboardEvent) {
+//e.preventDefault();
 rendition.current.prev()
 set_url_loc()
 }
 
 
-function next_page(e:MouseEvent) {
-e.preventDefault();
+function next_page(e:MouseEvent| KeyboardEvent) {
+//e.preventDefault();
 rendition.current.next() 
 set_url_loc()
 } 

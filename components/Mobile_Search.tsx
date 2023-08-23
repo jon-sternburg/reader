@@ -23,6 +23,8 @@ type BookType = {
   height: number
   width: number
   color?: string
+  bg: string
+  border: string
 }
 export default function Mobile_Search(props: MS_Props){
 

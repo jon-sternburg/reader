@@ -160,6 +160,13 @@ border-radius: 50%;
     color: black !important;
 
     background: whitesmoke !important;
+    padding: 5px;
+    margin: 30px auto;
+    border-radius: 100%;
+    background: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .indicator_icon:hover {

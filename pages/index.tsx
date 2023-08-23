@@ -18,6 +18,8 @@ type BookType = {
     height: number
     width: number
     color?: string
+    bg: string
+    border: string
   }
 
 type BookState = {
