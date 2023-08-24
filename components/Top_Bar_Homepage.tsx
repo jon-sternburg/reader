@@ -72,16 +72,14 @@ return debouce(handleSearchChange, 300);
 }, []);
 
 
-let title = props.selected_book == null ? 'Reader!' : props.selected_book.title
+
 
     return ( 
 
       <nav className = {styles.top_bar_frame}>
 
 
-<div  className = {styles.title_wrap}>
-<FcBookmark className = {styles.book_icon} /><span className = {styles.title} onClick = {() => props.select_book(null)}>{title}</span>
-</div>
+
 
 {props.selected_book !== null && (
 <div className = {styles.home_button} onClick = {() => props.select_book(null)}> <AiFillHome className = {styles.home} /></div> )}

@@ -1,9 +1,9 @@
 import React, { ChangeEvent , Fragment, useMemo, useState, useEffect} from 'react'
 import styles from '../top_bar_styles.module.css'
-import { AiFillHome } from "react-icons/ai"
+import { AiFillCloseCircle } from "react-icons/ai"
 import { FcBookmark } from "react-icons/fc"
 import _ from 'lodash'
-import { AiFillCloseCircle } from "react-icons/ai"
+import { RxHamburgerMenu } from "react-icons/rx"
 import all_book_data from '../data/all_book_data.json'
 import debouce from "lodash.debounce";
 
@@ -26,6 +26,8 @@ type TBHM_Props = {
   selected_book: BookType | null
   w:number
   h:number
+  show_book_list: () => void
+  book_list:boolean
 }
 
 
@@ -76,7 +78,7 @@ let title = props.selected_book == null ? 'Reader!' : props.selected_book.title
 
     return ( 
 
-    <nav className = {styles.top_bar_frame}>
+    <nav className = {styles.top_bar_frame_mobile}>
 
 
 <div className = {styles.title_wrap_mobile}>
@@ -86,8 +88,22 @@ let title = props.selected_book == null ? 'Reader!' : props.selected_book.title
     <div className = {styles.title_mobile} >{title}</div>
    </div>
 
-{props.selected_book !== null && (
-<div className = {styles.home_button} onClick = {() => props.select_book(null)}> <AiFillHome className = {styles.home} /></div> )}
+{props.book_list ? 
+
+<AiFillCloseCircle className = {styles.close_grid_sidebar_icon} onClick = {() => props.show_book_list()} />
+
+:
+
+<RxHamburgerMenu className = {styles.hamburger_icon}  onClick = {() => props.show_book_list()}/>
+}
+
+
+
+
+{/* 
+
+
+
 
 
 {results.length > 0    ?
@@ -115,8 +131,6 @@ return <li key = {i} onClick = {() => props.select_book(x)}>
 :  null}
 
 
-
-
 <div className = {styles.header_wrap}>
 
 
@@ -139,7 +153,7 @@ return <li key = {i} onClick = {() => props.select_book(x)}>
 
 
   </div>
-
+*/}
     </nav>
   )
 }

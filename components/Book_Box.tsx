@@ -406,7 +406,7 @@ set_sidebar('new_annotation')
 function handle_highlight(cfiRange: string, text: string) {
   if (popup_ref.current !== null && popup_ref.current !== undefined) { 
 popup_ref.current.style.visibility = 'hidden'
-rendition.current.annotations.add('highlight', cfiRange, {text}, () => {})
+rendition.current.annotations.add('highlight', cfiRange, {text: text, data: 'notes go here', title: 'highlight'}, () => {})
 }}
 
 function handle_search_highlight(e:Event | null, cfiRange:string, text:string, x:HighlightObj) {
@@ -454,6 +454,7 @@ textarea_ref.current.value = x[1].data.data
 function edit_annotation(x:AnnotationData) {
 editing.current = true
 draft_cfi.current = x
+console.log('edit draft_cfi - ', draft_cfi.current)
 set_sidebar('new_annotation')
 }
 
@@ -514,9 +515,10 @@ set_si(i)
 async function save_annotation() {
 let time = getTimeStamp()
 let annotations = rendition.current.annotations.each()
-let dc_ = isDraftCfiObj(draft_cfi.current)  &&  isAnnotationDataInner(draft_cfi.current[1]) ? draft_cfi.current[1].data.epubcfi : draft_cfi.current                                                
+let dc_ = draft_cfi.current !== null && typeof draft_cfi.current == 'string' ? draft_cfi.current : draft_cfi.current !== null ? draft_cfi.current[0] : ''    
+
 let matching = annotations.filter(x => {
-if (Array.isArray(x)) {return x[0].replace('highlight', '') == dc_}
+if (Array.isArray(x) && typeof dc_ == 'string') {return x[0].replace('highlight', '') == dc_.replace('highlight', '')}
 })
 
 
@@ -526,6 +528,8 @@ let f = Array.isArray(matching[0]) ? matching[0][1] : ''
 let index = annotations.map(x => {
  if (Array.isArray(x)) { return x[1]} 
 }).indexOf(f)
+
+
 return new Promise((resolve,reject) => {
 
   let match_ = Array.isArray(matching[0]) ? matching[0][1] : null

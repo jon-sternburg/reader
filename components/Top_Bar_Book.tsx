@@ -40,7 +40,7 @@ export default function Top_Bar_Book(props:TBB_Props){
 let title = props.selected_book == null ? 'Reader' : props.selected_book.title
 
     return (
-      <nav className = {styles.top_bar_frame} style = {{backgroundColor: 'whitesmoke'}}>
+      <nav className = {styles.top_bar_frame_book} style = {{backgroundColor: 'whitesmoke'}}>
 
 
 <div className = {styles.title_wrap} >

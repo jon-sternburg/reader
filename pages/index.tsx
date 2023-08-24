@@ -2,6 +2,7 @@ import React, {Fragment, useState, useEffect } from "react";
 import styles from '../homepage_styles.module.css'
 import Top_Bar_Homepage from '../components/Top_Bar_Homepage'
 import Top_Bar_Homepage_Mobile from '../components/Top_Bar_Homepage_Mobile'
+import Sidebar_Homepage from '../components/Sidebar_Homepage'
 import Grid from '../components/Grid'
 import Book_Box from '../components/Book_Box'
 import { useRouter } from 'next/router'
@@ -35,7 +36,8 @@ type Size = {
 
 
 export default function App():JSX.Element {
-const [selected_book, set_book] = useState<BookState>({book: null, query_cfi: null, first_render: true}) 
+const [book_list, set_book_list] = useState<boolean>(false) 
+const [selected_book, set_book] = useState<BookState>({book: null, query_cfi: null, first_render: true})
 const [size, set_dim] = useState<Size>({width: 0, height: 0})
 const router = useRouter()
 
@@ -83,7 +85,9 @@ set_book({book: null, query_cfi: null, first_render: false})
 }, [])
 
 
-
+function show_book_list() {
+set_book_list(!book_list)
+}
 
 function updateDimensions() {
 set_dim({width: window.innerWidth, height: window.innerHeight})
@@ -97,14 +101,17 @@ let loc = ls_data !== null && ls_data !== undefined && ls_data !== 'undefined' ?
 if (loc !== null && loc && loc.start) { 
 router.push( `/?book=${book.id}&cfi=${loc.start.cfi}`, `/?book=${book.id}&cfi=${loc.start.cfi}`, {shallow: true})
 set_book({...selected_book, book: book, query_cfi: loc.start.cfi})
+if (book_list) {set_book_list(false)}
 } else {
 router.push( `/?book=${book.id}`,`/?book=${book.id}`,{shallow: true})    
 set_book({...selected_book, book: book, query_cfi: null})
+if (book_list) {set_book_list(false)}
 }
 
 } else {
 router.push( `/`,`/`)
 set_book({...selected_book, book: book, query_cfi: null})
+if (book_list) {set_book_list(false)}
 }
 }
 
@@ -118,30 +125,34 @@ set_book({...selected_book, book: book, query_cfi: null})
 </Head>
 
 <main className = {styles.main}>
+{size.width < 1000 && selected_book.book  == null  && ( 
+<Top_Bar_Homepage_Mobile
+selected_book = {selected_book.book}
+select_book = {select_book}
+w={size.width}
+show_book_list = {show_book_list}
+book_list = {book_list}
+h={size.height}
+/>
+)}
+
 <section className = {styles.homepage_frame} style = {{backgroundColor: selected_book.book == null ? 'whitesmoke' : '#FFF'}}>
 
 {!selected_book.first_render && (
 
 
      <Fragment>
-{size.width >= 1000 && selected_book.book == null  && ( 
-<Top_Bar_Homepage
-selected_book = {selected_book.book}
+{(size.width >= 1000 && selected_book.book == null) || book_list  ? 
+<Sidebar_Homepage 
 select_book = {select_book}
 w={size.width}
 h={size.height}
+book_list={book_list}
 />
-)}
+: null
+}
 
 
-{size.width < 1000 && selected_book.book  == null  && ( 
-<Top_Bar_Homepage_Mobile
-selected_book = {selected_book.book}
-select_book = {select_book}
-w={size.width}
-h={size.height}
-/>
-)}
 
 
 
@@ -149,6 +160,7 @@ h={size.height}
 <Grid 
 select_book = {select_book}
 w={size.width}
+show_book_list = {show_book_list}
 h={size.height}
  />
 :
@@ -165,6 +177,12 @@ query_cfi = {selected_book.query_cfi}
 )}
     </section>
     </main>
+    <style jsx global>{`
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    `}</style>
     </Fragment>
 )
   }

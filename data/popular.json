@@ -93,5 +93,16 @@
   "width": 200,
   "bg": "rgba(131, 171, 252, 0.5)",
   "border": "rgba(31, 8, 137, 0.5)"
+},
+{
+  "title": "Dracula",
+  "author": "Bram Stoker",
+  "url": "https://www.gutenberg.org/ebooks/345.epub.noimages",
+  "id": "345",
+  "path": "/files/345.epub",
+  "height": 300,
+  "width": 180,
+  "bg": "rgba(244, 161, 232, 0.5)",
+  "border": "rgba(214, 14, 177, 0.5)"
 }
 ]
