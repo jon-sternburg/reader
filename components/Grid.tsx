@@ -32,8 +32,6 @@ type G_Props = {
     }
 export default function Grid(props:G_Props):JSX.Element {
 
-let img_ann_dim = getMediaSize(1920, 888)
-
 
 function getMediaSize(iw:number, ih:number):MediaSize {
 
@@ -47,7 +45,6 @@ let new_h = (ih/iw) * new_w
   
   }
 
-  let popular_ = popular.slice(0,6)
 
     return (
  <div className = {styles.frame}>

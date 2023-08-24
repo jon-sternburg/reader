@@ -104,5 +104,171 @@
   "width": 180,
   "bg": "rgba(244, 161, 232, 0.5)",
   "border": "rgba(214, 14, 177, 0.5)"
+},
+{
+  "title": "A Portrait of the Artist as a Young Man",
+  "author": "James Joyce",
+  "url": "https://www.gutenberg.org/ebooks/4217.epub.noimages",
+  "id": "4217",
+  "path": "/files/4217.epub",
+  "height": 300,
+  "width": 200,
+  "bg": "rgba(249, 211, 184, 0.5)",
+  "border": "rgba(224, 109, 2, 0.5)"
+},
+{
+  "title": "Jane Eyre: An Autobiography",
+  "author": "Charlotte Brontë",
+  "url": "https://www.gutenberg.org/ebooks/1260.epub.noimages",
+  "id": "1260",
+  "path": "/files/1260.epub",
+  "height": 300,
+  "width": 200,
+  "bg": "rgba(249, 173, 132, 0.5)",
+  "border": "rgba(201, 98, 14, 0.5)"
+},
+{
+  "title": "The Odyssey",
+  "author": "Homer",
+  "url": "https://www.gutenberg.org/ebooks/3160.epub.noimages",
+  "id": "3160",
+  "path": "/files/3160.epub",
+  "height": 280,
+  "width": 200,
+  "bg": "rgba(252, 231, 126, 0.5)",
+  "border": "rgba(198, 201, 4, 0.5)"
+},
+{
+  "title": "The Wonderful Wizard of Oz",
+  "author": "L. Frank Baum",
+  "url": "https://www.gutenberg.org/ebooks/43936.epub.noimages",
+  "id": "43936",
+  "path": "/files/43936.epub",
+  "height": 300,
+  "width": 200,
+  "bg": "rgba(198, 215, 255, 0.5)",
+  "border": "rgba(2, 93, 112, 0.5)"
+},
+{
+  "title": "Madame Bovary",
+  "author": "Gustave Flaubert",
+  "url": "https://www.gutenberg.org/ebooks/2413.epub.noimages",
+  "id": "2413",
+  "path": "/files/2413.epub",
+  "height": 300,
+  "width": 200,
+  "bg": "rgba(208, 187, 247, 0.5)",
+  "border": "rgba(67, 0, 140, 0.5)"
+},
+{
+  "title": "Poetics. English",
+  "author": "Aristotle",
+  "url": "https://www.gutenberg.org/ebooks/1974.epub.noimages",
+  "id": "1974",
+  "path": "/files/1974.epub",
+  "height": 300,
+  "width": 200,
+  "bg": "rgba(239, 130, 122, 0.5)",
+  "border": "rgba(160, 9, 1, 0.5)"
+},
+{
+  "title": "The Elements of Style",
+  "author": "William Strunk",
+  "url": "https://www.gutenberg.org/ebooks/37134.epub.noimages",
+  "id": "37134",
+  "path": "/files/37134.epub",
+  "height": 300,
+  "width": 177,
+  "bg": "rgba(255, 235, 186, 0.5)",
+  "border": "rgba(178, 98, 17, 0.5)"
+},
+{
+  "title": "Notes from the Underground",
+  "author": "Fyodor Dostoyevsky",
+  "url": "https://www.gutenberg.org/ebooks/600.epub.noimages",
+  "id": "600",
+  "path": "/files/600.epub",
+  "height": 300,
+  "width": 200,
+  "bg": "rgba(107, 239, 121, 0.5)",
+  "border": "rgba(13, 173, 19, 0.5)"
+},
+{
+  "title": "Meditations",
+  "author": "Emperor of Rome Marcus Aurelius",
+  "url": "https://www.gutenberg.org/ebooks/2680.epub.noimages",
+  "id": "2680",
+  "path": "/files/2680.epub",
+  "height": 300,
+  "width": 200,
+  "bg": "rgba(249, 188, 127, 0.5)",
+  "border": "rgba(132, 40, 1, 0.5)"
+},
+{
+  "title": "Leaves of Grass",
+  "author": "Walt Whitman",
+  "url": "https://www.gutenberg.org/ebooks/1322.epub.noimages",
+  "id": "1322",
+  "path": "/files/1322.epub",
+  "height": 266,
+  "width": 200,
+  "bg": "rgba(242, 230, 125, 0.5)",
+  "border": "rgba(242, 211, 12, 0.5)"
+},
+{
+  "title": "Anna Karenina",
+  "author": "Leo Tolstoy",
+  "url": "https://www.gutenberg.org/ebooks/1399.epub.noimages",
+  "id": "1399",
+  "path": "/files/1399.epub",
+  "height": 280,
+  "width": 200,
+  "bg": "rgba(176, 255, 163, 0.5)",
+  "border": "rgba(1, 107, 24, 0.5)"
+},
+{
+  "title": "Ethan Frome",
+  "author": "Edith Wharton",
+  "url": "https://www.gutenberg.org/ebooks/4517.epub.noimages",
+  "id": "4517",
+  "path": "/files/4517.epub",
+  "height": 300,
+  "width": 200,
+  "bg": "rgba(252, 207, 189, 0.5)",
+  "border": "rgba(153, 19, 15, 0.5)"
+},
+{
+  "title": "Oliver Twist",
+  "author": "Charles Dickens",
+  "url": "https://www.gutenberg.org/ebooks/730.epub.noimages",
+  "id": "730",
+  "path": "/files/730.epub",
+  "height": 300,
+  "width": 200,
+  "bg": "rgba(249, 210, 147, 0.5)",
+  "border": "rgba(196, 75, 19, 0.5)"
+},
+{
+  "title": "The Brothers Karamazov",
+  "author": "Fyodor Dostoyevsky",
+  "url": "https://www.gutenberg.org/ebooks/28054.epub.noimages",
+  "id": "28054",
+  "path": "/files/28054.epub",
+  "height": 300,
+  "width": 200,
+  "bg": "rgba(244, 227, 127, 0.5)",
+  "border": "rgba(216, 176, 17, 0.5)"
+},
+{
+  "title": "The Picture of Dorian Gray",
+  "author": "Oscar Wilde",
+  "url": "https://www.gutenberg.org/ebooks/174.epub.noimages",
+  "id": "174",
+  "path": "/files/174.epub",
+  "height": 300,
+  "width": 200,
+  "bg": "rgba(255, 241, 175, 0.5)",
+  "border": "rgba(234, 226, 0, 0.5)"
 }
+
 ]

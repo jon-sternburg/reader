@@ -120,7 +120,7 @@ if (book_list) {set_book_list(false)}
         <Fragment>
 <Head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-<title>Reader! {selected_book.book !== null && selected_book.book ? selected_book.book.title : ''}</title>
+<title>Reader!</title>
 <link rel="icon" href="/favicon.ico" />
 </Head>
 

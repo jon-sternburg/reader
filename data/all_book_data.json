@@ -11,17 +11,6 @@
         "border": "rgba(137, 1, 5, 0.5)"
     },
     {
-        "title": "The Scarlet Letter",
-        "author": "Nathaniel Hawthorne",
-        "url": "https://www.gutenberg.org/ebooks/25344.epub.noimages",
-        "id": "25344",
-        "path": "/files/25344.epub",
-        "height": 300,
-        "width": 200,
-        "bg": "rgba(252, 215, 146, 0.5)",
-        "border": "rgba(201, 145, 16, 0.5)"
-    },
-    {
         "title": "Et dukkehjem. English",
         "author": "Henrik Ibsen",
         "url": "https://www.gutenberg.org/ebooks/2542.epub.noimages",

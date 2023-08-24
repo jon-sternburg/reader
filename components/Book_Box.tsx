@@ -207,6 +207,7 @@ const isSpine = (content: Spine | SpineLoaded): content is SpineLoaded => 'spine
 
 
 useEffect(() => {
+  document.title = props.selected_book.title
 router.beforePopState((x) => {
 if (x.as !== router.asPath && qs.parse(x.as).cfi && rendition.current !== null) {
   rendition.current.display(qs.parse(x.as).cfi)
@@ -235,6 +236,9 @@ function keyListener(e: KeyboardEvent | Event) {
 
 useEffect(() => {
 
+
+
+
 book.current.ready.then(function(){
 let ls_data = localStorage.getItem(props.selected_book.id+'-annotations')
 let a =  ls_data !== undefined && ls_data !== 'undefined' ? JSON.parse(ls_data|| '{}') : []
@@ -254,7 +258,7 @@ router.push( `/?book=${props.selected_book.id}&cfi=${props.query_cfi}`, `/?book=
 
 book.current.loaded.navigation.then((toc) => {
 
-rendition.current.themes.default({ "*:hover": { "color": `black !important`}})
+rendition.current.themes.default({ "*:hover": { "color": `black !important`}, "*" : { "color": `black !important`, "text-decoration":"none !important"}})
 
 rendition.current.on("keyup", keyListener) 
 document.addEventListener("keyup", keyListener, false);
@@ -323,15 +327,24 @@ if (first_loc.current !== null) {  rendition.current.display(first_loc.current)}
 useEffect(() => {
   if (rendition.current && spread !== prev_spread.current) { 
 rendition.current.spread(spread)
-rendition.current.resize()
+let el = document.getElementById('area')
+if (el !== null) { 
+  let el_dim = el.getBoundingClientRect() 
+  rendition.current.resize(el_dim.width, el_dim.height)
+}
+
 }
 }, [spread])
 
 useEffect(() => {
     if (rendition.current && flow !== prev_flow.current) { 
 rendition.current.flow(flow)
-rendition.current.resize()
-rendition.current.themes.default({ "*:hover": { "color": `black !important`}})
+let el = document.getElementById('area')
+if (el !== null) { 
+  let el_dim = el.getBoundingClientRect() 
+  rendition.current.resize(el_dim.width, el_dim.height)
+}
+rendition.current.themes.default({ "*:hover": { "color": `black !important`}, "*" : { "color": `black !important`, "text-decoration":"none !important"}})
 
 }
 }, [flow])
@@ -380,7 +393,12 @@ function handle_set_text_size(x:RS_Option | null) {
   if (x !== null) {
 set_text_size(x)
 rendition.current.themes.default({ "p": { "font-size": `${x.label} !important`}})
-rendition.current.resize()
+let el = document.getElementById('area')
+if (el !== null) { 
+  let el_dim = el.getBoundingClientRect() 
+  rendition.current.resize(el_dim.width, el_dim.height)
+}
+
   }
 }
 

@@ -698,6 +698,7 @@ color: red;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 20px;
 
 }
 .annotations_icon_disabled {
