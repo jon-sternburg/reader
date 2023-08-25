@@ -235,10 +235,6 @@ function keyListener(e: KeyboardEvent | Event) {
 }
 
 useEffect(() => {
-
-
-
-
 book.current.ready.then(function(){
 let ls_data = localStorage.getItem(props.selected_book.id+'-annotations')
 let a =  ls_data !== undefined && ls_data !== 'undefined' ? JSON.parse(ls_data|| '{}') : []
@@ -267,11 +263,9 @@ rendition.current.on("markClicked", function(cfiRange:string, data: renditionMar
 annotation_clicked(cfiRange)
 })
 
+
 rendition.current.on("selected", function(cfiRange: string, contents:ContentsType) {
 contents.window.addEventListener('mousedown', handle_mouse_down)
-
-
-
 
 let selection =  contents.window.getSelection()
 let text = selection !== null ? selection.toString() : ''

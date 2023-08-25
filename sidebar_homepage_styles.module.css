@@ -174,8 +174,10 @@ color: rgb(0, 0, 0);
                     left: 0;
                     width: calc(100vw - 24px);
                     border-radius: 0;
+                    top: 7.5vh;
                     padding-top: 10px;
                     min-height: 100vh;
+                    z-index: 999999;
                   }
                   .sidebar_search_wrap form {
                     margin: 0 auto;
@@ -189,5 +191,10 @@ color: rgb(0, 0, 0);
                   .grid_sidebar_top {
 
                     height: 60px;
+                  }
+
+                  .book_list_wrap {
+
+                    height: calc(92.5vh - 60px);
                   }
                   }

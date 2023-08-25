@@ -61,22 +61,7 @@ right: 0;
 
 
 }
-.top_bar_frame {
-width: 80%;
-right: 0;
 
-height: 7.5vh;
-position: absolute;
-/*
-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-background-color: #fff;
-*/
-z-index: 99999999999999999;
-top: 0;
-display: flex;
-justify-content: space-between;
-align-items: center;
-}
 
 .hamburger_icon {
 width: 1.5em;
@@ -93,9 +78,9 @@ width: 1.5em;
 .top_bar_frame_mobile {
   width: 100%;
   right: 0;
-  
+  position: absolute;
   height: 7.5vh;
-
+  background: #ffffff;
   /*
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   background-color: #fff;
