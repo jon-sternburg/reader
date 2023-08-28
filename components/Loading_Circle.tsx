@@ -1,4 +1,4 @@
-import styles from '../book_box_styles.module.css'
+import styles from '../css/loading_circle_styles.module.css'
 
 
 export default function Loading_Circle():JSX.Element {

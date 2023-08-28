@@ -1,6 +1,6 @@
 
 import React, { SyntheticEvent} from 'react'
-import styles from '../top_bar_styles.module.css'
+import styles from '../css/topbar_styles.module.css'
 import { AiFillHome } from "react-icons/ai"
 import { FcBookmark } from "react-icons/fc"
 import _ from 'lodash'

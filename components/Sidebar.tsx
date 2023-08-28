@@ -1,6 +1,6 @@
 
 import React, { RefObject, Fragment, useState} from 'react'
-import styles from '../sidebar_styles.module.css'
+import styles from '../css/sidebar_styles.module.css'
 import { motion  } from "framer-motion"
 import {MdClose} from "react-icons/md"
 import {BiCommentAdd} from "react-icons/bi"

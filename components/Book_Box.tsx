@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef, MouseEvent, SyntheticEvent, KeyboardEvent} from 'react'
-import styles from '../book_box_styles.module.css'
+import styles from '../css/book_box_styles.module.css'
 import ePub from 'epubjs'
 import { IoIosArrowBack } from "react-icons/io"
 import { IoIosArrowForward } from "react-icons/io"
@@ -66,8 +66,8 @@ query_cfi: string | null
 }
 
 type TextSizeState = {
-  value: string//'x-large' | 'large' | 'medium' | 'small'
-  label:string //'X-Large' | 'Large' | 'Medium' | 'Small'
+  value: string
+  label:string
 }
 
 type SidebarState = null | 'toc' | 'settings' | 'annotations' | 'new_annotation' | 'mobile_search' | 'menu' | 'search'  
@@ -219,6 +219,8 @@ props.select_book(null)
     return () => {
         router.beforePopState(() => true);
     };
+
+// eslint-disable-next-line react-hooks/exhaustive-deps    
 }, [router]); 
 
 function handle_mouse_down(e:Event)  {
@@ -311,8 +313,8 @@ localStorage.setItem(props.selected_book.id+'-annotations', JSON.stringify(annot
 localStorage.setItem(props.selected_book.id+'-locations', JSON.stringify(rendition.current.location));
 
 }
-
- }, [])
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [])
 
 useEffect(() => { if (rendition.current && !loading) { 
 if (first_loc.current !== null) {  rendition.current.display(first_loc.current)} else {  rendition.current.display() }
@@ -360,6 +362,7 @@ if (sidebar == 'annotations' && si !== null) {
 } else if (sidebar == 'new_annotation' && draft_cfi.current !== null && editing.current) {
 update_text()
 }
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [sidebar])
 
 

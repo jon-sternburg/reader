@@ -1,6 +1,6 @@
 
 import React, { ChangeEvent , Fragment, useMemo, useState, useEffect} from 'react'
-import styles from '../sidebar_homepage_styles.module.css'
+import styles from '../css/sidebar_homepage_styles.module.css'
 import { FcBookmark } from "react-icons/fc"
 import all_book_data from '../data/all_book_data.json'
 import debouce from "lodash.debounce";

@@ -1,7 +1,6 @@
 
 import React, {SyntheticEvent} from 'react'
-import styles from '../top_bar_styles.module.css'
-import _ from 'lodash'
+import styles from '../css/topbar_styles.module.css'
 import { MdClose } from "react-icons/md"
 
 type MS_Props = {

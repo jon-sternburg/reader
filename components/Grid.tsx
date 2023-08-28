@@ -1,8 +1,6 @@
-
 import React from 'react'
-import styles from '../grid_styles.module.css'
+import styles from '../css/grid_styles.module.css'
 import Image from 'next/image'
-import classics from '../data/classics.json'
 import popular from '../data/popular.json'
 
 import { MdKeyboardArrowRight } from "react-icons/md"
@@ -26,24 +24,11 @@ type G_Props = {
     border: string
     color?: string
   }
-  type MediaSize = {
-    w: number
-    h: number
-    }
+
+
+
 export default function Grid(props:G_Props):JSX.Element {
 
-
-function getMediaSize(iw:number, ih:number):MediaSize {
-
-let new_w = props.w * .6
-let new_h = (ih/iw) * new_w
-  
-  return {
-      w: new_w,
-      h: new_h
-  }
-  
-  }
 
 
     return (
@@ -64,10 +49,6 @@ let new_h = (ih/iw) * new_w
 
 )}
 </section>
-
-
-
-
 
 
 <section className = {styles.featured_frame}>
@@ -97,38 +78,6 @@ style = {{ border: `2px solid ${x.border}`}}
 
 })}
 </section>
-
-
-
-{/* 
-
-<section className = {styles.featured_frame}>
-<h2>Classics</h2>
-{classics.map((x, i) => {
-return <article key = {x.title + i} className = {styles.grid_box} style = {{backgroundColor: x.bg, border: `2px solid ${x.border}`}} onClick ={() => props.select_book(x)}>
-<Image
-alt = {`book cover for ${x.title}`} 
-className = {styles.book_img} 
-src = {`/covers/${x.id}.jpg`}
-height = {140}
-width = {100}
- />
-<header className = {styles.underbox}> 
-<h4 className = {styles.title}>{x.title}</h4>
-<h5 className = {styles.author}>{x.author}</h5>
-</header>
-
-
-</article>
-})}
-</section>
-
-*/}
-
-
-
-
-
 
     </div>
   )
