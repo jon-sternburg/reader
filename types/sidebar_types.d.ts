@@ -1,0 +1,94 @@
+import { Annotation } from '../node_modules/epubjs/types/annotations'
+import RenditionType from '../node_modules/epubjs/types/rendition'
+import SectionType from '../node_modules/epubjs/types/section'
+import { ActionMeta, StylesConfig } from 'react-select';
+
+export type TextSizeState = {
+  value: string
+  label: string
+}
+
+export type SidebarState = null | 'toc' | 'settings' | 'annotations' | 'new_annotation' | 'mobile_search' | 'menu' | 'search'
+
+export type NavItem = {
+  id: string,
+  href: string,
+  label: string,
+  subitems?: Array<NavItem | []>,
+  parent?: string
+}
+export type TextSearchResultsData = {
+  cfi: string;
+  excerpt: string;
+}
+
+
+export type EditDraftCfiType = (string | AnnotationInner)[]
+export type DraftCfiType = null | string | EditDraftCfiType
+
+export type AnnotationData = (string | AnnotationInner)[]
+
+export type AnnotationInner = {
+  type: string,
+  cfiRange: string,
+  data: {
+    data: string
+    epubcfi?: string
+    section: string
+    text: string
+    time: string
+    title: string
+  },
+  sectionIndex?: number,
+  cb?: Function,
+  className?: string,
+  styles?: object
+}
+
+export type ResultsState = [] | ResultsData[]
+
+export type RS_Option = {
+  label: string
+  value: string
+
+}
+
+export type ResultsData = {
+  label: string
+  s: TextSearchResultsData[] | []
+  sd: string
+  x: SectionType
+}
+export type S_Props = {
+
+  book_title: string
+  sidebar: SidebarState
+  set_sidebar: (x: SidebarState) => void
+  toc: (NavItem | [])[]
+  w: number
+  mobile_search: JSX.Element
+  textarea_ref: RefObject<HTMLTextAreaElement>
+  input_ref: RefObject<HTMLInputElement>
+  rendition: RenditionType
+  get_context: (x: TextSearchResultsData, i: number, mobile: boolean) => void
+  toggle_flow: () => void
+  toggle_spread: () => void
+  set_text_size: (option: RS_Option | null, actionMeta: ActionMeta<RS_Option>) => void
+  text_size: TextSizeState
+  delete_annotation: (x: string, i: number) => void
+  edit_annotation: (x: AnnotationData) => void
+  set_location: (x: string) => void
+  spread: 'auto' | 'none'
+  flow: 'paginated' | 'scrolled'
+  keyvalue: string
+  get_annotation: (x: string, i: number) => void
+  results: ResultsState
+  si: number | null
+  draft_cfi: DraftCfiType
+  save_annotation: () => void
+  cancel_annotation: () => void
+  clear_input: () => void
+
+}
+
+

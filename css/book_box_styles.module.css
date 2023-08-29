@@ -167,14 +167,18 @@
         justify-content: space-between;
 
     }
-    .left_arrow_icon, .home_mobile, .settings_mobile, .right_arrow_icon {
+
+    .left_arrow_icon,
+    .home_mobile,
+    .settings_mobile,
+    .right_arrow_icon {
         width: 1.7em !important;
         height: 1.7em !important;
         margin: 10px !important;
         padding: 5px;
-        
 
-          }
+
+    }
 
 
 }
