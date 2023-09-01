@@ -1,5 +1,4 @@
 'use client'
-import { Metadata } from 'next'
 import { NextAuthProvider } from "./util/providers";
 import { usePathname } from "next/navigation"
 

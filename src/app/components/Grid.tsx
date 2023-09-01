@@ -1,7 +1,6 @@
 'use client'
 import React, {Fragment, useState, useEffect} from 'react'
 import styles from '../css/grid_styles.module.css'
-import Image from 'next/image'
 import popular from '../data/popular.json'
 import { useSession, signOut, signIn } from 'next-auth/react';
 import { MdKeyboardArrowRight } from "react-icons/md"
@@ -93,7 +92,7 @@ router.push(`/book/${x.id}`)
 : logged_in && session?.user?.email ? 
 <Fragment>
   <Link  href = {'/user'} className = {styles.user_tag_top}>{session.user.email}</Link>
-<button type = {'button'} onClick = {() =>  handle_signout()}>Sign out</button>
+<button type = {'button'} className = {styles.sign_out_top} onClick = {() =>  handle_signout()}>Sign out</button>
 </Fragment>
 : null
 }
@@ -117,25 +116,12 @@ router.push(`/book/${x.id}`)
 
         )}
       </section>
-{/* 
-      <div className = {styles.login_window}>
-        <h1>Hello {session?.user?.email || "Unknown"}</h1>
-        {session?.user?.email ? (
-          <button onClick={() => signOut()}>Sign Out</button>
-        ) : (
-          <Link href="/login">
-            <button onClick={() => signIn()}>Sign In</button>
-          </Link>
-        )}
-      </div>
-*/}
-
 
       <section className={styles.featured_frame}>
         {popular.map((x, i) => {
           return <article key={x.title + i} className={styles.grid_box} style={{ backgroundColor: x.bg }} onClick={() => select_book(x)}>
 
-            <Image
+            <img
               alt={`book cover for ${x.title}`}
               className={styles.book_img}
               src={`/covers/${x.id}.jpg`}
