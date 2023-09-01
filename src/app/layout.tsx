@@ -3,10 +3,6 @@ import { Metadata } from 'next'
 import { NextAuthProvider } from "./util/providers";
 import { usePathname } from "next/navigation"
 
-export const metadata: Metadata = {
-  title: 'Reader!',
-  description: 'Book Reader',
-}
 
 type RL_Props = {
   children: React.ReactNode
