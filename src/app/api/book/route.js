@@ -41,14 +41,14 @@ async function post_handler(request) {
 
         const req = await request.json()
         const book_id = req.id
-        const annotations = req.annotations.map(x => x[1])
+        const annotations = req.edit ? req.annotations : req.annotations.map(x => x[1])
         const user_id = req.user_id
         const name = req.name
-
+        console.log(typeof req.edit, '   ', req.edit)
         console.log('userid = ', user_id)
         console.log('saving ', annotations.length, ' annotations for book id=', book_id)
         dbConnect()
-console.log(annotations)
+
 
 let test =  await update_book(user_id, book_id, annotations, name)
    

@@ -4,9 +4,9 @@ import styles from '../css/sidebar_homepage_styles.module.css'
 import { FcBookmark } from "react-icons/fc"
 import all_book_data from '../data/all_book_data.json'
 import debouce from "lodash.debounce";
+import { useRouter } from 'next/navigation'
 import _ from 'lodash'
 type SH_Props = {
-  select_book: (book: BookType | null) => void
   w: number
   h: number
   book_list: boolean
@@ -29,7 +29,7 @@ export default function SidebarHomepage(props: SH_Props): JSX.Element {
 
   const [results, set_results] = useState<ResultsState>(all_book_data)
 
-
+  const router = useRouter()
 
   useEffect(() => {
     return () => {
@@ -72,6 +72,13 @@ export default function SidebarHomepage(props: SH_Props): JSX.Element {
   }, []);
 
 
+  function select_book(x:BookType){
+
+
+    router.push(`/book/${x.id}`)
+    
+    }
+
   return (
 
     <div className={styles.grid_sidebar} >
@@ -80,7 +87,7 @@ export default function SidebarHomepage(props: SH_Props): JSX.Element {
         {!props.book_list && (
 
           <div className={styles.title_wrap}>
-            <FcBookmark className={styles.book_icon} /><span className={styles.title} onClick={() => props.select_book(null)}>{'Reader!'}</span>
+            <FcBookmark className={styles.book_icon} /><span className={styles.title}>{'Reader!'}</span>
           </div>
         )}
         <div className={styles.sidebar_search_wrap}>
@@ -102,7 +109,7 @@ export default function SidebarHomepage(props: SH_Props): JSX.Element {
       <div className={styles.book_list_wrap} >
         {results.map((x, i) => {
 
-          return <div key={i} className={styles.sidebar_item} onClick={() => props.select_book(x)}>
+          return <div key={i} className={styles.sidebar_item} onClick={() => select_book(x)}>
             <span className={styles.sidebar_item_title}>{x.title}</span>
             <span className={styles.sidebar_item_author}>{x.author}</span>
           </div>

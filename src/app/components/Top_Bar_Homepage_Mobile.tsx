@@ -22,7 +22,6 @@ type BookType = {
 
 
 type TBHM_Props = {
-  selected_book: BookType | null
   show_book_list: () => void
   book_list: boolean
 }
@@ -30,7 +29,7 @@ type TBHM_Props = {
 
 export default function Top_Bar_Homepage_Mobile(props: TBHM_Props) {
 
-  let title = props.selected_book == null ? 'Reader!' : props.selected_book.title
+  //let title = props.selected_book == null ? 'Reader!' : props.selected_book.title
 
   return (
 
@@ -41,7 +40,7 @@ export default function Top_Bar_Homepage_Mobile(props: TBHM_Props) {
         <div className={styles.book_icon_wrap_mobile} >
           <FcBookmark className={styles.book_icon_mobile} />
         </div>
-        <div className={styles.title_mobile} >{title}</div>
+        <div className={styles.title_mobile} >{'Reader!'}</div>
       </div>
 
       {props.book_list ?

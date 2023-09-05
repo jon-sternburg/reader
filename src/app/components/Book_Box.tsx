@@ -153,7 +153,7 @@ console.log('setting book data => ', annotations_)
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ id: props.selected_book.id, name: props.selected_book.title, annotations: annotations_, user_id: session?.user._id })
+      body: JSON.stringify({ id: props.selected_book.id, name: props.selected_book.title, annotations: annotations_, user_id: session?.user._id, edit: false })
     })
       .then((res) => res.json())
       .then((data) => data)

@@ -82,7 +82,7 @@ export default function App(): JSX.Element {
   }, [])
 
 /*
-
+ 
   useEffect(() => {
 
     let book_id  = searchParams.get('book')
@@ -144,7 +144,6 @@ export default function App(): JSX.Element {
       <main className={styles.main}>
         {size.width < 1000 && selected_book.book == null && (
           <Top_Bar_Homepage_Mobile
-            selected_book={selected_book.book}
             show_book_list={show_book_list}
             book_list={book_list}
           />
@@ -158,7 +157,6 @@ export default function App(): JSX.Element {
             <Fragment>
               {(size.width >= 1000 && selected_book.book == null) || book_list ?
                 <Sidebar_Homepage
-                  select_book={select_book}
                   w={size.width}
                   h={size.height}
                   book_list={book_list}
