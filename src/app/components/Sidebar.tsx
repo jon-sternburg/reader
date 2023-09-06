@@ -217,7 +217,7 @@ export default function Sidebar(props: S_Props) {
                 <span>Search Text</span>
               </button>
 
-
+            <div className = {styles.mobile_note}>*Use the desktop version of this site to add new annotations.</div>
               {props.results.length > 0 && (<div className={styles.indicator_icon} onClick={() => props.set_sidebar('search')}><FaSearch className={styles.indicator} /></div>)}
             </section>
 

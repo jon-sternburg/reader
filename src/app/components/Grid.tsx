@@ -50,17 +50,12 @@ const [logged_in, toggle_login] = useState<boolean>(false)
   
   }, [session])
 
-  function handle_login() {
-
+function handle_login() {
 if (pathname.includes('login')) { 
-
   router.push('/')
-
 } else {
   router.push('/login')
-
 }
-
   }
 
 
@@ -106,7 +101,7 @@ router.push(`/book/${x.id}`)
           <h2>Read your favorite eBooks from the Project Gutenberg Library</h2>
           <h4>Full annotation, highlight, and text search support</h4>
         </div>
-        {props.w <= 470 && (
+        {props.w <= 1000 && (
 
           <div className={styles.view_all_books} onClick={() => props.show_book_list()}>
             <span>View all books</span>

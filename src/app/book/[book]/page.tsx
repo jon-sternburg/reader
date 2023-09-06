@@ -54,6 +54,7 @@ let book_ = all_book_data.filter(x => x.id == id_)
 let cfi_ = searchParams.get('cfi')
 set_book({ book: book_[0], query_cfi: cfi_ })
 
+// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 

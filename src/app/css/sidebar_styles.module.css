@@ -26,7 +26,15 @@
 
     border: none;
 }
-
+.mobile_note {
+padding: 7px;
+background: #eea4a4;
+border-radius: 4px;
+width: auto;
+display: inline-block;
+margin: 10px;
+font-family: 'Lato', sans-serif;
+}
 .search_back_mobile {
 
     position: absolute;

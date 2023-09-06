@@ -77,25 +77,25 @@ export default function Book_Box(props: BB_Props) {
 
 
 
-
-
-
-function handle_pop_state(e: PopStateEvent) {
-let target = e?.target as Window
-let dest_url = target.location.href
-let current = `http://localhost:3000/book/${props.selected_book.id}?cfi=${searchParams.get('cfi')}`
-
-
-if (current !== dest_url && dest_url.includes('cfi=') && rendition.current !== null) {
-let cfi_ = dest_url.slice(dest_url.indexOf('cfi=') + 4)
-  rendition.current.display(cfi_)
-} 
-//else {router.push('/')}
-
-  }
-
     useEffect(() => {
       document.title = props.selected_book.title
+
+
+      function handle_pop_state(e: PopStateEvent) {
+        let target = e?.target as Window
+        let dest_url = target.location.href
+        let current = `${process.env.NEXTAUTH_URL}book/${props.selected_book.id}?cfi=${searchParams.get('cfi')}`
+        
+        
+        if (current !== dest_url && dest_url.includes('cfi=') && rendition.current !== null) {
+        let cfi_ = dest_url.slice(dest_url.indexOf('cfi=') + 4)
+          rendition.current.display(cfi_)
+        } 
+        
+        
+          }
+
+
       window.addEventListener('popstate', handle_pop_state);
 
         return () => {
@@ -103,27 +103,10 @@ let cfi_ = dest_url.slice(dest_url.indexOf('cfi=') + 4)
           window.removeEventListener("popstate", handle_pop_state);
 
         }
+// eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    /*
-  useEffect(() => {
-    document.title = props.selected_book.title
-    
-    router.beforePopState((x) => {
-      if (x.as !== router.asPath && qs.parse(x.as).cfi && rendition.current !== null) {
-        rendition.current.display(qs.parse(x.as).cfi)
-      } else {
-        props.select_book(null)
-      }
-      return true;
-    });
-    return () => {
-      router.beforePopState(() => true);
-    };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps    
-  }, [router]);
-*/
   function handle_mouse_down(e: Event) {
     const target = e.target as HTMLElement
     if ((target.id == '' || target.id == undefined) && popup_ref.current !== null && popup_ref.current !== undefined) {
@@ -169,7 +152,6 @@ console.log('setting book data => ', annotations_)
 
     return await fetch(`/api/book?book_id=${props.selected_book.id}&user_id=${session?.user._id}`, {
       method: 'GET',
-    //  body: JSON.stringify({ id: props.selected_book.id })
     })
       .then((res) => res.json())
       .then((data) =>{
@@ -223,10 +205,8 @@ if (a && a !== null && a.length > 0) {
 
 
       if (props.query_cfi !== null) {
-        first_loc.current = props.query_cfi
-      //  router.push(`/?book=${props.selected_book.id}&cfi=${props.query_cfi}`)
+      first_loc.current = props.query_cfi
       router.push(`/book/${props.selected_book.id}?cfi=${props.query_cfi}`)
-
       }
 
       book.current.loaded.navigation.then((toc) => {

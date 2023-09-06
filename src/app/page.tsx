@@ -5,11 +5,8 @@ import Top_Bar_Homepage_Mobile from './components/Top_Bar_Homepage_Mobile'
 import Sidebar_Homepage from './components/Sidebar_Homepage'
 import Grid from './components/Grid'
 import Book_Box from './components/Book_Box'
-
-import { useRouter, useSearchParams} from 'next/navigation'
-import all_book_data from './data/all_book_data.json'
 import Head from 'next/head'
-var qs = require('qs');
+
 
 type BookType = {
   title: string
@@ -40,40 +37,6 @@ export default function App(): JSX.Element {
   const [book_list, set_book_list] = useState<boolean>(false)
   const [selected_book, set_book] = useState<BookState>({ book: null, query_cfi: null, first_render: true })
   const [size, set_dim] = useState<Size>({ width: 0, height: 0 })
-  const router = useRouter()
-  const searchParams = useSearchParams()
-
-  /*
-  function handle_pop_state(e: PopStateEvent) {
-    let target = e?.target as Window
-    let dest_url = target.location.href
-    let current = `http://localhost:3000/`
-    if (current !== dest_url  ) {
-
-      let test = qs.parse(dest_url)
-      let id_: string =  test[`/?book`] 
-      let book_ = all_book_data.filter(x => x.id == id_)
-      let cfi_ = test.cfi ? test.cfi : null
-      if (book_ && book_[0] !== null) {
-        set_book((prevState) => {
-          return { ...prevState, book: book_[0], query_cfi: cfi_ }
-        })
-      }
-    } 
-    return true;
-      }
-  
-        useEffect(() => {
-          window.addEventListener('popstate', handle_pop_state);
-    
-            return () => {
-    
-              window.removeEventListener("popstate", handle_pop_state);
-    
-            }
-        }, []);
-  */
-
 
   useEffect(() => {
     window.addEventListener('resize', updateDimensions);
@@ -81,26 +44,7 @@ export default function App(): JSX.Element {
     return () => window.removeEventListener('resize', updateDimensions);
   }, [])
 
-/*
- 
-  useEffect(() => {
 
-    let book_id  = searchParams.get('book')
-    let cfi = searchParams.get('cfi')
-
-    if (book_id !== null) {
-
-      let book_ = all_book_data.filter(x => x.id == book_id)
-      let ls_data = localStorage.getItem(book_[0].id + '-locations')
-      let loc = ls_data !== null && ls_data !== undefined && ls_data !== 'undefined' ? JSON.parse(ls_data) : null
-      let loc_ = loc !== null && loc && loc.start ? loc.start.cfi : null
-      set_book({ book: book_[0], query_cfi: cfi !== null ? cfi : loc_, first_render: false })
-    } else {
-      set_book({ book: null, query_cfi: null, first_render: false })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-*/
 
   function show_book_list() {
     set_book_list(!book_list)
@@ -108,28 +52,6 @@ export default function App(): JSX.Element {
 
   function updateDimensions() {
     set_dim({ width: window.innerWidth, height: window.innerHeight })
-  }
-
-  function select_book(book: BookType | null) {
-    if (book !== null) {
-      let ls_data = localStorage.getItem(book.id + '-locations')
-      let loc = ls_data !== null && ls_data !== undefined && ls_data !== 'undefined' ? JSON.parse(ls_data) : null
-
-      if (loc !== null && loc && loc.start) {
-        router.push(`/?book=${book.id}&cfi=${loc.start.cfi}`)
-        set_book({ ...selected_book, book: book, query_cfi: loc.start.cfi })
-        if (book_list) { set_book_list(false) }
-      } else {
-        router.push(`/?book=${book.id}`)
-        set_book({ ...selected_book, book: book, query_cfi: null })
-        if (book_list) { set_book_list(false) }
-      }
-
-    } else {
-      router.push(`/`)
-      set_book({ ...selected_book, book: book, query_cfi: null })
-      if (book_list) { set_book_list(false) }
-    }
   }
 
 
@@ -166,7 +88,6 @@ export default function App(): JSX.Element {
 
               {selected_book.book == null ?
                 <Grid
-                 // select_book={select_book}
                   w={size.width}
                   show_book_list={show_book_list}
                   h={size.height}
@@ -174,7 +95,6 @@ export default function App(): JSX.Element {
                 :
                 <Book_Box
                   selected_book={selected_book.book}
-              //    select_book={select_book}
                   w={size.width}
                   h={size.height}
                   query_cfi={selected_book.query_cfi}
