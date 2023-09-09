@@ -66,6 +66,8 @@ export type S_Props = {
   set_sidebar: (x: SidebarState) => void
   toc: (NavItem | [])[]
   w: number
+  logged_in: boolean
+  email: string | null
   mobile_search: JSX.Element
   textarea_ref: RefObject<HTMLTextAreaElement>
   input_ref: RefObject<HTMLInputElement>

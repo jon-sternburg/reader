@@ -4,13 +4,12 @@ import styles from '../css/homepage_styles.module.css'
 import Top_Bar_Homepage_Mobile from '../components/Top_Bar_Homepage_Mobile'
 import Sidebar_Homepage from '../components/Sidebar_Homepage'
 import Head from 'next/head'
-import { useSession } from "next-auth/react"
 import { IoMdTrash } from "react-icons/io"
 import { MdEdit, MdOutlineExpandMore, MdOutlineExpandLess } from "react-icons/md"
 import getTimeStamp from '../util/getTimeStamp'
 import { useRouter } from 'next/navigation'
 import { AiFillHome } from "react-icons/ai"
-
+import { useSession, signOut } from 'next-auth/react';
 type Size = {
   width: number
   height: number
@@ -34,6 +33,7 @@ type User_Data = {
 export default function User_Page(): JSX.Element {
   const [size, set_dim] = useState<Size>({ width: 0, height: 0 })
   const [book_list, set_book_list] = useState<boolean>(false)
+  const [logged_in, toggle_login] = useState<boolean>(true)
   const [user_data, set_user_data] = useState<User_Data | null>(null)
   const [edit, set_edit] = useState<Edit_State>({ show: false, annotation: null, book: null })
   const { data: session } = useSession()
@@ -78,6 +78,10 @@ export default function User_Page(): JSX.Element {
     set_edit({ show: false, annotation: null, book: null })
   }
 
+  async function handle_signout() {
+    await signOut({callbackUrl: process.env.NEXT_PUBLIC_CB_URL})
+  }
+
 
   return (
     <Fragment>
@@ -88,7 +92,7 @@ export default function User_Page(): JSX.Element {
       </Head>
       {size.width > 0 && (
         <main className={styles.main}>
-          {size.width < 1000 && (<Top_Bar_Homepage_Mobile show_book_list={show_book_list} book_list={book_list} />)}
+          {size.width < 1000 && (<Top_Bar_Homepage_Mobile show_book_list={show_book_list} book_list={book_list} logged_in={logged_in} />)}
 
           <section className={styles.homepage_frame} style={{ backgroundColor: 'whitesmoke' }}>
             <Fragment>
@@ -105,9 +109,12 @@ export default function User_Page(): JSX.Element {
               <section className={styles.user_info_wrap}>
 
                 {size.width >= 1000 && (
-                  <div className={styles.user_top_bar}>
+                  <nav className={styles.user_top_bar}>
+                             <button type = {'button'} className = {styles.sign_out_top} onClick = {() =>  handle_signout()}>Sign out</button>
+                             <button type = {'button'} className = {styles.user_page_home_button}>
                     <AiFillHome className={styles.user_icon} onClick={() => router.push('/')} />
-                  </div>
+                    </button>
+                  </nav>
                 )}
 
                 {edit.show && edit.annotation !== null && edit.book !== null && (<Edit_Window annotation={edit.annotation} cancel_annotation={cancel_annotation} book={edit.book} user_id={session?.user._id ? session?.user._id : ''} />)}
@@ -122,13 +129,23 @@ export default function User_Page(): JSX.Element {
                 </div>
 
 
-                {user_data !== null && (
-                  <div className={styles.user_book_list}>
+               
+                  <section className={styles.user_book_list}>
                     <h2 className={styles.my_books}>My Books</h2>
-                    {user_data.books.length > 0 && (user_data.books.map((x, i) => <Book_Item key={i} book_item={x} edit_annotation={edit_annotation} user_id={session?.user._id ? session?.user._id : ''} reset_user_data={reset_user_data} />))}
-                  </div>
 
-                )}
+
+                    {user_data !== null ?  
+                    <Fragment>
+                    {user_data.books.length > 0 && (user_data.books.map((x, i) => <Book_Item key={i} book_item={x} edit_annotation={edit_annotation} user_id={session?.user._id ? session?.user._id : ''} reset_user_data={reset_user_data} />))}
+                    </Fragment>
+                    :
+                      
+                    <div style = {{marginLeft: '10px'}}>You don&apos;t have any saved annotations.</div>
+                    }
+                  
+                  </section>
+
+            
               </section>
             </Fragment>
 
@@ -195,7 +212,6 @@ type Book_Item = {
 
 function Book_Item(props: BI_Props) {
   const [show, toggle_annotations] = useState<boolean>(false)
-  console.log(props)
   const x = props.book_item
 
   function handle_toggle() {
@@ -207,13 +223,13 @@ function Book_Item(props: BI_Props) {
   let view_more_text = annotation_list.length == 1 ? 'View 1 more annotation' : `View ${x.annotations.length - 1} more annotations`
   return (
 
-    <div className={styles.book_item}>
-      <div className={styles.book_item_title} onClick={() => handle_toggle()}>
+    <article className={styles.book_item}>
+      <header className={styles.book_item_title} onClick={() => handle_toggle()}>
 
         {!show ? <MdOutlineExpandMore className={styles.book_item_expand_icon} /> : <MdOutlineExpandLess className={styles.book_item_expand_icon} />}
         <h3>{x.name} <span>({x.annotations.length})</span></h3>
-      </div>
-      <div className={styles.annotations_wrapper}>
+      </header>
+      <section className={styles.annotations_wrapper}>
 
         {x.annotations.length > 0 && (
 
@@ -232,8 +248,8 @@ function Book_Item(props: BI_Props) {
         ))}
         {x.annotations.length > 1 && !show && (<div onClick={() => handle_toggle()} className={styles.show_more_annotations}>{view_more_text}</div>)}
 
-      </div>
-    </div>
+      </section>
+    </article>
 
   )
 }
@@ -251,8 +267,17 @@ type A_Props = {
 
 }
 
+
+type DP_State = {
+show: boolean
+to_delete: Annotation_Item | null
+}
+
+
 function Annotation(props: A_Props) {
   const router = useRouter()
+
+  const [delete_prompt, toggle_delete_prompt] = useState<DP_State>({show: false, to_delete: null})
   let book = props.book
   let y = props.annotation
   let text = y.data.text
@@ -276,6 +301,7 @@ function Annotation(props: A_Props) {
       .then((res) => res.json())
       .then((data) => {
         console.log('set_book_data response => ', data)
+        toggle_delete_prompt({show: false, to_delete: null})
         props.reset_user_data(data)
       })
       .catch(err => {
@@ -285,10 +311,17 @@ function Annotation(props: A_Props) {
   }
 
 
-  function delete_annotation(annotation: Annotation_Item) {
+  function delete_annotation() {
 
+    let annotation = delete_prompt.to_delete
     let annotations = [...props.book.annotations]
-    let filtered = annotations.filter(x => x.cfiRange !== annotation.cfiRange)
+    let filtered = annotations.filter(x => {
+
+    let a_ = annotation !== null ? annotation.cfiRange : ''
+   return x.cfiRange !== a_
+
+    })
+
 
     delete_set_book_data({ id: book.id, name: book.name, annotations: filtered, user_id: props.user_id, edit: true })
 
@@ -301,12 +334,41 @@ function Annotation(props: A_Props) {
 
   }
 
+  function delete_annotation_pre(annotation: Annotation_Item) {
 
+toggle_delete_prompt({show: true, to_delete: annotation})
+
+
+  }
+
+
+  function cancel_prompt() {
+    toggle_delete_prompt({show: false, to_delete: null})
+
+  }
   return (
 
-    <div className={styles.annotation_item} >
+    <Fragment>
 
-      <p>{title} - <span style={{ fontStyle: 'italic' }}>{time}</span></p>
+{delete_prompt.show && (
+
+<div className = {styles.delete_prompt_frame}>
+<p>Are you sure you want to delete this annotation?</p>
+<div className = {styles.bottom_buttons}>
+
+<button type = {"button"} onClick = {() => delete_annotation()}>Delete</button>
+<button type = {"button"} onClick = {() => cancel_prompt()}>Cancel</button>
+
+</div>
+
+</div>
+
+)}
+
+    <article className={styles.annotation_item} >
+<header>
+      <h6>{title} - <span style={{ fontStyle: 'italic' }}>{time}</span></h6>
+      </header>
       <blockquote>
         <p>{section}</p>
         <p>{text}</p>
@@ -315,12 +377,12 @@ function Annotation(props: A_Props) {
       <footer className={styles.annotation_bottom_bar}>
         <button type={"button"} onClick={() => view_in_book()}>View in book</button>
         <MdEdit className={styles.edit_annotation} onClick={() => props.edit_annotation(y, book)} />
-        <IoMdTrash className={styles.delete_annotation} onClick={() => delete_annotation(y)} />
+        <IoMdTrash className={styles.delete_annotation} onClick={() => delete_annotation_pre(y)} />
 
 
       </footer>
-    </div>
-
+    </article>
+    </Fragment>
   )
 }
 

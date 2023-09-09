@@ -45,12 +45,19 @@ export default function Auth_Form():JSX.Element {
 
 
     if (isLogin) {
+//get previous url from local storage - this allows modal login window (route intercept) while user is reading book
+      let ls_data = localStorage.getItem('prev_url_login')
+      let cb_url = ls_data !== undefined && ls_data !== 'undefined' ? JSON.parse(ls_data || '{}') : []
+      let url = process.env.NEXT_PUBLIC_CB_URL + cb_url
 
 await signIn('credentials', {
-        callbackUrl: 'http://localhost:3000',
+        callbackUrl: url,
+        redirect: false,
         email: enteredEmail,
         password: enteredPassword,
       });
+
+router.push(url)
 
     } else {
       try {
@@ -63,9 +70,7 @@ await signIn('credentials', {
   }
 
 function handle_tint_click() {
-
-router.push('/')
-
+router.back()
 }
   function handle_registered() {
 setIsLogin(true)

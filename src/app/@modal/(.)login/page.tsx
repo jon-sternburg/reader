@@ -6,6 +6,8 @@ import styles from '../../css/auth_form_styles.module.css'
 import Auth_Form from '../../components/Auth_Form';
 
 export default function AuthPage() {
+
+
     /*
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();

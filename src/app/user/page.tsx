@@ -2,7 +2,7 @@
 import React from "react";
 import User_Page from '../components/User_Page'
 import Auth_Form from '../components/Auth_Form'
-import { useRouter } from 'next/navigation'
+import { useRouter, redirect } from 'next/navigation'
 import { useSession } from "next-auth/react"
 
 
@@ -19,8 +19,8 @@ if (status == 'authenticated') {
 
 } else {
 
-router.push('/')
-  //return ( <Auth_Form />)
+  redirect('/')
+
 
 }
 

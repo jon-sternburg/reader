@@ -1,5 +1,5 @@
 'use client'
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import styles from '../css/sidebar_styles.module.css'
 import { motion } from "framer-motion"
 import { BiCommentAdd } from "react-icons/bi"
@@ -17,8 +17,8 @@ import { NavItem, AnnotationData, RS_Option, S_Props } from '../types/sidebar_ty
 import Sidebar_Icons_Fixed from './Sidebar_Icons_Fixed'
 import Annotation_Wrapper from './Annotation_Wrapper'
 import Search_Section_Result from './Search_Section_Result'
-
-
+import { FaUserCircle } from "react-icons/fa"
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 
 const text_size_options = [
   { value: 'x-large', label: 'X-Large' },
@@ -63,15 +63,67 @@ const contentVariants = {
 
 
 
+type DP_State = {
+  show: boolean
+  cfi: string | null
+  i: number | null
+  }
 
 
 export default function Sidebar(props: S_Props) {
+  const [delete_prompt, toggle_delete_prompt] = useState<DP_State>({show: false, cfi: null, i: null})
   const isAnnotationDataInner = (content: Annotation | AnnotationData | string): content is AnnotationData => typeof content !== 'string' && Array.isArray(content)
   const isNavItem = (content: NavItem | []): content is NavItem => 'label' in content
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const pathname = usePathname();
+  let sidebarCollapsed = props.sidebar == null
+  let annotations = props.rendition !== null ? props.rendition.annotations.each() : []
+
+
+  function send_delete_annotation() {
+
+let cfi_ = delete_prompt.cfi !== null ? delete_prompt.cfi : ''
+let i_ = delete_prompt.i !== null ? delete_prompt.i : 0
+props.delete_annotation(cfi_, i_)
+toggle_delete_prompt({show: false, cfi: null, i: null})
+  }
+  function delete_annotation_pre(x: string, i: number) {
+
+    toggle_delete_prompt({show: true, cfi: x, i: i})
+    
+    
+      }
+      function cancel_prompt() {
+
+        toggle_delete_prompt({show: false, cfi: null, i: null})
+
+      }
 
   function cancel_search() {
     props.set_sidebar('menu')
     props.clear_input()
+  }
+
+  function handle_user_click(){
+
+ if (props.logged_in) { 
+
+ router.push('/user')
+
+    } else {
+      let cfi_params = searchParams.get('cfi')
+      let cfi = cfi_params ? `?cfi=${cfi_params}` : ''
+      let pn = pathname + cfi
+    
+      localStorage.setItem('prev_url_login', JSON.stringify(pn));
+    
+      router.push('/login')
+
+    }
+
+
+
   }
 
 
@@ -87,8 +139,7 @@ export default function Sidebar(props: S_Props) {
     })
   };
 
-  let sidebarCollapsed = props.sidebar == null
-  let annotations = props.rendition !== null ? props.rendition.annotations.each() : []
+
 
   let title = props.sidebar == 'toc' ? 'Contents' :
     props.sidebar == 'settings' ? 'Settings' :
@@ -194,7 +245,10 @@ export default function Sidebar(props: S_Props) {
 
           {props.sidebar == 'menu' && (
             <section className={styles.settings_wrap}>
-
+         <button type={"button"} className={styles.settings_option_mobile} onClick={() => handle_user_click()}>
+                <FaUserCircle className={styles.settings_mobile_icon} /> 
+                <span>{props.logged_in ? props.email : 'Login'}</span>
+              </button>
               <button type={"button"} className={styles.settings_option_mobile} onClick={() => props.set_sidebar('toc')}>
                 <FaListOl className={styles.settings_mobile_icon} />
                 <span>Table of Contents</span>
@@ -277,6 +331,22 @@ export default function Sidebar(props: S_Props) {
 
           {props.sidebar == 'annotations' && (
             <section className={styles.annotations_list_wrap}>
+
+{delete_prompt.show && (
+
+<div className = {styles.delete_prompt_frame}>
+<p>Are you sure you want to delete this annotation?</p>
+<div className = {styles.bottom_buttons}>
+
+<button type = {"button"} onClick = {() => send_delete_annotation()}>Delete</button>
+<button type = {"button"} onClick = {() => cancel_prompt()}>Cancel</button>
+
+</div>
+
+</div>
+
+)}
+
               {annotations.map((x: any, i: number) => {
 
                 let x_ = isAnnotationDataInner(x) && typeof x !== 'string' ? x : ''
@@ -289,7 +359,7 @@ export default function Sidebar(props: S_Props) {
                     selected={props.si == i}
                     get_annotation={props.get_annotation}
                     edit_annotation={props.edit_annotation}
-                    delete_annotation={props.delete_annotation}
+                    delete_annotation_pre={delete_annotation_pre}
                   />
                 }
               })}

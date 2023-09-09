@@ -40,10 +40,13 @@ export type BookType = {
 export type BB_Props = {
   selected_book: BookType
  // select_book: (book: BookType | null) => void
+ logged_in: boolean
+ email: string | null
+ user_id: string | null
   w: number
   h: number
   query_cfi: string | null
-
+  logged_in: boolean
 
 }
 

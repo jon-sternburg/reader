@@ -1,19 +1,17 @@
 'use client'
-import React, {Fragment, useState, useEffect} from 'react'
+import React from 'react'
 import styles from '../css/grid_styles.module.css'
 import popular from '../data/popular.json'
-import { useSession, signOut, signIn } from 'next-auth/react';
 import { MdKeyboardArrowRight } from "react-icons/md"
-import { AiFillGithub } from "react-icons/ai"
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { usePathname } from "next/navigation"
+import Top_Bar_Homepage from './Top_Bar_Homepage'
 
 type G_Props = {
- // select_book: (book: BookType | null) => void
   w: number
   h: number
   show_book_list: () => void
+  logged_in: boolean
+  email: string | null
 }
 
 type BookType = {
@@ -33,66 +31,24 @@ type BookType = {
 
 export default function Grid(props: G_Props): JSX.Element {
 
-const [logged_in, toggle_login] = useState<boolean>(false)
-
-  const { data: session } = useSession()
- const pathname = usePathname();
-  const router = useRouter()
-
-  useEffect(() => {
-
-
-    if (session?.user?.email) { 
-      toggle_login(true)
-    } else {
-      toggle_login(false)
-    }
-  
-  }, [session])
-
-function handle_login() {
-if (pathname.includes('login')) { 
-  router.push('/')
-} else {
-  router.push('/login')
-}
-  }
-
+const router = useRouter()
 
 function select_book(x:BookType){
-
-
 router.push(`/book/${x.id}`)
-
 }
 
-
-  async function handle_signout() {
-    await signOut({callbackUrl: 'http://localhost:3000',})
-
-    //const data = await signOut({redirect: false, callbackUrl: "/"})
-   // router.push(data.url)
-
-
-  }
 
 
   return (
     <div className={styles.frame}>
 
-<div className = {styles.grid_buttons_top_wrap}>
-{!logged_in ? 
-<button type = {'button'} onClick = {() => handle_login()}>Login</button>
+{props.w >= 1000 && (
+        <Top_Bar_Homepage
+        email={props.email}
+        logged_in={props.logged_in}
+        />
+)}
 
-: logged_in && session?.user?.email ? 
-<Fragment>
-  <Link  href = {'/user'} className = {styles.user_tag_top}>{session.user.email}</Link>
-<button type = {'button'} className = {styles.sign_out_top} onClick = {() =>  handle_signout()}>Sign out</button>
-</Fragment>
-: null
-}
-<AiFillGithub className = {styles.github_icon} />
-</div>
 
 
       <section className={styles.hero_wrap}>

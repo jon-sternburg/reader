@@ -13,7 +13,7 @@ type A_Props = {
   selected: boolean
   i: number
   get_annotation: (x: string, i: number) => void
-  delete_annotation: (x: string, i: number) => void
+  delete_annotation_pre: (x: string, i: number) => void
   edit_annotation: (x: AnnotationData) => void
 }
 
@@ -59,7 +59,7 @@ export default function Annotation_Wrapper(props: A_Props) {
 
           <footer className={styles.annotation_bottom_bar}>
             <MdEdit className={styles.edit_annotation} onClick={() => props.edit_annotation(props.x)} />
-            <IoMdTrash className={styles.delete_annotation} onClick={() => props.delete_annotation(cfiRange, props.i)} />
+            <IoMdTrash className={styles.delete_annotation} onClick={() => props.delete_annotation_pre(cfiRange, props.i)} />
 
 
           </footer>

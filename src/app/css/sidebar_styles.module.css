@@ -80,7 +80,47 @@ font-family: 'Lato', sans-serif;
     color: red;
 
 }
+.delete_prompt_frame {
+    text-align: center;
+        position: fixed;
+        width: 250px;
+        height: 100px;
+        top: 150px;
+        background-color: #121212;
+        color: whitesmoke;
+    border-radius: 12px;
+    padding: 10px;
+    left: calc(20% - 20px);
 
+
+    font-family: 'Lato', sans-serif;
+    }
+    
+    .bottom_buttons {
+    
+        width: 100%;
+    display: flex;
+    justify-content: center;
+    
+    
+    
+    }
+    
+.bottom_buttons button {
+
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    padding: 5px;
+        margin: 0 7px;
+    
+    }
+    .bottom_buttons button:hover {
+    
+        cursor: pointer;
+        background-color: #b6b1b1;
+    }
+    
 .selected_title {
     font-weight: 600;
     padding: 5px 15px;
@@ -95,7 +135,14 @@ font-family: 'Lato', sans-serif;
 
 }
 
+.user_icon {
 
+
+    width: 1.2em;
+    height: 1.2em;
+    position: absolute;
+    right: 70px;
+}
 .annotation_bottom_bar {
     background: darkgrey;
 
@@ -1051,6 +1098,16 @@ font-family: 'Lato', sans-serif;
 
 
 @media (max-width: 999px) {
+
+    .delete_prompt_frame {
+
+        padding: 10px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+
+
+    }
     .sidebar_frame {
         position: absolute;
         left: 0;

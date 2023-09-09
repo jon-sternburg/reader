@@ -15,7 +15,7 @@ import { AiFillHome } from "react-icons/ai"
 import { FaEllipsisV } from "react-icons/fa"
 import apply_ref_styles from '../util/apply_ref_styles'
 import getTimeStamp from '../util/getTimeStamp'
-import { useParams, useRouter, useSearchParams} from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import {
   AnnotationData, AnnotationInner, BB_Props,
   TextSizeState, SidebarState, ResultsState,
@@ -27,10 +27,8 @@ import Spine from '../../../node_modules/epubjs/types/spine'
 import RenditionType from '../../../node_modules/epubjs/types/rendition'
 import BookEpubType from '../../../node_modules/epubjs/types/book'
 import ContentsType from '../../../node_modules/epubjs/types/contents'
-import { useSession } from 'next-auth/react';
-import { usePathname } from 'next/navigation'
+//import { useSession } from 'next-auth/react';
 
-var qs = require('qs');
 
 
 
@@ -46,7 +44,7 @@ export default function Book_Box(props: BB_Props) {
   const [empty_results, set_empty_results] = useState<boolean>(false)
   const [loading, set_loading] = useState<boolean>(true)
   const searchParams = useSearchParams()
-  const { data: session } = useSession()
+  //const { data: session } = useSession()
   const toc = useRef<Array<NavItem> | []>([]);
   const editing = useRef<boolean>(false);
   const draft_cfi = useRef<DraftCfiType>(null);
@@ -62,49 +60,70 @@ export default function Book_Box(props: BB_Props) {
   const search_highlights = useRef<Array<HighlightObj> | []>([]);
   const prev_spread = useRef<'auto' | 'none'>('auto');
   const first_loc = useRef<string | null>(null);
-
   const textarea_ref = useRef<HTMLTextAreaElement | null>(null);
   const input_ref = useRef<HTMLInputElement | null>(null);
   const annotation_ref = useRef<HTMLButtonElement | null>(null);
   const highlight_ref = useRef<HTMLButtonElement | null>(null);
   const popup_ref = useRef<HTMLDivElement | null>(null);
-
   const isAnnotationInner = (content: string | AnnotationInner): content is AnnotationInner => typeof content !== 'string'
   const isDraftCfiObj = (content: null | string | EditDraftCfiType): content is EditDraftCfiType => Array.isArray(content)
   const isAnnotationDataInner = (content: string | AnnotationInner): content is AnnotationInner => typeof content == 'object'
   const isSpine = (content: Spine | SpineLoaded): content is SpineLoaded => 'spineItems' in content
+  const flag = empty_results && results.length == 0
 
 
-
-
-    useEffect(() => {
-      document.title = props.selected_book.title
-
-
-      function handle_pop_state(e: PopStateEvent) {
-        let target = e?.target as Window
-        let dest_url = target.location.href
-        let current = `${process.env.NEXTAUTH_URL}book/${props.selected_book.id}?cfi=${searchParams.get('cfi')}`
-        
-        
-        if (current !== dest_url && dest_url.includes('cfi=') && rendition.current !== null) {
-        let cfi_ = dest_url.slice(dest_url.indexOf('cfi=') + 4)
-          rendition.current.display(cfi_)
-        } 
-        
-        
-          }
-
-
-      window.addEventListener('popstate', handle_pop_state);
-
-        return () => {
-
-          window.removeEventListener("popstate", handle_pop_state);
-
+/*
+  useEffect(() => {
+  async function get_book_data() {
+    return await fetch(`/api/book?book_id=${props.selected_book.id}&user_id=${session?.user._id}`, {
+      method: 'GET',
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        let a = data[0] ? data[0].annotations : []
+        if (a && a !== null && a.length > 0) {
+          console.log('adding from db... ', a)
+          a.map((x_: AnnotationInner) => {
+            if (x_ !== null) {
+              rendition.current.annotations.add('highlight', x_.cfiRange, { text: x_.data.text, data: x_.data.data, section: x_.data.section, time: x_.data.time, title: x_.data.title }, () => { })
+            }
+          })
+      
         }
-// eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+      })
+      .catch(err => {
+        console.log(err)
+        return null
+      })
+
+  }
+    if (props.logged_in) {
+     get_book_data()
+  
+
+    }
+
+  }, [props.logged_in]);
+*/
+
+  // handles back/forward button navigation for cfi pages
+  useEffect(() => {
+    document.title = props.selected_book.title
+    function handle_pop_state(e: PopStateEvent) {
+      let target = e?.target as Window
+      let dest_url = target.location.href
+      let current = `${process.env.NEXT_PUBLIC_CB_URL}/book/${props.selected_book.id}?cfi=${searchParams.get('cfi')}`
+      if (current !== dest_url && dest_url.includes('cfi=') && rendition.current !== null) {
+        let cfi_ = dest_url.slice(dest_url.indexOf('cfi=') + 4)
+        rendition.current.display(cfi_)
+      }
+    }
+    window.addEventListener('popstate', handle_pop_state);
+    return () => {
+      window.removeEventListener("popstate", handle_pop_state);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
 
   function handle_mouse_down(e: Event) {
@@ -121,22 +140,16 @@ export default function Book_Box(props: BB_Props) {
   }
 
 
-
-
-
+  //set book data in db (if user logged in)
   async function set_book_data() {
-
     let annotations_ = rendition.current.annotations.each()
-console.log('setting book data => ', annotations_)
-
-
     return await fetch("/api/book", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ id: props.selected_book.id, name: props.selected_book.title, annotations: annotations_, user_id: session?.user._id, edit: false })
+      body: JSON.stringify({ id: props.selected_book.id, name: props.selected_book.title, annotations: annotations_, user_id: props.user_id, edit: false })
     })
       .then((res) => res.json())
       .then((data) => data)
@@ -144,75 +157,115 @@ console.log('setting book data => ', annotations_)
         console.log(err)
         return null
       })
-  
+
   }
-    
 
+  //fetch book data from db (if user logged in)
   async function get_book_data() {
-
-    return await fetch(`/api/book?book_id=${props.selected_book.id}&user_id=${session?.user._id}`, {
+    return await fetch(`/api/book?book_id=${props.selected_book.id}&user_id=${props.user_id}`, {
       method: 'GET',
     })
       .then((res) => res.json())
-      .then((data) =>{
-        let res = data[0]? data[0].annotations : []
-      return res
-      } )
+      .then((data) => {
+        let res = data[0] ? data[0].annotations : []
+        return res
+      })
       .catch(err => {
         console.log(err)
         return null
       })
-  
+
   }
 
 
+
+
+  // removes LS data after user logs in - replaces with db data
+  useEffect(() => {
+    async function get_book_data() {
+      return await fetch(`/api/book?book_id=${props.selected_book.id}&user_id=${props.user_id}`, {
+        method: 'GET',
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          let a = data[0] ? data[0].annotations : []
+          console.log('adding from db... ', a)
+          if (a && a !== null && a.length > 0) {
+         return   a.map((x_: AnnotationInner) => {
+              if (x_ !== null) {
+                rendition.current.annotations.add('highlight', x_.cfiRange, { text: x_.data.text, data: x_.data.data, section: x_.data.section, time: x_.data.time, title: x_.data.title }, () => { })
+              }
+            })
+          }
+        }).then(() => {
+//trigger re-render of sidebar to display new annotation data
+         if (si == null) {set_si(0)}  else {  set_si(null) }
+        })
+        .catch(err => {
+          console.log(err)
+          return null
+        })
+    }
+ if (props.logged_in) {
+let old_annotations = rendition.current.annotations.each()  
+if (old_annotations && old_annotations.length > 0) {
+old_annotations.map((x: any, i: number) => {
+let x_ = isAnnotationDataInner(x[1]) ? x[1] : null
+if (x_ !== null) {  rendition.current.annotations.remove(x_.cfiRange, 'highlight')}
+
+}) 
+      }
+       get_book_data()
+    }
+  },[props.logged_in, props.selected_book.id, props.user_id])
+
+
+  // builds book, adds annotations (from local storage or db), adds annotation event listeners, applies styles for annotation box, and performs cleanup
   useEffect(() => {
     book.current.ready.then(async function () {
 
-function get_ls_data() {
-  let ls_data = localStorage.getItem(props.selected_book.id + '-annotations')
-  let a = ls_data !== undefined && ls_data !== 'undefined' ? JSON.parse(ls_data || '{}') : []
-  return a
-}
-
-if (session?.user) { 
-
-
-let a = await get_book_data()
-console.log('adding from db... ', a)
-if (a && a !== null && a.length > 0) {
-  a.map((x_: AnnotationInner) => {
-    if (x_ !== null) {
-      rendition.current.annotations.add('highlight', x_.cfiRange, { text: x_.data.text, data: x_.data.data, section: x_.data.section, time: x_.data.time, title: x_.data.title }, () => { })
-    }
-  })
-}
-
-
-} else {
-  let a = await get_ls_data()
-  console.log('adding from ls... ', a)
-  if (a && a !== null && a.length > 0) {
-    a.map((x: AnnotationData) => {
-      let x_ = isAnnotationInner(x[1]) ? x[1] : null
-      if (x_ !== null) {
-        rendition.current.annotations.add('highlight', x_.cfiRange, { text: x_.data.text, data: x_.data.data, section: x_.data.section, time: x_.data.time, title: x_.data.title }, () => { })
+      function get_ls_data() {
+        let ls_data = localStorage.getItem(props.selected_book.id + '-annotations')
+        let a = ls_data !== undefined && ls_data !== 'undefined' ? JSON.parse(ls_data || '{}') : []
+        return a
       }
-    })
-  }
 
-}
+      console.log('logged in? ', props.logged_in)
+      // check if user logged in - get annotations from local storage or db
+      if (props.logged_in) {
+        let a = await get_book_data()
+        console.log('adding from db... ', a)
+        if (a && a !== null && a.length > 0) {
+          a.map((x_: AnnotationInner) => {
+            if (x_ !== null) {
+              rendition.current.annotations.add('highlight', x_.cfiRange, { text: x_.data.text, data: x_.data.data, section: x_.data.section, time: x_.data.time, title: x_.data.title }, () => { })
+            }
+          })
+        }
+      } else {
+        let a = await get_ls_data()
+        console.log('adding from ls... ', a)
+        if (a && a !== null && a.length > 0) {
+          a.map((x: AnnotationData) => {
+            let x_ = isAnnotationInner(x[1]) ? x[1] : null
+            if (x_ !== null) {
+              rendition.current.annotations.add('highlight', x_.cfiRange, { text: x_.data.text, data: x_.data.data, section: x_.data.section, time: x_.data.time, title: x_.data.title }, () => { })
+            }
+          })
+        }
+      }
 
-
+      // set saved location (query cfi)
       if (props.query_cfi !== null) {
-      first_loc.current = props.query_cfi
-      router.push(`/book/${props.selected_book.id}?cfi=${props.query_cfi}`)
+        first_loc.current = props.query_cfi
+        router.push(`/book/${props.selected_book.id}?cfi=${props.query_cfi}`)
       }
 
       book.current.loaded.navigation.then((toc) => {
-
+        // fix for red/blue color text in some epub files
         rendition.current.themes.default({ "*:hover": { "color": `black !important` }, "*": { "color": `black !important`, "text-decoration": "none !important" } })
 
+        // set event listeners        
         rendition.current.on("keyup", keyListener)
         document.addEventListener("keyup", keyListener, false);
 
@@ -220,7 +273,7 @@ if (a && a !== null && a.length > 0) {
           annotation_clicked(cfiRange)
         })
 
-
+        // detect text highlight, trigger annotation box 
         rendition.current.on("selected", function (cfiRange: string, contents: ContentsType) {
           contents.window.addEventListener('mousedown', handle_mouse_down)
 
@@ -263,20 +316,22 @@ if (a && a !== null && a.length > 0) {
 
       if (search_highlights.current && search_highlights.current.length > 0) { clear_input() }
 
-      let annotations = rendition.current.annotations.each()
-      localStorage.setItem(props.selected_book.id + '-annotations', JSON.stringify(annotations));
+      //    let annotations = rendition.current.annotations.each()
+      //    localStorage.setItem(props.selected_book.id + '-annotations', JSON.stringify(annotations));
       localStorage.setItem(props.selected_book.id + '-locations', JSON.stringify(rendition.current.location));
 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // set book location after loading 
   useEffect(() => {
     if (rendition.current && !loading) {
       if (first_loc.current !== null) { rendition.current.display(first_loc.current) } else { rendition.current.display() }
     }
   }, [loading])
 
+  // resize for spread setting change
   useEffect(() => {
     if (rendition.current && spread !== prev_spread.current) {
       rendition.current.spread(spread)
@@ -285,10 +340,10 @@ if (a && a !== null && a.length > 0) {
         let el_dim = el.getBoundingClientRect()
         rendition.current.resize(el_dim.width, el_dim.height)
       }
-
     }
   }, [spread])
 
+  // resize for flow setting change
   useEffect(() => {
     if (rendition.current && flow !== prev_flow.current) {
       rendition.current.flow(flow)
@@ -311,7 +366,7 @@ if (a && a !== null && a.length > 0) {
   }, [empty_results])
 
 
-
+  // scroll to effect after annotation save
   useEffect(() => {
     if (sidebar == 'annotations' && si !== null) {
       let el = document.getElementsByClassName("sidebar_styles_selected_title__OLqfZ")[0] as HTMLElement
@@ -337,13 +392,12 @@ if (a && a !== null && a.length > 0) {
 
   }
 
-
-
   function set_location(x: string) {
     rendition.current.display(x)
     set_url_loc()
     set_sidebar(null)
   }
+
   function handle_set_text_size(x: RS_Option | null) {
     if (x !== null) {
       set_text_size(x)
@@ -357,7 +411,7 @@ if (a && a !== null && a.length > 0) {
     }
   }
 
-
+  // jumps to highlight location
   function get_annotation(x: string, i: number) {
     rendition.current.display(x)
     set_url_loc()
@@ -365,13 +419,11 @@ if (a && a !== null && a.length > 0) {
     set_sidebar(null)
   }
 
-
+  // sets stage for user to add text/title to their annotation
   function annotation_cb(cfi: string) {
-
     draft_cfi.current = cfi
     editing.current = false
     set_sidebar('new_annotation')
-
   }
 
 
@@ -383,6 +435,7 @@ if (a && a !== null && a.length > 0) {
     }
   }
 
+  // adds marks for search highlights - these will be removed by clear input function when user cancels their text search
   function handle_search_highlight(e: Event | null, cfiRange: string, text: string, x: HighlightObj) {
     rendition.current.annotations.add('highlight', cfiRange, { text: text, data: `search for ${keyvalue}` }, () => { })
     handle_set_search_highlights(x)
@@ -393,11 +446,9 @@ if (a && a !== null && a.length > 0) {
     search_highlights.current = [...search_highlights.current, x]
   }
 
-
+  // creates highlight in text
   function handle_annotation(cfiRange: string, text: string) {
     let loc: CurrentLocType = rendition.current.currentLocation()
-
-
     let matching = toc.current.filter(y => y.href.slice(0, y.href.indexOf('#')) == loc.start.href)
     let section_ = matching && matching[0] && matching[0].label ? matching[0].label : 'No chapter available'
     rendition.current.annotations.add('highlight', cfiRange, { text: text, data: 'notes go here', section: section_, loc: loc }, () => { })
@@ -411,10 +462,9 @@ if (a && a !== null && a.length > 0) {
     if (results && results.length > 0 && props.w < 1000) { set_sidebar('search') } else { sidebar == val ? set_sidebar(null) : set_sidebar(val) }
   }
 
+  // updates text for edit annotation
   function update_text() {
-
     let x = draft_cfi.current
-
     if (x !== null && isDraftCfiObj(x) && isAnnotationDataInner(x[1])) {
       if (input_ref.current !== null && input_ref.current !== undefined) {
         input_ref.current.value = x[1].data.title
@@ -429,23 +479,24 @@ if (a && a !== null && a.length > 0) {
   function edit_annotation(x: AnnotationData) {
     editing.current = true
     draft_cfi.current = x
-    console.log('edit draft_cfi - ', draft_cfi.current)
     set_sidebar('new_annotation')
   }
 
   async function delete_annotation(x: string, i: number) {
-
     return new Promise((resolve, reject) => {
       resolve(rendition.current.annotations.remove(x, 'highlight'))
     }).then(() => {
-      localStorage.setItem(props.selected_book.id + '-annotations', JSON.stringify(rendition.current.annotations.each()));
+      if (props.logged_in) {
+        set_book_data()
+      } else {
+        localStorage.setItem(props.selected_book.id + '-annotations', JSON.stringify(rendition.current.annotations.each()));
+      }
       set_si(si == i ? null : i)
     }).catch(err => console.log(err))
   }
 
   function cancel_annotation() {
     if (!editing.current) {
-
       return new Promise((resolve, reject) => {
         let dc = typeof draft_cfi.current == 'string' ? draft_cfi.current : ''
         resolve(rendition.current.annotations.remove(dc, 'highlight'))
@@ -460,7 +511,6 @@ if (a && a !== null && a.length > 0) {
       if (input_ref.current !== null && input_ref.current !== undefined) {
         input_ref.current.value = ''
       }
-
       set_sidebar('annotations')
       editing.current = false
     }
@@ -469,21 +519,17 @@ if (a && a !== null && a.length > 0) {
 
 
   function annotation_clicked(cfiRange: string) {
-
     let annotations = rendition.current.annotations.each()
-
     let fi = annotations.map(x => {
       if (Array.isArray(x)) { return x[1] }
     })
     let matching = annotations.filter(x => {
       if (Array.isArray(x)) { return x[1].cfiRange == cfiRange }
     })
-
     let match_ = Array.isArray(matching[0]) ? matching[0] : []
     let i = fi.indexOf(match_[1])
     set_sidebar('annotations')
     set_si(i)
-
   }
 
 
@@ -491,29 +537,18 @@ if (a && a !== null && a.length > 0) {
     let time = getTimeStamp()
     let annotations = rendition.current.annotations.each()
     let dc_ = draft_cfi.current !== null && typeof draft_cfi.current == 'string' ? draft_cfi.current : draft_cfi.current !== null ? draft_cfi.current[0] : ''
-
     let matching = annotations.filter(x => {
       if (Array.isArray(x) && typeof dc_ == 'string') {
-        console.log('----------')
-        console.log(x)
-        console.log(x[0].replace('highlight', ''))
-        console.log(dc_.replace('highlight', ''))
-        console.log('----------')
         return decodeURI(x[0]).replace('highlight', '') == dc_.replace('highlight', '')
-      
       }
     })
-
     let text = Array.isArray(matching[0]) ? matching[0][1].data.text : ''
     let section = Array.isArray(matching[0]) ? matching[0][1].data.section : ''
     let f = Array.isArray(matching[0]) ? matching[0][1] : ''
     let index = annotations.map(x => {
       if (Array.isArray(x)) { return x[1] }
     }).indexOf(f)
-
-
     return new Promise((resolve, reject) => {
-
       let match_ = Array.isArray(matching[0]) ? matching[0][1] : null
       let ta_value = textarea_ref.current !== null && textarea_ref.current !== undefined ? textarea_ref.current.value : ''
       let input_value = input_ref.current !== null && input_ref.current !== undefined ? input_ref.current.value : ''
@@ -522,33 +557,26 @@ if (a && a !== null && a.length > 0) {
         resolve(match_.update({ text: text, data: ta_value, title: input_value, section: section, time: time }))
       }
     }).then(() => {
-      localStorage.setItem(props.selected_book.id + '-annotations', JSON.stringify(rendition.current.annotations.each()));
-      set_book_data()
+      if (props.logged_in) { set_book_data() } else {
+        localStorage.setItem(props.selected_book.id + '-annotations', JSON.stringify(rendition.current.annotations.each()));
+      }
       set_sidebar('annotations')
       set_si(index)
     }).catch(err => console.log(err))
-
-
   }
-
-
 
   function set_url_loc() {
     let loc_ = rendition.current.currentLocation()
- //   router.push(`/?book=${props.selected_book.id}&cfi=${loc_.start.cfi}`)
-
- router.push(`/book/${props.selected_book.id}?cfi=${loc_.start.cfi}`)
+    router.push(`/book/${props.selected_book.id}?cfi=${loc_.start.cfi}`)
   }
 
   function previous_page(e: MouseEvent | KeyboardEvent) {
-    //e.preventDefault();
     rendition.current.prev()
     set_url_loc()
   }
 
 
   function next_page(e: MouseEvent | KeyboardEvent) {
-    //e.preventDefault();
     rendition.current.next()
     set_url_loc()
   }
@@ -559,18 +587,15 @@ if (a && a !== null && a.length > 0) {
 
 
 
-
+// text search function
   function handle_text_submit(e: SyntheticEvent) {
     e.preventDefault();
 
-
     if (book.current && book.current != null && keyvalue.length > 2) {
       let results: TextSearchResults[] = []
-
-
       let spine_ = book.current.spine
       let spine_items_ = isSpine(spine_) ? spine_.spineItems : []
-
+// builds each section for text search - results will be categorized by spine section
       Promise.all(spine_items_.map(async x => {
         return new Promise((resolve, reject) => {
           resolve(x.load(book.current.load.bind(book.current)))
@@ -585,7 +610,7 @@ if (a && a !== null && a.length > 0) {
       })).catch(err => console.log(err))
         .then(() => {
 
-
+          // removes duplicate excerpts
           let no_duplicates: TextSearchResults[] = results.map(x => {
             let new_s: TextSearchResultsData[] = []
             let new_s_excerpts: string[] = []
@@ -604,7 +629,7 @@ if (a && a !== null && a.length > 0) {
             let toc_id = matching && matching[0] && matching[0].id ? matching[0].id : ''
             return { s: x.s, x: x.x, label: label, sd: toc_id }
           })
-
+// sorts by chapter order
           let res = res_.sort((a, b) => parseInt(a.sd.replace('np-', '')) - parseInt(b.sd.replace('np-', '')))
           set_sidebar(res && res.length > 0 ? 'search' : null)
           set_empty_results(res && res.length > 0 ? false : true)
@@ -612,6 +637,7 @@ if (a && a !== null && a.length > 0) {
         }).catch(err => console.log(err))
     }
   }
+
 
   function get_context(x: TextSearchResultsData, i: number, mobile: boolean) {
     set_si(i)
@@ -621,13 +647,10 @@ if (a && a !== null && a.length > 0) {
     if (mobile) { set_sidebar(null) }
   }
 
-
+  // removes highlights for text search results
   async function clear_input() {
-
     let annotations = rendition.current.annotations.each()
-
     return Promise.all(annotations.map((x) => {
-
       return new Promise((resolve, reject) => {
         let cfi_ = Array.isArray(x) ? x[1].cfiRange : ''
         let matching = search_highlights.current.filter(y => y.cfi == cfi_)
@@ -636,7 +659,7 @@ if (a && a !== null && a.length > 0) {
         } else { resolve(null) }
       })
     })).then(() => {
-      localStorage.setItem(props.selected_book.id + '-annotations', JSON.stringify(rendition.current.annotations.each()));
+      // localStorage.setItem(props.selected_book.id + '-annotations', JSON.stringify(rendition.current.annotations.each()));
       set_results([])
       set_keyvalue('')
       set_si(null)
@@ -647,45 +670,40 @@ if (a && a !== null && a.length > 0) {
 
 
 
-  const flag = empty_results && results.length == 0
-
   return (
 
     <Fragment>
 
 
-        <Fragment>
-          <div ref={popup_ref} className={styles.popup} onClick={(e) => e.preventDefault()} >
-            <button type={"button"} ref={annotation_ref} >
-              <IoIosCreate className={styles.annotation_icon} />
-              <span>Annotation</span>
-            </button>
-            <button type={"button"} ref={highlight_ref} >
-              <FaHighlighter className={styles.highlight_icon} />
-              <span>Highlight</span>
-            </button>
-          </div>
+      <Fragment>
+        <div ref={popup_ref} className={styles.popup} onClick={(e) => e.preventDefault()} >
+          <button type={"button"} ref={annotation_ref} >
+            <IoIosCreate className={styles.annotation_icon} />
+            <span>Annotation</span>
+          </button>
+          <button type={"button"} ref={highlight_ref} >
+            <FaHighlighter className={styles.highlight_icon} />
+            <span>Highlight</span>
+          </button>
+        </div>
 
 
+        <AnimatePresence>
+          {flag && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className={styles.no_results}>
+              No results.  Try another search!
+            </motion.div>)}
+        </AnimatePresence>
+      </Fragment>
 
-
-
-          <AnimatePresence>
-            {flag && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className={styles.no_results}>
-                No results.  Try another search!
-              </motion.div>)}
-          </AnimatePresence>
-        </Fragment>
-  
 
       {props.w > 1000 && (
         <Top_Bar_Book
-         // select_book={props.select_book}
+          // select_book={props.select_book}
           selected_book={props.selected_book}
           clear_input={clear_input}
           results_length={results.length}
@@ -704,8 +722,10 @@ if (a && a !== null && a.length > 0) {
           <Sidebar
             book_title={props.selected_book.title}
             sidebar={sidebar}
+            logged_in={props.logged_in}
             set_sidebar={handle_set_sidebar}
             toc={toc.current}
+            email={props.email}
             w={props.w}
             mobile_search={
               <Mobile_Search
@@ -739,7 +759,7 @@ if (a && a !== null && a.length > 0) {
             cancel_annotation={cancel_annotation}
             clear_input={clear_input}
           />
-          
+
           {loading && (<Loading_Circle />)}
 
           <section id='area' className={styles.book_box_inner_wrap}>

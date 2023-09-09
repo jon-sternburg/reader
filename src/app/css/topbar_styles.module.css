@@ -238,22 +238,10 @@
 
 }
 
-.home_button:hover {
-
-    opacity: .8;
 
 
-}
 
 
-.home_button {
-
-    color: rgba(0, 0, 0, 0.54);
-    position: absolute;
-    right: 20px;
-    background: none;
-    border: none;
-}
 
 .notes {
     cursor: pointer;
@@ -421,11 +409,10 @@
     justify-content: center;
     align-items: center;
 
-    margin-right: 150px;
+    margin-right: 50px;
 }
 
 .quit_search:hover {
-
     cursor: pointer;
     opacity: .7;
 }
@@ -437,8 +424,7 @@
     background: salmon;
     color: darkred;
     border-radius: 50%;
-    position: absolute;
-    right: 100px;
+margin-right: 10px;
 
 
 }
@@ -454,6 +440,13 @@
 }
 
 
+/* clears the 'X' from Chrome */
+.topbar_search_wrap input[type="search"]::-webkit-search-decoration,
+.topbar_search_wrap input[type="search"]::-webkit-search-cancel-button,
+.topbar_search_wrap input[type="search"]::-webkit-search-results-button,
+.topbar_search_wrap input[type="search"]::-webkit-search-results-decoration {
+  display: none;
+}
 
 
 .topbar_search_wrap input {
@@ -469,7 +462,7 @@
     appearance: none;
     z-index: 1;
     font-size: 14px;
-    height: 5vh;
+    height: 35px;
     font-family: 'Lato', sans-serif;
     position: relative;
 
@@ -521,3 +514,92 @@
     height: 1.4em;
     margin-right: 20px;
 }
+
+.grid_buttons_top_wrap {
+
+    top: 10px;
+    right: 20px;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+        font-family: 'Roboto', sans-serif;
+    }
+    
+    .user_tag_top {
+        font-family: 'Roboto', sans-serif;
+        color: whitesmoke;
+        background-color: #121212;
+        padding: 5px 7px;
+        border-radius: 4px;
+        text-decoration: none;
+        outline: none;
+        border: none;
+        font-size: 14px;
+    }
+    
+    .login_button {
+        font-family: 'Roboto', sans-serif;
+        color: whitesmoke;
+        background-color: #121212;
+        padding: 5px 7px;
+        border-radius: 4px;
+        text-decoration: none;
+        outline: none;
+        border: none;
+        font-size: 14px;
+
+
+    }
+    .home_button {
+    font-size: 14px;
+    outline: none;
+    border: none;
+   background: none;
+   
+    color: #121212;
+  padding: 0;
+    border-radius: 4px;
+   margin-right: 20px;
+  
+    }
+    
+    .user_tag_top:hover {
+    cursor: pointer;
+    background-color: #303030;
+    
+    }
+    .grid_buttons_top_wrap button:hover {
+
+        cursor: pointer;
+        color: #a0a0a0;
+
+    }
+    .user_tag_top {
+    
+    margin-right: 10px;
+    
+    }
+    .mobile_right_icon_wrap {
+
+        display: flex;
+        align-items: center;
+    }
+    .mobile_right_icon_wrap button {
+
+
+      
+            font-size: 13px;
+            outline: none;
+            border: none;
+            background-color: #121212;
+            color: whitesmoke;
+            padding: 5px 7px;
+            border-radius: 4px;
+            font-family: 'Roboto', sans-serif;
+            margin-right: 15px;
+            
+
+    }

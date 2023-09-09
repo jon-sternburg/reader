@@ -5,8 +5,9 @@ import Book_Box from '../../components/Book_Box'
 import { useSearchParams } from 'next/navigation'
 import all_book_data from '../../data/all_book_data.json'
 import Head from 'next/head'
-var qs = require('qs');
+import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation'
+
 type BookType = {
   title: string
   author: string
@@ -33,9 +34,25 @@ type Size = {
 
 export default function App(): JSX.Element {
   const [size, set_dim] = useState<Size>({ width: 0, height: 0 })
+  const [logged_in, set_logged_in] = useState<boolean>(false)
   const [selected_book, set_book] = useState<BookState>({ book: null, query_cfi: null })
   const params = useParams()
   const searchParams = useSearchParams()
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    if (session?.user?.email && !logged_in) { 
+
+      set_logged_in(true)
+
+    } else {
+      set_logged_in(false)
+
+    }
+  
+  }, [session, logged_in])
+
+
 
   useEffect(() => {
     function updateDimensions() {
@@ -81,6 +98,9 @@ set_book({ book: book_[0], query_cfi: cfi_ })
                 selected_book={selected_book.book}
                 w={size.width}
                 h={size.height}
+                logged_in={logged_in}
+                email={session?.user?.email ? session?.user?.email : null}
+                user_id={session?.user?._id ? session?.user?._id : null}
                 query_cfi={selected_book.query_cfi}
               />
 

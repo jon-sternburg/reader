@@ -1,43 +1,31 @@
 'use client'
-import React, {Fragment, useEffect, useState} from 'react'
+import React, {Fragment} from 'react'
 import styles from '../css/topbar_styles.module.css'
 import { AiFillCloseCircle } from "react-icons/ai"
 import { FcBookmark } from "react-icons/fc"
-import _ from 'lodash'
-import { useSession, signOut, signIn } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { RxHamburgerMenu } from "react-icons/rx"
 import { useRouter, usePathname } from 'next/navigation';
-import { AiFillGithub, AiFillHome } from "react-icons/ai"
+import { AiFillHome } from "react-icons/ai"
 import { FaUserCircle } from "react-icons/fa"
 
-import Link from 'next/link';
-type BookType = {
-  title: string
-  author: string
-  url: string
-  id: string
-  path: string
-  height: number
-  width: number
-  color?: string
-  bg: string
-  border: string
-}
+
 
 
 type TBHM_Props = {
   show_book_list: () => void
   book_list: boolean
+  logged_in: boolean
 }
 
 
 export default function Top_Bar_Homepage_Mobile(props: TBHM_Props) {
-  const [logged_in, toggle_login] = useState<boolean>(false)
-  const [user_panel, toggle_user_panel] = useState<boolean>(false)
-  const { data: session } = useSession()
+ // const [logged_in, toggle_login] = useState<boolean>(false)
+ // const [user_panel, toggle_user_panel] = useState<boolean>(false)
+ // const { data: session } = useSession()
   const pathname = usePathname();
    const router = useRouter()
-
+/*
   useEffect(() => {
     if (session?.user?.email) { 
       toggle_login(true)
@@ -45,28 +33,22 @@ export default function Top_Bar_Homepage_Mobile(props: TBHM_Props) {
       toggle_login(false)
     }
   }, [session])
-
-function handle_login() {
-if (pathname.includes('login')) { 
-  router.push('/')
-} else {
-  router.push('/login')
-}
-  }
+*/
 
   async function handle_signout() {
-    await signOut({callbackUrl: 'http://localhost:3000',})
+    await signOut({callbackUrl: process.env.NEXTAUTH_URL})
   }
 
 
   function handle_user_click(){
 
 
-    if (session?.user?.email) { 
+    //if (session?.user?.email) { 
+      if (props.logged_in) { 
       router.push('/user')
 
     } else {
-
+      localStorage.setItem('prev_url_login', JSON.stringify(''));
       router.push('/login')
 
     }
@@ -93,15 +75,19 @@ if (pathname.includes('login')) {
         <div className ={styles.mobile_right_icon_wrap}>
 
         {pathname.includes('user') ? 
-
+      <Fragment>
           <AiFillHome className={styles.user_icon} onClick={() => router.push('/')} />
-
+          <button type = {'button'} className = {styles.sign_out_top} onClick = {() =>  handle_signout()}>Sign out</button>  
+          </Fragment>
         :
+        <Fragment>
           <FaUserCircle className={styles.user_icon} onClick={() => handle_user_click()} />
+          <RxHamburgerMenu className={styles.hamburger_icon} onClick={() => props.show_book_list()} />
+          </Fragment>
       }
 
 
-          <RxHamburgerMenu className={styles.hamburger_icon} onClick={() => props.show_book_list()} />
+     
         </div>
       
       }
