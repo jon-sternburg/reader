@@ -1,27 +1,39 @@
-'use client'
 import React from "react";
-import User_Page from '../components/User_Page'
-import Auth_Form from '../components/Auth_Form'
-import { useRouter, redirect } from 'next/navigation'
-import { useSession } from "next-auth/react"
+import { redirect } from 'next/navigation'
+import { Metadata } from 'next'
+import Page_User from "../components/Page_User";
+import { getServerSession } from "next-auth/next"
+import  auth_options  from "../auth_options"
+
+export const metadata: Metadata = {
+  title: 'Reader! - User Page',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  icons: {
+    icon: '/favicon.ico'
+}
+}
 
 
-export default function App(): JSX.Element | void {
-const router = useRouter()
-const { data: session, status } = useSession()
-if (status == 'authenticated') { 
+export default async function Page(): Promise<JSX.Element | void> {
 
-  return ( <User_Page /> )
-
-} else if (status == 'loading') { 
+  const session = await getServerSession(auth_options)
+  console.log('SESSION: ', session)
   
-//return ( <div>LOADING</div>)
-
-} else {
-
-  redirect('/')
-
-
-}
-
-}
+  if (session) { 
+  
+    return ( 
+    <Page_User /> 
+    )
+  
+  }  else {
+  
+    redirect('/')
+  
+  
+  }
+  
+  }

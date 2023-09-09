@@ -1,9 +1,9 @@
 'use client'
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import styles from '../css/homepage_styles.module.css'
-import Top_Bar_Homepage_Mobile from '../components/Top_Bar_Homepage_Mobile'
-import Sidebar_Homepage from '../components/Sidebar_Homepage'
-import Head from 'next/head'
+import Top_Bar_Homepage_Mobile from './Top_Bar_Homepage_Mobile'
+import Sidebar_Homepage from './Sidebar_Homepage'
+
 import { IoMdTrash } from "react-icons/io"
 import { MdEdit, MdOutlineExpandMore, MdOutlineExpandLess } from "react-icons/md"
 import getTimeStamp from '../util/getTimeStamp'
@@ -85,11 +85,7 @@ export default function User_Page(): JSX.Element {
 
   return (
     <Fragment>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-        <title>Reader! - User Page</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+
       {size.width > 0 && (
         <main className={styles.main}>
           {size.width < 1000 && (<Top_Bar_Homepage_Mobile show_book_list={show_book_list} book_list={book_list} logged_in={logged_in} />)}

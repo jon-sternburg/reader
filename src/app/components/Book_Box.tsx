@@ -27,7 +27,7 @@ import Spine from '../../../node_modules/epubjs/types/spine'
 import RenditionType from '../../../node_modules/epubjs/types/rendition'
 import BookEpubType from '../../../node_modules/epubjs/types/book'
 import ContentsType from '../../../node_modules/epubjs/types/contents'
-//import { useSession } from 'next-auth/react';
+
 
 
 
@@ -44,7 +44,6 @@ export default function Book_Box(props: BB_Props) {
   const [empty_results, set_empty_results] = useState<boolean>(false)
   const [loading, set_loading] = useState<boolean>(true)
   const searchParams = useSearchParams()
-  //const { data: session } = useSession()
   const toc = useRef<Array<NavItem> | []>([]);
   const editing = useRef<boolean>(false);
   const draft_cfi = useRef<DraftCfiType>(null);
@@ -72,43 +71,10 @@ export default function Book_Box(props: BB_Props) {
   const flag = empty_results && results.length == 0
 
 
-/*
-  useEffect(() => {
-  async function get_book_data() {
-    return await fetch(`/api/book?book_id=${props.selected_book.id}&user_id=${session?.user._id}`, {
-      method: 'GET',
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        let a = data[0] ? data[0].annotations : []
-        if (a && a !== null && a.length > 0) {
-          console.log('adding from db... ', a)
-          a.map((x_: AnnotationInner) => {
-            if (x_ !== null) {
-              rendition.current.annotations.add('highlight', x_.cfiRange, { text: x_.data.text, data: x_.data.data, section: x_.data.section, time: x_.data.time, title: x_.data.title }, () => { })
-            }
-          })
-      
-        }
-      })
-      .catch(err => {
-        console.log(err)
-        return null
-      })
-
-  }
-    if (props.logged_in) {
-     get_book_data()
-  
-
-    }
-
-  }, [props.logged_in]);
-*/
 
   // handles back/forward button navigation for cfi pages
   useEffect(() => {
-    document.title = props.selected_book.title
+   // document.title = props.selected_book.title
     function handle_pop_state(e: PopStateEvent) {
       let target = e?.target as Window
       let dest_url = target.location.href

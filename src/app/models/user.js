@@ -2,21 +2,6 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import validator from 'validator'
 
-const AnnotationInner = new mongoose.Schema([String, {
-    type: String,
-    cfiRange: String,
-    data: {
-      data: String,
-      epubcfi: String,
-      section: String,
-      text: String,
-      time: String,
-      title: String,
-    },
-    sectionIndex: Number
-}])
-
-
 const booksSchema = new mongoose.Schema({
     name: {
         type: String,
