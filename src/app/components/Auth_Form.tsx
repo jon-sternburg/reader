@@ -19,7 +19,7 @@ async function createUser(email:string, password:string) {
     throw new Error(data.message || 'Something went wrong!');
   }
 
-  return data;
+  return data; 
 }
 
 
