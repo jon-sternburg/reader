@@ -50,7 +50,7 @@ export default function App(): JSX.Element {
 
     }
   
-  }, [session, logged_in])
+  }, [session])
 
 
 

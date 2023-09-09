@@ -529,7 +529,7 @@ font-family: 'Lato', sans-serif;
     opacity: 1;
 }
 
-
+ 
 .disabled {
     opacity: .7;
     margin: 0 20px;
@@ -789,7 +789,7 @@ font-family: 'Lato', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-
+    font-size: 20px;
 }
 
 .active_icon {
