@@ -20,7 +20,7 @@ export async function generateMetadata(
 
   const book = all_book_data.filter(x => x.id == params.book)[0]
   const page_title = book.title
-  const cfi = params.cfi
+
 
 
   return {
@@ -43,7 +43,8 @@ export default function Page({ params, searchParams }: Props): JSX.Element {
 
 
   const book = all_book_data.filter(x => x.id == params.book)[0]
-  const cfi = params.cfi
+  const cfi = searchParams.cfi
+
   return (
 
 

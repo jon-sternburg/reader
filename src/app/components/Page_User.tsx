@@ -3,13 +3,13 @@ import React, { Fragment, useState, useEffect, useRef } from "react";
 import styles from '../css/homepage_styles.module.css'
 import Top_Bar_Homepage_Mobile from './Top_Bar_Homepage_Mobile'
 import Sidebar_Homepage from './Sidebar_Homepage'
-
 import { IoMdTrash } from "react-icons/io"
 import { MdEdit, MdOutlineExpandMore, MdOutlineExpandLess } from "react-icons/md"
 import getTimeStamp from '../util/getTimeStamp'
 import { useRouter } from 'next/navigation'
 import { AiFillHome } from "react-icons/ai"
 import { useSession, signOut } from 'next-auth/react';
+
 type Size = {
   width: number
   height: number
@@ -30,10 +30,13 @@ type User_Data = {
   _id: string
 }
 
-export default function User_Page(): JSX.Element {
+type PU_Props = {
+  user_data: User_Data
+  email: string
+}
+export default function Page_User(props: PU_Props): JSX.Element {
   const [size, set_dim] = useState<Size>({ width: 0, height: 0 })
   const [book_list, set_book_list] = useState<boolean>(false)
-  const [logged_in, toggle_login] = useState<boolean>(true)
   const [user_data, set_user_data] = useState<User_Data | null>(null)
   const [edit, set_edit] = useState<Edit_State>({ show: false, annotation: null, book: null })
   const { data: session } = useSession()
@@ -41,25 +44,14 @@ export default function User_Page(): JSX.Element {
   useEffect(() => {
     window.addEventListener('resize', updateDimensions);
 
-    async function fetch_data(id: string) {
-      return await fetch(`/api/user?user_id=${id}`, { method: 'GET', })
-        .then((res) => res.json())
-        .then((data) => { console.log('fetched data (useeffect): ', data); set_user_data(data) })
-        .catch(err => {
-          console.log(err)
-          set_user_data(null)
-        })
-    }
     function updateDimensions() {
       set_dim({ width: window.innerWidth, height: window.innerHeight })
     }
 
-    fetch_data(session?.user._id ? session?.user._id : '')
-
     updateDimensions()
     return () => window.removeEventListener('resize', updateDimensions);
 
-  }, [session?.user._id])
+  }, [])
 
 
   function show_book_list() {
@@ -88,7 +80,7 @@ export default function User_Page(): JSX.Element {
 
       {size.width > 0 && (
         <main className={styles.main}>
-          {size.width < 1000 && (<Top_Bar_Homepage_Mobile show_book_list={show_book_list} book_list={book_list} logged_in={logged_in} />)}
+          {size.width < 1000 && (<Top_Bar_Homepage_Mobile show_book_list={show_book_list} book_list={book_list} logged_in={true} />)}
 
           <section className={styles.homepage_frame} style={{ backgroundColor: 'whitesmoke' }}>
             <Fragment>
@@ -121,7 +113,7 @@ export default function User_Page(): JSX.Element {
                 </header>
 
                 <div className={styles.greeting_wrap}>
-                  <h3>Hello, {session?.user.email}</h3>
+                  <h3>Hello, {props.email}</h3>
                 </div>
 
 
@@ -130,9 +122,9 @@ export default function User_Page(): JSX.Element {
                     <h2 className={styles.my_books}>My Books</h2>
 
 
-                    {user_data !== null ?  
+                    {props.user_data !== null ?  
                     <Fragment>
-                    {user_data.books.length > 0 && (user_data.books.map((x, i) => <Book_Item key={i} book_item={x} edit_annotation={edit_annotation} user_id={session?.user._id ? session?.user._id : ''} reset_user_data={reset_user_data} />))}
+                    {props.user_data.books.length > 0 && (props.user_data.books.map((x, i) => <Book_Item key={i} book_item={x} edit_annotation={edit_annotation} user_id={session?.user._id ? session?.user._id : ''} reset_user_data={reset_user_data} />))}
                     </Fragment>
                     :
                       

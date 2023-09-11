@@ -5,27 +5,56 @@ import { IoMdTrash } from "react-icons/io"
 import { MdEdit } from "react-icons/md"
 import { AnnotationData, AnnotationInner } from '../types/sidebar_types'
 
-
+type Annotation_Item = {
+  type: string
+  cfiRange: string
+  data: {
+    text: string
+    data: string
+    section: string
+    time: string
+    title: string
+    epubcfi: string
+  }
+  sectionIndex: number
+  mark?: {
+    element: null
+    className: string
+    data: {
+      text: string
+      data: string
+      section: string
+      time: string
+      title: string
+      epubcfi: string
+    }
+    attributes: {
+      fill: string
+      'fill-opacity': string
+      'mix-blend-mode': string
+    }
+  }
+}
 
 type A_Props = {
   key: number
-  x: AnnotationData
+  x: Annotation_Item
   selected: boolean
   i: number
   get_annotation: (x: string, i: number) => void
   delete_annotation_pre: (x: string, i: number) => void
-  edit_annotation: (x: AnnotationData) => void
+  edit_annotation: (x: Annotation_Item) => void
 }
 
 
 
 export default function Annotation_Wrapper(props: A_Props) {
   const isAnnotationDataInner_ = (content: string | AnnotationInner): content is AnnotationInner => typeof content == 'object'
-  let text = isAnnotationDataInner_(props.x[1]) ? props.x[1].data.text : ''
-  let notes = isAnnotationDataInner_(props.x[1]) ? props.x[1].data.data : ''
-  let section = isAnnotationDataInner_(props.x[1]) ? props.x[1].data.section : ''
-  let title = isAnnotationDataInner_(props.x[1]) ? props.x[1].data.title : ''
-  let cfiRange = isAnnotationDataInner_(props.x[1]) ? props.x[1].cfiRange : ''
+  let text = props.x.data.text //isAnnotationDataInner_(props.x[1]) ? props.x[1].data.text : ''
+  let notes = props.x.data.data //isAnnotationDataInner_(props.x[1]) ? props.x[1].data.data : ''
+  let section = props.x.data.section //isAnnotationDataInner_(props.x[1]) ? props.x[1].data.section : ''
+  let title = props.x.data.title //isAnnotationDataInner_(props.x[1]) ? props.x[1].data.title : ''
+  let cfiRange = props.x.cfiRange //isAnnotationDataInner_(props.x[1]) ? props.x[1].cfiRange : ''
 
   let preview = text
   let notes_preview = notes ? notes : ''
@@ -41,7 +70,7 @@ export default function Annotation_Wrapper(props: A_Props) {
 
   return (
 
-    <div className={props.selected ? styles["result_li"] + " " + styles["selected"] : styles["result_li"]}   >
+    <article className={props.selected ? styles["result_li"] + " " + styles["selected"] : styles["result_li"]}   >
 
       <h3 className={props.selected ? styles.selected_title : styles.not_selected_title}>{title_}</h3>
 
@@ -67,7 +96,7 @@ export default function Annotation_Wrapper(props: A_Props) {
         </Fragment>
 
       </Fragment>
-    </div>
+    </article>
 
   );
 }

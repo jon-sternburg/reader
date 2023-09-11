@@ -42,14 +42,44 @@ export type BB_Props = {
  // select_book: (book: BookType | null) => void
  logged_in: boolean
  email: string | null
+ update_annotations:  (x: Annotation[]) => void
  user_id: string | null
   w: number
   h: number
-  query_cfi: string | null
+  query_cfi: string | string[] | undefined
   logged_in: boolean
-
+  annotations: Annotation_Item[] | []
 }
-
+type Annotation_Item = {
+  type: string
+  cfiRange: string
+  data: {
+    text: string
+    data: string
+    section: string
+    time: string
+    title: string
+    epubcfi: string
+  }
+  sectionIndex: number
+  mark?: {
+    element: null
+    className: string
+    data: {
+      text: string
+      data: string
+      section: string
+      time: string
+      title: string
+      epubcfi: string
+    }
+    attributes: {
+      fill: string
+      'fill-opacity': string
+      'mix-blend-mode': string
+    }
+  }
+}
 export type TextSizeState = {
   value: string
   label: string
@@ -91,8 +121,8 @@ export type NavItem = {
 
 
 export type EditDraftCfiType = (string | AnnotationInner)[]
-export type DraftCfiType = null | string | EditDraftCfiType
-
+//export type DraftCfiType = null | string | EditDraftCfiType
+export type DraftCfiType = null | string | Annotation_Item
 export type CurrentLocType = {
   start: {
     index: number

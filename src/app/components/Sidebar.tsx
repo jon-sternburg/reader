@@ -1,7 +1,6 @@
 'use client'
 import React, { Fragment, useState } from 'react'
 import styles from '../css/sidebar_styles.module.css'
-import { motion } from "framer-motion"
 import { BiCommentAdd } from "react-icons/bi"
 import { FaSearch } from "react-icons/fa"
 import { FaListOl } from "react-icons/fa"
@@ -48,20 +47,6 @@ const customStyles: StylesConfig<RS_Option, false> = {
 };
 
 
-const contentVariants = {
-  expanded: () => ({
-    opacity: 1,
-    transition: {
-      delay: .2
-    }
-  }),
-  collapsed: () => ({
-    opacity: 0,
-
-  })
-}
-
-
 
 type DP_State = {
   show: boolean
@@ -78,7 +63,7 @@ export default function Sidebar(props: S_Props) {
   const searchParams = useSearchParams()
   const pathname = usePathname();
   let sidebarCollapsed = props.sidebar == null
-  let annotations = props.rendition !== null ? props.rendition.annotations.each() : []
+  let annotations = props.annotations //props.rendition !== null ? props.rendition.annotations.each() : []
 
 
   function send_delete_annotation() {
@@ -128,16 +113,6 @@ toggle_delete_prompt({show: false, cfi: null, i: null})
 
 
 
-  const SidebarVariants = {
-    expanded: () => ({
-      width: props.w <= 1000 ? '100vw' : '50vw',
-      transition: { width: { type: "keyframes", values: [0, 100, 0] } }
-    }),
-    collapsed: () => ({
-      width: '0',
-      transition: { width: { type: "keyframes", values: [0, 100, 0] } }
-    })
-  };
 
 
 
@@ -164,23 +139,10 @@ toggle_delete_prompt({show: false, cfi: null, i: null})
       )}
 
 
-
-
-
-      <motion.aside
-        initial={sidebarCollapsed ? "collapsed" : "expanded"}
-        animate={sidebarCollapsed ? "collapsed" : "expanded"}
-        variants={SidebarVariants}
-        className={styles.sidebar_frame}>
-
-        <motion.div
-          initial={sidebarCollapsed ? "collapsed" : "expanded"}
-          animate={sidebarCollapsed ? "collapsed" : "expanded"}
-          variants={contentVariants}
-          className={styles.sidebar_inner_frame}>
-
-
-          <motion.div className={styles.sidebar_header}>
+{!sidebarCollapsed && (
+      <aside style = {{width: props.w <= 1000 ? '100vw' : '50vw'}} className={styles.sidebar_frame}>
+        <div className={styles.sidebar_inner_frame}>
+          <div className={styles.sidebar_header}>
             <div className={styles.sidebar_icons}>
               {props.sidebar == 'toc' && (<button type={"button"} className={styles.toc_icon_active}  ><FaListOl className={styles.toc} /></button>)}
               {props.sidebar == 'settings' && (<button type={"button"} className={styles.settings_icon} ><AiFillSetting className={styles.settings} /></button>)}
@@ -228,7 +190,7 @@ toggle_delete_prompt({show: false, cfi: null, i: null})
                 )}
 
               </div>)}
-          </motion.div>
+          </div>
 
 
 
@@ -349,19 +311,19 @@ toggle_delete_prompt({show: false, cfi: null, i: null})
 
               {annotations.map((x: any, i: number) => {
 
-                let x_ = isAnnotationDataInner(x) && typeof x !== 'string' ? x : ''
+              //  let x_ = isAnnotationDataInner(x) && typeof x !== 'string' ? x : ''
 
-                if (typeof x_ !== 'string') {
+    
                   return <Annotation_Wrapper
                     key={i}
-                    x={x_}
+                    x={x}
                     i={i}
                     selected={props.si == i}
                     get_annotation={props.get_annotation}
                     edit_annotation={props.edit_annotation}
                     delete_annotation_pre={delete_annotation_pre}
                   />
-                }
+                
               })}
             </section>)}
 
@@ -380,8 +342,9 @@ toggle_delete_prompt({show: false, cfi: null, i: null})
               </div>
             </section>)}
 
-        </motion.div>
-      </motion.aside>
+        </div>
+      </aside>
+      )}
     </Fragment>
 
   )

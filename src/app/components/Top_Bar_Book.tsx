@@ -1,7 +1,7 @@
 'use client'
 import React, { SyntheticEvent, useState, useEffect } from 'react'
 import styles from '../css/topbar_styles.module.css'
-import { AiFillHome } from "react-icons/ai"
+import { AiFillHome, AiOutlineSearch } from "react-icons/ai"
 import { FcBookmark } from "react-icons/fc"
 import _ from 'lodash'
 import { MdClose } from "react-icons/md"
@@ -90,7 +90,9 @@ if (pathname.includes('login')) {
 
       <div className={styles.header_wrap}>
 
-      {props.results_length > 0 && (<MdClose className={styles.quit_search} onClick={() => props.clear_input()} />)}
+      
+      {props.results_length <= 0 && props.keyvalue.length > 2 && (<button type = {"button"}><AiOutlineSearch className={styles.quit_search} onClick={(e) => props.handle_text_submit(e)} /></button>)}
+      {props.results_length > 0 && (<button type = {"button"}><MdClose className={styles.quit_search} onClick={() => props.clear_input()} /></button>)}
         {props.w > 1000 && (
           <div className={styles.topbar_search_wrap} role="search">
             <form onSubmit={(e) => props.handle_text_submit(e)} >

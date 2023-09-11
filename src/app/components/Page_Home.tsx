@@ -36,7 +36,7 @@ type Size = {
 
 export default function Page_Home(): JSX.Element {
   const [book_list, set_book_list] = useState<boolean>(false)
-  const [logged_in, toggle_login] = useState<boolean>(false)
+  const [logged_in, toggle_login] = useState<boolean | null>(null)
   const [selected_book, set_book] = useState<BookState>({ book: null, query_cfi: null, first_render: true })
   const [size, set_dim] = useState<Size>({ width: 0, height: 0 })
 
@@ -60,6 +60,8 @@ export default function Page_Home(): JSX.Element {
     }
   
   }, [session])
+
+  
   function show_book_list() {
     set_book_list(!book_list)
   }
@@ -76,7 +78,7 @@ export default function Page_Home(): JSX.Element {
         <title>Reader!</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {size.width > 0 && (
+      {size.width > 0 && logged_in !== null && (
       <main className={styles.main}>
         {size.width < 1000 && selected_book.book == null ? 
           <Top_Bar_Homepage_Mobile

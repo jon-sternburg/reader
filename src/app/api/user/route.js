@@ -1,5 +1,4 @@
 import dbConnect from "../../util/dbConnect";
-import Books from "../../models/books";
 import { NextResponse } from 'next/server'
 import { createRouter } from "next-connect";
 import User from '../../models/user';
@@ -14,7 +13,7 @@ async function get_handler(request) {
    
         const { searchParams } = new URL(request.url)
         const user_id = searchParams.get('user_id')
-   
+
         dbConnect()
 
    let u = await User.findById(user_id)

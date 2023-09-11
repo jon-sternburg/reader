@@ -2,6 +2,7 @@ import { Annotation } from '../node_modules/epubjs/types/annotations'
 import RenditionType from '../node_modules/epubjs/types/rendition'
 import SectionType from '../node_modules/epubjs/types/section'
 import { ActionMeta, StylesConfig } from 'react-select';
+import {Annotation_Item} from './book_box_types'
 
 export type TextSizeState = {
   value: string
@@ -24,8 +25,8 @@ export type TextSearchResultsData = {
 
 
 export type EditDraftCfiType = (string | AnnotationInner)[]
-export type DraftCfiType = null | string | EditDraftCfiType
-
+//export type DraftCfiType = null | string | EditDraftCfiType
+export type DraftCfiType = null | string | Annotation_Item
 export type AnnotationData = (string | AnnotationInner)[]
 
 export type AnnotationInner = {
@@ -60,7 +61,7 @@ export type ResultsData = {
   x: SectionType
 }
 export type S_Props = {
-
+  annotations: Annotation_Item[] | []
   book_title: string
   sidebar: SidebarState
   set_sidebar: (x: SidebarState) => void
@@ -78,7 +79,7 @@ export type S_Props = {
   set_text_size: (option: RS_Option | null, actionMeta: ActionMeta<RS_Option>) => void
   text_size: TextSizeState
   delete_annotation: (x: string, i: number) => void
-  edit_annotation: (x: AnnotationData) => void
+  edit_annotation: (x: Annotation_Item) => void
   set_location: (x: string) => void
   spread: 'auto' | 'none'
   flow: 'paginated' | 'scrolled'
