@@ -1,5 +1,5 @@
 'use client'
-import React, { Fragment, useState, useEffect, useRef, MouseEvent, SyntheticEvent, KeyboardEvent } from 'react'
+import React, { Fragment, useState, useEffect, useRef, MouseEvent, SyntheticEvent, KeyboardEvent  } from 'react'
 import styles from '../css/book_box_styles.module.css'
 import ePub from 'epubjs'
 import { IoIosArrowBack } from "react-icons/io"
@@ -19,7 +19,7 @@ import { useRouter } from 'next/navigation'
 import {
   Annotation_Item, AnnotationInner, BB_Props,
   TextSizeState, SidebarState, ResultsState,
-  TextSearchResultsData, NavItem, EditDraftCfiType, DraftCfiType,
+  TextSearchResultsData, NavItem, DraftCfiType,
   CurrentLocType, renditionMarkClickedData, HighlightObj, TextSearchResults,
   SpineLoaded, RS_Option
 } from '../types/book_box_types'
@@ -27,13 +27,14 @@ import Spine from '../../../node_modules/epubjs/types/spine'
 import RenditionType from '../../../node_modules/epubjs/types/rendition'
 import BookEpubType from '../../../node_modules/epubjs/types/book'
 import ContentsType from '../../../node_modules/epubjs/types/contents'
-
+import { EpubCFI } from 'epubjs'
 
 
 
 
 export default function Book_Box(props: BB_Props) {
   const router = useRouter()
+
   const [spread, set_spread] = useState<'auto' | 'none'>('auto')
   const [text_size, set_text_size] = useState<TextSizeState>({ value: 'medium', label: 'Medium' })
   const [flow, set_flow] = useState<'paginated' | 'scrolled'>('paginated')
@@ -57,7 +58,6 @@ export default function Book_Box(props: BB_Props) {
   const prev_flow = useRef<'paginated' | 'scrolled'>('paginated');
   const search_highlights = useRef<Array<HighlightObj> | []>([]);
   const prev_spread = useRef<'auto' | 'none'>('auto');
-
   const textarea_ref = useRef<HTMLTextAreaElement | null>(null);
   const input_ref = useRef<HTMLInputElement | null>(null);
   const annotation_ref = useRef<HTMLButtonElement | null>(null);
@@ -101,7 +101,7 @@ export default function Book_Box(props: BB_Props) {
     if (props.annotations.length > 0) { 
       props.annotations.map((x_: AnnotationInner) => {
         if (x_ !== null) {
-          rendition.current.annotations.add('highlight', x_.cfiRange, { text: x_.data.text, data: x_.data.data, section: x_.data.section, time: x_.data.time, title: x_.data.title }, () => { })
+          rendition.current.annotations.add('highlight', x_.cfiRange, { text: x_.data.text, data: x_.data.data, section: x_.data.section, time: x_.data.time, title: x_.data.title }, () => { }, styles.hl_, {'fill' :'green'})
         }
     })
     }
@@ -120,6 +120,8 @@ function set_url() {
 }
 
 
+
+
   useEffect(() => {
 
     function keyListener(e: KeyboardEvent | Event) {
@@ -129,18 +131,28 @@ function set_url() {
        set_url()
       }
       if (e_.key == 'ArrowLeft') { 
-
         rendition.current.prev()
         set_url()
-      
       }
     }
+
+const getRect = (target: Range, frame: Element | "" | null) => {
+  const rect = target.getBoundingClientRect()
+  const viewElementRect =
+      frame ? frame.getBoundingClientRect() : { left: 0, top: 0 }
+  const left = rect.left + viewElementRect.left
+  const right = rect.right + viewElementRect.left
+  const top = rect.top + viewElementRect.top
+  const bottom = rect.bottom + viewElementRect.top
+  return { left, right, top, bottom }
+}
+
   // creates highlight in text
   function handle_annotation(cfiRange: string, text: string) {
     let loc: CurrentLocType = rendition.current.currentLocation()
     let matching = toc.current.filter(y => y.href.slice(0, y.href.indexOf('#')) == loc.start.href)
     let section_ = matching && matching[0] && matching[0].label ? matching[0].label : 'No chapter available'
-    rendition.current.annotations.add('highlight', cfiRange, { text: text, data: 'notes go here', section: section_, loc: loc }, () => { })
+    rendition.current.annotations.add('highlight', cfiRange, { text: text, data: 'notes go here', section: section_, loc: loc }, () => { }, styles.hl_, {'fill' :'green'})
     annotation_cb(cfiRange)
     if (popup_ref.current !== null && popup_ref.current !== undefined) {
       popup_ref.current.style.visibility = 'hidden'
@@ -162,14 +174,141 @@ function set_url() {
           annotation_clicked(cfiRange)
         })
 
+
+
+
+        const getRect = (target: Range, frame: Element | "" | null) => {
+          const rect = target.getBoundingClientRect()
+          const viewElementRect =
+              frame ? frame.getBoundingClientRect() : { left: 0, top: 0 }
+          const left = rect.left + viewElementRect.left
+          const right = rect.right + viewElementRect.left
+          const top = rect.top + viewElementRect.top
+          const bottom = rect.bottom + viewElementRect.top
+          return { left, right, top, bottom }
+        }
+        
+
+        rendition.current.hooks.content.register((contents: ContentsType, /*view*/) => {
+          const frame = contents.document.defaultView !== null ? contents.document.defaultView.frameElement : ''
+
+          contents.document.onclick = e => {
+
+      
+              const selection = contents.document.getSelection()
+              if (selection !== null)  { 
+
+
+            let text = selection.toString()
+            if (text && text.length > 0) {
+              const range = selection.getRangeAt(0)
+              const { left, right, top, bottom } = getRect(range, frame)
+               
+              if (annotation_ref.current !== null && annotation_ref.current !== undefined &&
+                highlight_ref.current !== null && highlight_ref.current !== undefined &&
+                popup_ref.current !== null && popup_ref.current !== undefined) {
+                  
+            
+         
+let cfiRange = new EpubCFI(range, contents.cfiBase).toString()
+
+
+
+                  highlight_ref.current.onclick = () => handle_highlight(cfiRange, text)
+                  annotation_ref.current.onclick = () => handle_annotation(cfiRange, text)
+                  popup_ref.current.style.top = `${top + 20}px`
+                  popup_ref.current.style.right = `${right}px`
+                  popup_ref.current.style.left = `${left}px`
+                  popup_ref.current.style.bottom = `${bottom}px`
+                  popup_ref.current.style.visibility = 'visible'
+  
+  
+                }
+
+
+            } else if (popup_ref.current && popup_ref.current !== null) { 
+              popup_ref.current.style.visibility = 'hidden'
+
+            }
+
+          }
+        }
+
+
+
+
+      })
+
+
+
+
+
+
+/*
+        rendition.current.on("selected", function (cfiRange: string, contents: ContentsType) {
+          contents.window.addEventListener('mousedown', handle_mouse_down)
+
+        //  contents.window.addEventListener('mouseup', handle_mouse_up)
+let selection = contents.window.getSelection()
+let text = selection !== null ? selection.toString() : ''
+let range;
+
+if (selection !== null && popup_ref.current !== null) { 
+
+  range = selection.getRangeAt(0).cloneRange();
+  range.collapse(false);
+  range.insertNode(popup_ref.current);
+
+
+
+
+let base_width = selection?.anchorNode?.parentNode  ? selection.anchorNode.parentNode.clientWidth  : 0
+let move_element = (base_width - 223) / 2
+
+apply_ref_styles(popup_ref, highlight_ref, annotation_ref, move_element)
+
+  if (annotation_ref.current !== null && annotation_ref.current !== undefined &&
+    highlight_ref.current !== null && highlight_ref.current !== undefined &&
+    popup_ref.current !== null && popup_ref.current !== undefined) {
+
+
+    let annotation_icon_ref = annotation_ref.current.children as HTMLCollectionOf<HTMLElement>
+    let highlight_icon_ref = highlight_ref.current.children as HTMLCollectionOf<HTMLElement>
+
+    highlight_icon_ref[0].setAttribute("width", '1.4em');
+    highlight_icon_ref[0].setAttribute("height", '1.4em');
+    highlight_icon_ref[0].style.marginRight = '10px'
+    annotation_icon_ref[0].setAttribute("width", '1.6em');
+    annotation_icon_ref[0].setAttribute("height", '1.6em');
+    annotation_icon_ref[0].style.marginRight = '10px'
+
+    highlight_ref.current.onclick = () => handle_highlight(cfiRange, text)
+    annotation_ref.current.onclick = () => handle_annotation(cfiRange, text)
+
+
+    popup_ref.current.style.visibility = 'visible'
+  }
+}
+
+
+        })
+*/
+
+
+/*
+
         // detect text highlight, trigger annotation box 
         rendition.current.on("selected", function (cfiRange: string, contents: ContentsType) {
           contents.window.addEventListener('mousedown', handle_mouse_down)
 
+
+          console.log('correct: ', cfiRange)
           let selection = contents.window.getSelection()
           let text = selection !== null ? selection.toString() : ''
 
-          apply_ref_styles(popup_ref, highlight_ref, annotation_ref)
+          apply_ref_styles(popup_ref, highlight_ref, annotation_ref, 0)
+
+
           if (annotation_ref.current !== null && annotation_ref.current !== undefined &&
             highlight_ref.current !== null && highlight_ref.current !== undefined &&
             popup_ref.current !== null && popup_ref.current !== undefined) {
@@ -190,6 +329,9 @@ function set_url() {
             popup_ref.current.style.visibility = 'visible'
           }
         })
+
+*/
+
         return toc
       }).then((toc_) => {
         toc.current = toc_.toc
@@ -318,13 +460,13 @@ let el = arr_.filter(x => x.className.includes('selected'))[0]
   function handle_highlight(cfiRange: string, text: string) {
     if (popup_ref.current !== null && popup_ref.current !== undefined) {
       popup_ref.current.style.visibility = 'hidden'
-      rendition.current.annotations.add('highlight', cfiRange, { text: text, data: 'notes go here', title: 'highlight' }, () => { })
+      rendition.current.annotations.add('highlight', cfiRange, { text: text, data: 'notes go here', title: 'highlight' }, () => { }, styles.hl_, {'fill' :'green'})
     }
   }
 
   // adds marks for search highlights - these will be removed by clear input function when user cancels their text search
   function handle_search_highlight(e: Event | null, cfiRange: string, text: string, x: HighlightObj) {
-    rendition.current.annotations.add('highlight', cfiRange, { text: text, data: `search for ${keyvalue}` }, () => { })
+    rendition.current.annotations.add('highlight', cfiRange, { text: text, data: `search for ${keyvalue}` }, () => { }, styles.hl_, {'fill' :'green'})
     handle_set_search_highlights(x)
   }
 
@@ -558,19 +700,17 @@ return decodeURI(x[0]).replace('highlight', '') == dc_.replace('highlight', '')
   }
 
 
-
   return (
 
     <Fragment>
 
-
       <Fragment>
         <div ref={popup_ref} className={styles.popup} onClick={(e) => e.preventDefault()} >
-          <button type={"button"} ref={annotation_ref} >
+          <button type={"button"} ref={annotation_ref} className = {styles.popup_annotation}>
             <IoIosCreate className={styles.annotation_icon} />
             <span>Annotation</span>
           </button>
-          <button type={"button"} ref={highlight_ref} >
+          <button type={"button"} ref={highlight_ref} className = {styles.popup_highlight}>
             <FaHighlighter className={styles.highlight_icon} />
             <span>Highlight</span>
           </button>

@@ -3,13 +3,19 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import User from "./models/user";
 import dbConnect from "./util/dbConnect";
 import type { NextAuthOptions } from 'next-auth'
-
+ 
 
 const auth_options:NextAuthOptions  =  {
     // Enable JSON Web Tokens since we will not store sessions in our DB
     session: {
       //  jwt: true
-      strategy: "jwt"
+      strategy: "jwt",
+      maxAge: 30 * 24 * 60 * 60, // 30 days
+
+      // Seconds - Throttle how frequently to write to database to extend a session.
+      // Use it to limit write operations. Set to 0 to always update the database.
+      // Note: This option is ignored if using JSON Web Tokens
+      updateAge: 24 * 60 * 60, // 24 hours
     },
     // Here we add our login providers - this is where you could add Google or Github SSO as well
     providers: [

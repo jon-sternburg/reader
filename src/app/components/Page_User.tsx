@@ -92,7 +92,7 @@ export default function Page_User(props: PU_Props): JSX.Element {
                 />
                 : null
               }
-
+ 
 
               <section className={styles.user_info_wrap}>
 

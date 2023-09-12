@@ -9,7 +9,7 @@
     right: 0;
     top: 0;
     width: 100%;
-    height: 100vh;
+    height: 100dvh;
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;
@@ -37,7 +37,7 @@ font-family: 'Roboto', sans-serif;
 margin: 0;
 padding: 0px;
 top: 0;
-height: 100vh;
+height: 100dvh;
 overflow-y: scroll;
 }
 .user_info_wrap header {

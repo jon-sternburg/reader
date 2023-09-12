@@ -70,9 +70,11 @@ export default function Book_Page(props: BP_Props): JSX.Element {
   const [size, set_dim] = useState<Size>({ width: 0, height: 0 })
   const [logged_in, set_logged_in] = useState<boolean | null>(null)
   const [annotations, set_annotations] = useState<A_State>([])
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
 
   useEffect(() => {
+
+    console.log('fired')
     async function get_book_data(book_id: string, user_id: string) {
       return await fetch(`/api/book?book_id=${book_id}&user_id=${user_id}`, {
         method: 'GET',
@@ -102,7 +104,7 @@ if (data[0]) {
       set_logged_in(false)
     }
 
-    if (session?.user._id) {
+    if (status == 'authenticated') {
 
      get_book_data(props.book.id, session.user._id)
 
@@ -111,7 +113,7 @@ if (data[0]) {
       get_ls_data(props.book.id)
     }
 
-  }, [session, props.book.id])
+  }, [ status, props.book.id])
 
 function update_annotations(a: Annotation[]) {
 
