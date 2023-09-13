@@ -3,7 +3,8 @@ import Books from "../../models/books";
 import { NextResponse } from 'next/server'
 import { createRouter } from "next-connect";
 import User from '../../models/user';
-
+import { getServerSession } from "next-auth/next"
+import auth_options from '../../auth_options'
 const router = createRouter()
 
 router.post(post_handler)
@@ -38,7 +39,8 @@ return null
 
 async function post_handler(request) {
     try {
-
+      const session = await getServerSession(auth_options)
+      if (session) { 
         const req = await request.json()
         const book_id = req.id
         const annotations = req.edit ? req.annotations : req.annotations.map(x => x[1])
@@ -81,7 +83,10 @@ console.log('RETRIEVED FROM DB')
 
 
 }
+      }  else {
 
+        return NextResponse.json({ message: 'User not logged in', success: false });
+       }
     } catch (e) {
         console.error(e);
         return NextResponse.json({ message: e, success: false });
@@ -89,7 +94,8 @@ console.log('RETRIEVED FROM DB')
 };
 async function get_handler(request) {
     try {
-   
+      const session = await getServerSession(auth_options)
+      if (session) { 
         const { searchParams } = new URL(request.url)
         const book_id = searchParams.get('book_id')
         const user_id = searchParams.get('user_id')
@@ -102,7 +108,10 @@ async function get_handler(request) {
 let book_result = u.books.filter( x => x.id == book_id)
 
 return NextResponse.json(book_result);
+ } else {
 
+  return NextResponse.json({ message: 'User not logged in', success: false });
+ }
 
     } catch (e) {
         console.error(e);

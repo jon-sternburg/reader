@@ -52,12 +52,13 @@ export default function Auth_Form():JSX.Element {
 
 await signIn('credentials', {
         callbackUrl: url,
-        redirect: false,
+      //  redirect: false,
+        redirect: true,
         email: enteredEmail,
         password: enteredPassword,
       });
 
-router.push(url)
+//router.push(url)
 
     } else {
       try {

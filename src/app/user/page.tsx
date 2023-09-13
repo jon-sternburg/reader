@@ -1,4 +1,3 @@
-import React from "react";
 import { redirect } from 'next/navigation'
 import { Metadata } from 'next'
 import Page_User from "../components/Page_User";
@@ -31,14 +30,15 @@ export default async function Page(): Promise<JSX.Element | void> {
 
   const session = await getServerSession(auth_options)
 
-
   
   if (session) { 
 
     const user_data = await fetch_data(session?.user._id)
-    let email = session.user.email ? session.user.email : ''
+    const user_id = session?.user._id ? session.user._id : ''
+    const email = session?.user.email ? session.user.email : ''
+
     return ( 
-    <Page_User user_data = {user_data} email = {email} /> 
+    <Page_User user_data = {user_data} email = {email} user_id = {user_id} /> 
     )
   
   }  else {

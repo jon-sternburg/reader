@@ -8,7 +8,7 @@ import { MdEdit, MdOutlineExpandMore, MdOutlineExpandLess } from "react-icons/md
 import getTimeStamp from '../util/getTimeStamp'
 import { useRouter } from 'next/navigation'
 import { AiFillHome } from "react-icons/ai"
-import { useSession, signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 
 type Size = {
   width: number
@@ -33,14 +33,15 @@ type User_Data = {
 type PU_Props = {
   user_data: User_Data
   email: string
+  user_id: string
 }
 export default function Page_User(props: PU_Props): JSX.Element {
   const [size, set_dim] = useState<Size>({ width: 0, height: 0 })
   const [book_list, set_book_list] = useState<boolean>(false)
   const [user_data, set_user_data] = useState<User_Data | null>(null)
   const [edit, set_edit] = useState<Edit_State>({ show: false, annotation: null, book: null })
-  const { data: session } = useSession()
   const router = useRouter()
+
   useEffect(() => {
     window.addEventListener('resize', updateDimensions);
 
@@ -105,7 +106,7 @@ export default function Page_User(props: PU_Props): JSX.Element {
                   </nav>
                 )}
 
-                {edit.show && edit.annotation !== null && edit.book !== null && (<Edit_Window annotation={edit.annotation} cancel_annotation={cancel_annotation} book={edit.book} user_id={session?.user._id ? session?.user._id : ''} />)}
+                {edit.show && edit.annotation !== null && edit.book !== null && (<Edit_Window annotation={edit.annotation} cancel_annotation={cancel_annotation} book={edit.book} user_id={props.user_id} />)}
 
 
                 <header>
@@ -124,7 +125,7 @@ export default function Page_User(props: PU_Props): JSX.Element {
 
                     {props.user_data !== null ?  
                     <Fragment>
-                    {props.user_data.books.length > 0 && (props.user_data.books.map((x, i) => <Book_Item key={i} book_item={x} edit_annotation={edit_annotation} user_id={session?.user._id ? session?.user._id : ''} reset_user_data={reset_user_data} />))}
+                    {props.user_data.books.length > 0 && (props.user_data.books.map((x, i) => <Book_Item key={i} book_item={x} edit_annotation={edit_annotation} user_id={props.user_id} reset_user_data={reset_user_data} />))}
                     </Fragment>
                     :
                       

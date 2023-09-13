@@ -111,7 +111,13 @@ export default function Book_Box(props: BB_Props) {
 function set_url() {
   let loc_ = rendition.current.currentLocation()
   let url = new URL(window.location.href) 
-  url.searchParams.set('cfi', loc_.end.cfi) 
+  console.log('current: ',decodeURIComponent(url.href.toString()))
+
+
+  url.searchParams.set('cfi', loc_.start.cfi) 
+  console.log('loc_.start.cfi: ', loc_.start.cfi)
+  console.log('props.query: ', props.query_cfi)
+  console.log('set: ',decodeURIComponent(url.href.toString()))
   window.history.replaceState(
     { ...window.history.state, as: decodeURIComponent(url.href.toString()), url: decodeURIComponent(url.href.toString()) },
     '',
@@ -123,29 +129,26 @@ function set_url() {
 
 
   useEffect(() => {
+    async function get_next() {
+      await  rendition.current.next()
+      set_url()
+    }
+    async function get_prev() {
+      await  rendition.current.prev()
+      set_url()
+    }
 
     function keyListener(e: KeyboardEvent | Event) {
       let e_ = e as KeyboardEvent
       if (e_.key == 'ArrowRight') { 
-        rendition.current.next()
-       set_url()
+        get_next()
+    
       }
       if (e_.key == 'ArrowLeft') { 
-        rendition.current.prev()
-        set_url()
+        get_prev()
       }
     }
 
-const getRect = (target: Range, frame: Element | "" | null) => {
-  const rect = target.getBoundingClientRect()
-  const viewElementRect =
-      frame ? frame.getBoundingClientRect() : { left: 0, top: 0 }
-  const left = rect.left + viewElementRect.left
-  const right = rect.right + viewElementRect.left
-  const top = rect.top + viewElementRect.top
-  const bottom = rect.bottom + viewElementRect.top
-  return { left, right, top, bottom }
-}
 
   // creates highlight in text
   function handle_annotation(cfiRange: string, text: string) {
@@ -515,7 +518,6 @@ let el = arr_.filter(x => x.className.includes('selected'))[0]
         })));
       }
       props.update_annotations(rendition.current.annotations.each())
-      set_si(si == i ? null : i)
     }).catch(err => console.log(err))
   }
 
@@ -602,14 +604,14 @@ return decodeURI(x[0]).replace('highlight', '') == dc_.replace('highlight', '')
 
 
 
-  function previous_page(e: MouseEvent | KeyboardEvent) {
-    rendition.current.prev()
+  async function previous_page(e: MouseEvent | KeyboardEvent) {
+  await  rendition.current.prev()
     set_url()
   }
 
 
-  function next_page(e: MouseEvent | KeyboardEvent) {
-    rendition.current.next()
+  async function next_page(e: MouseEvent | KeyboardEvent) {
+    await  rendition.current.next()
     set_url()
   }
 
@@ -737,6 +739,8 @@ return decodeURI(x[0]).replace('highlight', '') == dc_.replace('highlight', '')
           clear_input={clear_input}
           results_length={results.length}
           keyvalue={keyvalue}
+          logged_in={props.logged_in}
+          email={props.email}
           handle_text_submit={handle_text_submit}
           handleInputChange_text={handleInputChange_text}
           w={props.w}

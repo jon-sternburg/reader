@@ -1,6 +1,7 @@
 import Page_Home from './components/Page_Home'
 import { Metadata } from 'next'
-
+import { getServerSession } from "next-auth/next"
+import auth_options from './auth_options'
 
 export const metadata: Metadata = {
   title: 'Reader!',
@@ -15,12 +16,18 @@ export const metadata: Metadata = {
 }
 }
 
-export default function App(): JSX.Element {
+export default async function Page(): Promise<JSX.Element> {
+
+  const session = await getServerSession(auth_options)
+
+
+  const logged_in = session == null ? false : true
+  const email = session?.user.email ? session.user.email : ''
 
 
   return (
 
-    <Page_Home />
+    <Page_Home logged_in = {logged_in} email = {email} />
   )
 }
 

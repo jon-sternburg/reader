@@ -41,9 +41,9 @@ export type BB_Props = {
   selected_book: BookType
  // select_book: (book: BookType | null) => void
  logged_in: boolean
- email: string | null
+ email: string 
  update_annotations:  (x: Annotation[]) => void
- user_id: string | null
+ user_id: string 
   w: number
   h: number
   query_cfi: string | string[] | undefined

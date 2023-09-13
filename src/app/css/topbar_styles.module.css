@@ -524,7 +524,7 @@ margin: 0;
     margin-right: 20px;
 }
 
-.grid_buttons_top_wrap {
+.book_buttons_top_wrap {
 
     top: 10px;
     right: 20px;
@@ -549,7 +549,7 @@ margin: 0;
         font-size: 14px;
     }
     
-    .login_button {
+    .book_buttons_top_wrap .login_button {
         font-family: 'Roboto', sans-serif;
         color: whitesmoke;
         background-color: #121212;
@@ -580,7 +580,7 @@ margin: 0;
     background-color: #303030;
     
     }
-    .grid_buttons_top_wrap button:hover {
+    .home_button:hover, .login_button:hover{
 
         cursor: pointer;
         color: #a0a0a0;

@@ -34,16 +34,18 @@ type TBB_Props = {
   handle_text_submit: (e: SyntheticEvent) => void
   handleInputChange_text: (keyvalue: string) => void
   w: number
+  email: string
+  logged_in: boolean
 }
 
 
 export default function Top_Bar_Book(props: TBB_Props) {
-  const [logged_in, toggle_login] = useState<boolean>(false)
+ // const [logged_in, toggle_login] = useState<boolean>(false)
   const searchParams = useSearchParams()
-  const { data: session } = useSession()
+ // const { data: session } = useSession()
  const pathname = usePathname();
   const router = useRouter()
-
+/*
   useEffect(() => {
 
 
@@ -54,6 +56,8 @@ export default function Top_Bar_Book(props: TBB_Props) {
     }
   
   }, [session])
+*/
+
 
 function handle_login() {
 if (pathname.includes('login')) { 
@@ -109,12 +113,12 @@ if (pathname.includes('login')) {
           </div>
         )}
 
-<div className = {styles.grid_buttons_top_wrap}>
-{!logged_in ? 
-<button type = {'button'} className = {styles.login_button} onClick = {() => handle_login()}>Login</button>
-: logged_in && session?.user?.email ? 
-  <Link  href = {'/user'} className = {styles.user_tag_top}>{session.user.email}</Link>
-: null
+<div className = {styles.book_buttons_top_wrap}>
+{!props.logged_in ? 
+<button type = {'button'} className = {styles.login_button} onClick = {() => handle_login()}><span>Login</span></button>
+: 
+  <Link  href = {'/user'} className = {styles.user_tag_top}>{props.email}</Link>
+
 }
 <button type={"button"} className={styles.home_button} onClick={() => router.push('/')}> 
         <AiFillHome className={styles.home} />
