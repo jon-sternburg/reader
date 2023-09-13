@@ -1,9 +1,9 @@
 'use client'
-import React, { RefObject, Fragment, useState } from 'react'
+import { Fragment } from 'react'
 import styles from '../css/sidebar_styles.module.css'
 import { IoMdTrash } from "react-icons/io"
 import { MdEdit } from "react-icons/md"
-import { AnnotationData, AnnotationInner } from '../types/sidebar_types'
+
 
 type Annotation_Item = {
   type: string
@@ -49,30 +49,25 @@ type A_Props = {
 
 
 export default function Annotation_Wrapper(props: A_Props) {
-  const isAnnotationDataInner_ = (content: string | AnnotationInner): content is AnnotationInner => typeof content == 'object'
-  let text = props.x.data.text //isAnnotationDataInner_(props.x[1]) ? props.x[1].data.text : ''
-  let notes = props.x.data.data //isAnnotationDataInner_(props.x[1]) ? props.x[1].data.data : ''
-  let section = props.x.data.section //isAnnotationDataInner_(props.x[1]) ? props.x[1].data.section : ''
-  let title = props.x.data.title //isAnnotationDataInner_(props.x[1]) ? props.x[1].data.title : ''
-  let cfiRange = props.x.cfiRange //isAnnotationDataInner_(props.x[1]) ? props.x[1].cfiRange : ''
-
+  let text = props.x.data.text 
+  let notes = props.x.data.data 
+  let section = props.x.data.section 
+  let title = props.x.data.title 
+  let cfiRange = props.x.cfiRange 
   let preview = text
   let notes_preview = notes ? notes : ''
   let title_ = title ? title : 'untitled'
-
 
   function element_clicked() {
     props.get_annotation(cfiRange, props.i)
   }
 
 
-
-
   return (
 
-    <article className={props.selected ? styles["result_li"] + " " + styles["selected"] : styles["result_li"]}   >
+    <li style ={{listStyleType: 'none'}} className={props.selected ? styles["result_li"] + " " + styles["selected"] : styles["result_li"]}   >
 
-      <h3 className={props.selected ? styles.selected_title : styles.not_selected_title}>{title_}</h3>
+      <p className={props.selected ? styles.selected_title : styles.not_selected_title}>{title_}</p>
 
 
       <Fragment>
@@ -86,17 +81,16 @@ export default function Annotation_Wrapper(props: A_Props) {
           )}
 
 
-          <footer className={styles.annotation_bottom_bar}>
-            <MdEdit className={styles.edit_annotation} onClick={() => props.edit_annotation(props.x)} />
-            <IoMdTrash className={styles.delete_annotation} onClick={() => props.delete_annotation_pre(cfiRange, props.i)} />
-
-
-          </footer>
+          <div className={styles.annotation_bottom_bar}>
+          <button type={"button"} className={styles.view_in_book} onClick={() => element_clicked()}>View</button>
+          <button type = {"button"} onClick={() => props.edit_annotation(props.x)} className={styles.edit_annotation}  >  <MdEdit className={styles.edit_annotation_icon}  /> <span>Edit</span></button>
+          <button type = {"button"} onClick={() => props.delete_annotation_pre(cfiRange, props.i)} className={styles.delete_annotation} >  <IoMdTrash className={styles.delete_annotation_icon}  /><span>Delete</span></button>
+          </div>
 
         </Fragment>
 
       </Fragment>
-    </article>
+    </li>
 
   );
 }

@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import styles from '../css/sidebar_styles.module.css'
 import { TextSearchResultsData, ResultsData } from '../types/sidebar_types'
+import { MdOutlineExpandMore, MdOutlineExpandLess } from "react-icons/md"
 
 type SSR_Props = {
   key: number
@@ -35,22 +36,23 @@ export default function Search_Section_Result(props: SSR_Props) {
 
 
   return (
-    <div className={styles.search_result_section_wrap}>
-      <h4 onClick={() => toggle_section()}>{`${props.x.s.length} results found in ${props.x.label}`}</h4>
+    <li className={styles.search_result_section_wrap} style ={{listStyleType: 'none'}}>
+      <div className = {styles.result_top_wrap}  onClick={() => toggle_section()}>
+      {!open ? <MdOutlineExpandMore className={styles.book_item_expand_icon} /> : <MdOutlineExpandLess className={styles.book_item_expand_icon} />}
 
+      <p>{`${props.x.s.length} results found in ${props.x.label}`}</p>
+      </div>
 
       {open && (
 
-        <div className={styles.search_result_item}>
+        <ul className={styles.search_result_item}>
           {props.x.s.map((y, i_) => {
-
-            return <p key={i_} onClick={() => props.get_context(y, i_, props.w < 1000)}>{get_highlighted_text(y.excerpt)}</p>
-
+            return <li key={i_}  style ={{listStyleType: 'none'}}><p onClick={() => props.get_context(y, i_, props.w < 1000)}>{get_highlighted_text(y.excerpt)}</p></li>
           })}
-        </div>
+        </ul>
       )}
 
-    </div>
+    </li>
   )
 
 

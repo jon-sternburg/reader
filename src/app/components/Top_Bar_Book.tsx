@@ -1,14 +1,13 @@
 'use client'
-import React, { SyntheticEvent, useState, useEffect } from 'react'
+import { SyntheticEvent } from 'react'
 import styles from '../css/topbar_styles.module.css'
-import { AiFillHome, AiOutlineSearch } from "react-icons/ai"
 import { FcBookmark } from "react-icons/fc"
 import _ from 'lodash'
 import { MdClose } from "react-icons/md"
+import { AiFillHome, AiOutlineSearch } from "react-icons/ai"
 import { useRouter, useSearchParams } from 'next/navigation';
 import { usePathname } from "next/navigation"
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
+
 
 
 type BookType = {
@@ -26,7 +25,6 @@ type BookType = {
 
 
 type TBB_Props = {
- // select_book: (book: BookType | null) => void
   selected_book: BookType
   clear_input: () => void
   results_length: number
@@ -40,23 +38,9 @@ type TBB_Props = {
 
 
 export default function Top_Bar_Book(props: TBB_Props) {
- // const [logged_in, toggle_login] = useState<boolean>(false)
   const searchParams = useSearchParams()
- // const { data: session } = useSession()
  const pathname = usePathname();
   const router = useRouter()
-/*
-  useEffect(() => {
-
-
-    if (session?.user?.email) { 
-      toggle_login(true)
-    } else {
-      toggle_login(false)
-    }
-  
-  }, [session])
-*/
 
 
 function handle_login() {
@@ -78,12 +62,12 @@ if (pathname.includes('login')) {
   let title = props.selected_book == null ? 'Reader' : props.selected_book.title
 
   return (
-    <nav className={styles.top_bar_frame_book} style={{ backgroundColor: 'whitesmoke' }}>
+    <header className={styles.top_bar_frame_book} style={{ backgroundColor: 'whitesmoke' }}>
       <div className={styles.title_wrap} >
         <div className={styles.book_icon_wrap} >
           <FcBookmark className={styles.book_icon} />
         </div>
-        <div className={styles.title} >{title}</div>
+        <span className={styles.title} >{title}</span>
       </div>
 
 
@@ -95,8 +79,8 @@ if (pathname.includes('login')) {
       <div className={styles.header_wrap}>
 
       
-      {props.results_length <= 0 && props.keyvalue.length > 2 && (<button type = {"button"}><AiOutlineSearch className={styles.quit_search} onClick={(e) => props.handle_text_submit(e)} /></button>)}
-      {props.results_length > 0 && (<button type = {"button"}><MdClose className={styles.quit_search} onClick={() => props.clear_input()} /></button>)}
+      {props.results_length <= 0 && props.keyvalue.length > 2 && (<button type = {"button"}><AiOutlineSearch className={styles.quit_search_topbar_book} onClick={(e) => props.handle_text_submit(e)} /></button>)}
+      {props.results_length > 0 && (<button type = {"button"}><MdClose className={styles.quit_search_topbar_book} onClick={() => props.clear_input()} /></button>)}
         {props.w > 1000 && (
           <div className={styles.topbar_search_wrap} role="search">
             <form onSubmit={(e) => props.handle_text_submit(e)} >
@@ -113,20 +97,19 @@ if (pathname.includes('login')) {
           </div>
         )}
 
-<div className = {styles.book_buttons_top_wrap}>
+<nav className = {styles.book_buttons_top_wrap}>
 {!props.logged_in ? 
 <button type = {'button'} className = {styles.login_button} onClick = {() => handle_login()}><span>Login</span></button>
 : 
-  <Link  href = {'/user'} className = {styles.user_tag_top}>{props.email}</Link>
-
+<a  href = {'/user'} className = {styles.user_tag_top}><span>{props.email}</span></a>
 }
 <button type={"button"} className={styles.home_button} onClick={() => router.push('/')}> 
         <AiFillHome className={styles.home} />
       </button>
-</div>
+</nav>
       </div>
 
-    </nav>
+    </header>
   )
 }
 

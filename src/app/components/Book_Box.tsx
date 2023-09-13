@@ -1,5 +1,5 @@
 'use client'
-import React, { Fragment, useState, useEffect, useRef, MouseEvent, SyntheticEvent, KeyboardEvent  } from 'react'
+import { Fragment, useState, useEffect, useRef, MouseEvent, SyntheticEvent, KeyboardEvent, TouchEvent  } from 'react'
 import styles from '../css/book_box_styles.module.css'
 import ePub from 'epubjs'
 import { IoIosArrowBack } from "react-icons/io"
@@ -10,10 +10,8 @@ import Sidebar from './Sidebar'
 import Loading_Circle from './Loading_Circle'
 import Top_Bar_Book from './Top_Bar_Book'
 import Mobile_Search from './Mobile_Search'
-import { motion, AnimatePresence } from "framer-motion"
 import { AiFillHome } from "react-icons/ai"
 import { FaEllipsisV } from "react-icons/fa"
-import apply_ref_styles from '../util/apply_ref_styles'
 import getTimeStamp from '../util/getTimeStamp'
 import { useRouter } from 'next/navigation'
 import {
@@ -96,9 +94,11 @@ export default function Book_Box(props: BB_Props) {
   }
 
 
-  // builds book, adds annotations (from local storage or db), adds annotation event listeners, applies styles for annotation box, and performs cleanup
+
   useEffect(() => {
-    if (props.annotations.length > 0) { 
+let a_ = rendition.current.annotations.each()
+console.log(a_.length)
+    if (a_.length == 0 && props.annotations.length > 0) { 
       props.annotations.map((x_: AnnotationInner) => {
         if (x_ !== null) {
           rendition.current.annotations.add('highlight', x_.cfiRange, { text: x_.data.text, data: x_.data.data, section: x_.data.section, time: x_.data.time, title: x_.data.title }, () => { }, styles.hl_, {'fill' :'green'})
@@ -111,13 +111,7 @@ export default function Book_Box(props: BB_Props) {
 function set_url() {
   let loc_ = rendition.current.currentLocation()
   let url = new URL(window.location.href) 
-  console.log('current: ',decodeURIComponent(url.href.toString()))
-
-
   url.searchParams.set('cfi', loc_.start.cfi) 
-  console.log('loc_.start.cfi: ', loc_.start.cfi)
-  console.log('props.query: ', props.query_cfi)
-  console.log('set: ',decodeURIComponent(url.href.toString()))
   window.history.replaceState(
     { ...window.history.state, as: decodeURIComponent(url.href.toString()), url: decodeURIComponent(url.href.toString()) },
     '',
@@ -127,7 +121,7 @@ function set_url() {
 
 
 
-
+  // builds book, adds annotations (from local storage or db), adds annotation event listeners, applies styles for annotation box, and performs cleanup
   useEffect(() => {
     async function get_next() {
       await  rendition.current.next()
@@ -179,11 +173,34 @@ function set_url() {
 
 
 
+        let touchStart = 0;
+        let touchEnd = 0;
+        
+        rendition.current.on('touchstart',  function (event: TouchEvent) {
+          touchStart = event.changedTouches[0].screenX;
+        });
+        
+        rendition.current.on('touchend',  function (event: TouchEvent) {
+          touchEnd = event.changedTouches[0].screenX;
+          if (touchStart < touchEnd) {
+         
+            get_next()
+
+
+          }
+          if (touchStart > touchEnd) {
+         
+            get_prev()
+
+
+          }
+        });
+
+
 
         const getRect = (target: Range, frame: Element | "" | null) => {
           const rect = target.getBoundingClientRect()
-          const viewElementRect =
-              frame ? frame.getBoundingClientRect() : { left: 0, top: 0 }
+          const viewElementRect = frame ? frame.getBoundingClientRect() : { left: 0, top: 0 }
           const left = rect.left + viewElementRect.left
           const right = rect.right + viewElementRect.left
           const top = rect.top + viewElementRect.top
@@ -191,17 +208,12 @@ function set_url() {
           return { left, right, top, bottom }
         }
         
-
         rendition.current.hooks.content.register((contents: ContentsType, /*view*/) => {
           const frame = contents.document.defaultView !== null ? contents.document.defaultView.frameElement : ''
 
           contents.document.onclick = e => {
-
-      
               const selection = contents.document.getSelection()
               if (selection !== null)  { 
-
-
             let text = selection.toString()
             if (text && text.length > 0) {
               const range = selection.getRangeAt(0)
@@ -210,12 +222,8 @@ function set_url() {
               if (annotation_ref.current !== null && annotation_ref.current !== undefined &&
                 highlight_ref.current !== null && highlight_ref.current !== undefined &&
                 popup_ref.current !== null && popup_ref.current !== undefined) {
-                  
-            
-         
-let cfiRange = new EpubCFI(range, contents.cfiBase).toString()
-
-
+                
+                let cfiRange = new EpubCFI(range, contents.cfiBase).toString()
 
                   highlight_ref.current.onclick = () => handle_highlight(cfiRange, text)
                   annotation_ref.current.onclick = () => handle_annotation(cfiRange, text)
@@ -224,10 +232,7 @@ let cfiRange = new EpubCFI(range, contents.cfiBase).toString()
                   popup_ref.current.style.left = `${left}px`
                   popup_ref.current.style.bottom = `${bottom}px`
                   popup_ref.current.style.visibility = 'visible'
-  
-  
                 }
-
 
             } else if (popup_ref.current && popup_ref.current !== null) { 
               popup_ref.current.style.visibility = 'hidden'
@@ -236,104 +241,7 @@ let cfiRange = new EpubCFI(range, contents.cfiBase).toString()
 
           }
         }
-
-
-
-
       })
-
-
-
-
-
-
-/*
-        rendition.current.on("selected", function (cfiRange: string, contents: ContentsType) {
-          contents.window.addEventListener('mousedown', handle_mouse_down)
-
-        //  contents.window.addEventListener('mouseup', handle_mouse_up)
-let selection = contents.window.getSelection()
-let text = selection !== null ? selection.toString() : ''
-let range;
-
-if (selection !== null && popup_ref.current !== null) { 
-
-  range = selection.getRangeAt(0).cloneRange();
-  range.collapse(false);
-  range.insertNode(popup_ref.current);
-
-
-
-
-let base_width = selection?.anchorNode?.parentNode  ? selection.anchorNode.parentNode.clientWidth  : 0
-let move_element = (base_width - 223) / 2
-
-apply_ref_styles(popup_ref, highlight_ref, annotation_ref, move_element)
-
-  if (annotation_ref.current !== null && annotation_ref.current !== undefined &&
-    highlight_ref.current !== null && highlight_ref.current !== undefined &&
-    popup_ref.current !== null && popup_ref.current !== undefined) {
-
-
-    let annotation_icon_ref = annotation_ref.current.children as HTMLCollectionOf<HTMLElement>
-    let highlight_icon_ref = highlight_ref.current.children as HTMLCollectionOf<HTMLElement>
-
-    highlight_icon_ref[0].setAttribute("width", '1.4em');
-    highlight_icon_ref[0].setAttribute("height", '1.4em');
-    highlight_icon_ref[0].style.marginRight = '10px'
-    annotation_icon_ref[0].setAttribute("width", '1.6em');
-    annotation_icon_ref[0].setAttribute("height", '1.6em');
-    annotation_icon_ref[0].style.marginRight = '10px'
-
-    highlight_ref.current.onclick = () => handle_highlight(cfiRange, text)
-    annotation_ref.current.onclick = () => handle_annotation(cfiRange, text)
-
-
-    popup_ref.current.style.visibility = 'visible'
-  }
-}
-
-
-        })
-*/
-
-
-/*
-
-        // detect text highlight, trigger annotation box 
-        rendition.current.on("selected", function (cfiRange: string, contents: ContentsType) {
-          contents.window.addEventListener('mousedown', handle_mouse_down)
-
-
-          console.log('correct: ', cfiRange)
-          let selection = contents.window.getSelection()
-          let text = selection !== null ? selection.toString() : ''
-
-          apply_ref_styles(popup_ref, highlight_ref, annotation_ref, 0)
-
-
-          if (annotation_ref.current !== null && annotation_ref.current !== undefined &&
-            highlight_ref.current !== null && highlight_ref.current !== undefined &&
-            popup_ref.current !== null && popup_ref.current !== undefined) {
-
-
-            let annotation_icon_ref = annotation_ref.current.children as HTMLCollectionOf<HTMLElement>
-            let highlight_icon_ref = highlight_ref.current.children as HTMLCollectionOf<HTMLElement>
-
-            highlight_icon_ref[0].setAttribute("width", '1.4em');
-            highlight_icon_ref[0].setAttribute("height", '1.4em');
-            highlight_icon_ref[0].style.marginRight = '10px'
-            annotation_icon_ref[0].setAttribute("width", '1.6em');
-            annotation_icon_ref[0].setAttribute("height", '1.6em');
-            annotation_icon_ref[0].style.marginRight = '10px'
-
-            highlight_ref.current.onclick = () => handle_highlight(cfiRange, text)
-            annotation_ref.current.onclick = () => handle_annotation(cfiRange, text)
-            popup_ref.current.style.visibility = 'visible'
-          }
-        })
-
-*/
 
         return toc
       }).then((toc_) => {
@@ -343,7 +251,6 @@ apply_ref_styles(popup_ref, highlight_ref, annotation_ref, move_element)
     }).catch(err => console.log(err))
 
     return () => {
-
 
       document.removeEventListener("keyup", keyListener);
       document.removeEventListener("mousedown", handle_mouse_down)
@@ -481,7 +388,18 @@ let el = arr_.filter(x => x.className.includes('selected'))[0]
 
 
   function handle_set_sidebar(val: SidebarState) {
-    if (results && results.length > 0 && props.w < 1000) { set_sidebar('search') } else { sidebar == val ? set_sidebar(null) : set_sidebar(val) }
+
+
+   // if (results && results.length > 0 && props.w < 1000) { set_sidebar('search') } else { sidebar == val ? set_sidebar(null) : set_sidebar(val) }
+
+   if (sidebar == val) {
+
+    set_sidebar(null)
+
+   } else {
+set_sidebar(val)
+   }
+
   }
 
   // updates text for edit annotation
@@ -502,7 +420,6 @@ let el = arr_.filter(x => x.className.includes('selected'))[0]
   function edit_annotation(x: Annotation_Item) {
     editing.current = true
     draft_cfi.current = x
-    console.log(x)
     set_sidebar('new_annotation')
   }
 
@@ -565,16 +482,11 @@ let el = arr_.filter(x => x.className.includes('selected'))[0]
     let time = getTimeStamp()
     let annotations = rendition.current.annotations.each()
     let dc_ = draft_cfi.current !== null && typeof draft_cfi.current == 'string' ? draft_cfi.current : draft_cfi.current !== null ? draft_cfi.current.cfiRange : ''
-    console.log(draft_cfi.current)
+
     let matching = annotations.filter(x => {
-      /*
-      if (Array.isArray(x) && typeof dc_ == 'string') {
-        return decodeURI(x[0]).replace('highlight', '') == dc_.replace('highlight', '')
+      if (Array.isArray(x)) {
+      return decodeURI(x[0]).replace('highlight', '') == dc_.replace('highlight', '')
       }
-*/
-if (Array.isArray(x)) {
-return decodeURI(x[0]).replace('highlight', '') == dc_.replace('highlight', '')
-}
     })
     let text = Array.isArray(matching[0]) ? matching[0][1].data.text : ''
     let section = Array.isArray(matching[0]) ? matching[0][1].data.section : ''
@@ -616,7 +528,7 @@ return decodeURI(x[0]).replace('highlight', '') == dc_.replace('highlight', '')
   }
 
   function handleInputChange_text(keyvalue: string) {
-    if (keyvalue.length == 0) { clear_input() } else { set_keyvalue(keyvalue) }
+    if (keyvalue.length == 0 && props.w >= 1000) { clear_input() } else { set_keyvalue(keyvalue) }
   }
 
 
@@ -678,6 +590,7 @@ return decodeURI(x[0]).replace('highlight', '') == dc_.replace('highlight', '')
     rendition.current.display(x.cfi)
     set_url()
     handle_search_highlight(null, x.cfi, x.excerpt, x)
+    console.log(mobile)
     if (mobile) { set_sidebar(null) }
   }
 
@@ -695,7 +608,6 @@ return decodeURI(x[0]).replace('highlight', '') == dc_.replace('highlight', '')
     })).then(() => {
       set_results([])
       set_keyvalue('')
-      set_si(null)
       set_sidebar(null)
       search_highlights.current = []
     }).catch(err => console.log(err))
@@ -719,22 +631,13 @@ return decodeURI(x[0]).replace('highlight', '') == dc_.replace('highlight', '')
         </div>
 
 
-        <AnimatePresence>
-          {flag && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className={styles.no_results}>
-              No results.  Try another search!
-            </motion.div>)}
-        </AnimatePresence>
+          {flag && (<div className={styles.no_results}> No results.  Try another search!</div>)}
+
       </Fragment>
 
 
       {props.w > 1000 && (
         <Top_Bar_Book
-          // select_book={props.select_book}
           selected_book={props.selected_book}
           clear_input={clear_input}
           results_length={results.length}

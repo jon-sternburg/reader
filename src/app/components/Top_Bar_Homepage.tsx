@@ -1,9 +1,8 @@
 'use client'
-import React, {Fragment, useState, useEffect} from 'react'
+import {Fragment} from 'react'
 import styles from '../css/grid_styles.module.css'
-import { useSession, signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { AiFillGithub } from "react-icons/ai"
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { usePathname } from "next/navigation"
 
@@ -47,12 +46,12 @@ if (pathname.includes('login')) {
 
 <nav className = {styles.grid_buttons_top_wrap}>
 {!props.logged_in ? 
-<button type = {'button'} onClick = {() => handle_login()}>Login</button>
+<button type = {'button'} onClick = {() => handle_login()}><span>Login</span></button>
 
 : props.logged_in && props.email ? 
 <Fragment>
-  <Link  href = {'/user'} className = {styles.user_tag_top}>{props.email}</Link>
-<button type = {'button'} className = {styles.sign_out_top} onClick = {() =>  handle_signout()}>Sign out</button>
+  <a  href = {'/user'} className = {styles.user_tag_top}><span>{props.email}</span></a>
+<button type = {'button'} className = {styles.sign_out_top} onClick = {() =>  handle_signout()}><span>Sign out</span></button>
 </Fragment>
 : null
 }

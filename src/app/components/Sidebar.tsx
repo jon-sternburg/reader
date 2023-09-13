@@ -1,5 +1,5 @@
 'use client'
-import React, { Fragment, useState } from 'react'
+import { Fragment, useState, TouchEvent } from 'react'
 import styles from '../css/sidebar_styles.module.css'
 import { BiCommentAdd } from "react-icons/bi"
 import { FaSearch } from "react-icons/fa"
@@ -11,8 +11,7 @@ import { CgFormatJustify } from "react-icons/cg"
 import { GiMouse } from "react-icons/gi"
 import { CgArrowsH } from "react-icons/cg"
 import { IoIosArrowBack } from "react-icons/io"
-import { Annotation } from '../../../node_modules/epubjs/types/annotations'
-import { NavItem, AnnotationData, RS_Option, S_Props } from '../types/sidebar_types'
+import { NavItem, RS_Option, S_Props } from '../types/sidebar_types'
 import Sidebar_Icons_Fixed from './Sidebar_Icons_Fixed'
 import Annotation_Wrapper from './Annotation_Wrapper'
 import Search_Section_Result from './Search_Section_Result'
@@ -57,63 +56,73 @@ type DP_State = {
 
 export default function Sidebar(props: S_Props) {
   const [delete_prompt, toggle_delete_prompt] = useState<DP_State>({show: false, cfi: null, i: null})
-  const isAnnotationDataInner = (content: Annotation | AnnotationData | string): content is AnnotationData => typeof content !== 'string' && Array.isArray(content)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
+
   const isNavItem = (content: NavItem | []): content is NavItem => 'label' in content
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname();
-  let sidebarCollapsed = props.sidebar == null
-  let annotations = props.annotations //props.rendition !== null ? props.rendition.annotations.each() : []
+  const sidebarCollapsed = props.sidebar == null
+  const annotations = props.annotations 
 
 
-  function send_delete_annotation() {
+  const minSwipeDistance = 50 
+  
+  const onTouchStart = (e: TouchEvent) => {
+    setTouchEnd(null) // otherwise the swipe is fired even with usual touch events
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+  const onTouchMove = (e: TouchEvent) => setTouchEnd(e.targetTouches[0].clientX)
 
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    const distance = touchStart - touchEnd
+    const isRightSwipe = distance < -minSwipeDistance
+
+if (isRightSwipe) {
+  console.log(props.sidebar)
+if (props.sidebar !== 'menu') { 
+props.set_sidebar('menu')
+} else if (props.sidebar == 'menu') {
+  props.set_sidebar(null)
+}
+}
+  }
+
+
+  
+
+function send_delete_annotation() {
 let cfi_ = delete_prompt.cfi !== null ? delete_prompt.cfi : ''
 let i_ = delete_prompt.i !== null ? delete_prompt.i : 0
 props.delete_annotation(cfi_, i_)
 toggle_delete_prompt({show: false, cfi: null, i: null})
   }
-  function delete_annotation_pre(x: string, i: number) {
 
+function delete_annotation_pre(x: string, i: number) {
     toggle_delete_prompt({show: true, cfi: x, i: i})
-    
-    
       }
-      function cancel_prompt() {
 
+function cancel_prompt() {
         toggle_delete_prompt({show: false, cfi: null, i: null})
-
       }
 
-  function cancel_search() {
-    props.set_sidebar('menu')
+function cancel_search() {
     props.clear_input()
   }
 
-  function handle_user_click(){
-
+function handle_user_click(){
  if (props.logged_in) { 
-
  router.push('/user')
-
     } else {
       let cfi_params = searchParams.get('cfi')
       let cfi = cfi_params ? `?cfi=${cfi_params}` : ''
       let pn = pathname + cfi
-    
       localStorage.setItem('prev_url_login', JSON.stringify(pn));
-    
       router.push('/login')
-
     }
-
-
-
   }
-
-
-
-
 
 
   let title = props.sidebar == 'toc' ? 'Contents' :
@@ -140,35 +149,36 @@ toggle_delete_prompt({show: false, cfi: null, i: null})
 
 
 {!sidebarCollapsed && (
-      <aside style = {{width: props.w <= 1000 ? '100vw' : '50vw'}} className={styles.sidebar_frame}>
+      <aside style = {{width: props.w <= 1000 ? '100vw' : '50vw'}} className={styles.sidebar_frame} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
         <div className={styles.sidebar_inner_frame}>
           <div className={styles.sidebar_header}>
             <div className={styles.sidebar_icons}>
               {props.sidebar == 'toc' && (<button type={"button"} className={styles.toc_icon_active}  ><FaListOl className={styles.toc} /></button>)}
-              {props.sidebar == 'settings' && (<button type={"button"} className={styles.settings_icon} ><AiFillSetting className={styles.settings} /></button>)}
-              {props.sidebar == 'annotations' && (<button type={"button"} className={styles.annotations_icon} ><FaStickyNote className={styles.annotations} /></button>)}
-              {props.sidebar == 'new_annotation' && (<button type={"button"} className={styles.new_annotation_icon} ><BiCommentAdd className={styles.new_annotation} /></button>)}
-              {props.sidebar == 'mobile_search' && (<button type={"button"} className={styles.new_annotation_icon} ><FaSearch className={styles.new_annotation} /></button>)}
+              {props.sidebar == 'settings' && (<button type={"button"} className={styles.settings_icon_active} ><AiFillSetting className={styles.settings} /></button>)}
+              {props.sidebar == 'annotations' && (<button type={"button"} className={styles.annotations_icon_active} ><FaStickyNote className={styles.annotations} /></button>)}
+              {props.sidebar == 'new_annotation' && (<button type={"button"} className={styles.new_annotation_icon_active} ><BiCommentAdd className={styles.new_annotation} /></button>)}
+              {props.sidebar == 'mobile_search' && (<button type={"button"} className={styles.new_annotation_icon_active} ><FaSearch className={styles.new_annotation} /></button>)}
             </div>
 
 
             <header className={styles.sidebar_title}> <h5>{title}</h5>
               {(
-                props.sidebar == 'menu' ||
-                props.sidebar == 'mobile_search')
+                props.sidebar == 'menu' )
                 && props.w <= 1000 && (
-                  <button type={"button"} className={styles.toc_icon_back_mobile} onClick={() => props.set_sidebar('menu')} ><AiFillCloseCircle className={styles.close_menu} /></button>
+                  <button type={"button"} className={styles.toc_icon_close_mobile} onClick={() => props.set_sidebar('menu')} ><AiFillCloseCircle className={styles.close_menu} /></button>
                 )}
+                
 
               {
                 props.sidebar == 'search' && props.w <= 1000 && (
-                  <button type={"button"} className={styles.toc_icon_back_mobile} onClick={() => cancel_search()} ><AiFillCloseCircle className={styles.toc} /></button>
+                  <button type={"button"} className={styles.toc_icon_close_mobile} onClick={() => cancel_search()} ><AiFillCloseCircle className={styles.close_menu} /></button>
                 )}
 
 
               {(
                 props.sidebar == 'settings' ||
                 props.sidebar == 'toc' ||
+                props.sidebar == 'mobile_search' ||
                 props.sidebar == 'annotations') && props.w <= 1000 && (
                   <button type={"button"} className={styles.toc_icon_back_mobile} onClick={() => props.set_sidebar('menu')} ><IoIosArrowBack className={styles.toc} /></button>
                 )}
@@ -176,20 +186,20 @@ toggle_delete_prompt({show: false, cfi: null, i: null})
             </header>
 
 
-            {props.sidebar == 'search' && props.results.length > 0 && (
-              <div className={styles.search_results_wrap_sidebar} >
+            {props.sidebar == 'search' && (
+              <section className={styles.search_results_wrap_sidebar} >
                 {props.results.length > 0 && (
 
-                  <div className={styles.search_results_wrap_sidebar_inner}>
+                  <ul className={styles.search_results_wrap_sidebar_inner}>
                     {props.results.map((x, i) => {
 
                       return <Search_Section_Result key={i} w={props.w} x={x} i={i} get_context={props.get_context} keyvalue={props.keyvalue} />
 
                     })}
-                  </div>
+                  </ul>
                 )}
 
-              </div>)}
+              </section>)}
           </div>
 
 
@@ -228,13 +238,14 @@ toggle_delete_prompt({show: false, cfi: null, i: null})
                 <span>Annotations</span>
               </button>
 
-              <button type={"button"} className={styles.settings_option_mobile} onClick={() => props.set_sidebar('mobile_search')}>
+              <button type={"button"} className={styles.settings_option_mobile} onClick={() => props.set_sidebar(props.results.length > 0 ? 'search' : 'mobile_search')}>
                 <FaSearch className={styles.settings_mobile_icon} />
-                <span>Search Text</span>
+                <span>{props.results.length > 0 ? 'Search Results' : 'Search Text'}</span>
               </button>
 
             <div className = {styles.mobile_note}>*Use the desktop version of this site to add new annotations.</div>
-              {props.results.length > 0 && (<div className={styles.indicator_icon} onClick={() => props.set_sidebar('search')}><FaSearch className={styles.indicator} /></div>)}
+
+
             </section>
 
           )}
@@ -254,10 +265,12 @@ toggle_delete_prompt({show: false, cfi: null, i: null})
                   <div className={styles.options}>
                     <button type={"button"} className={props.spread == 'none' ? styles["single_wrap"] + " " + styles["enabled"] : styles["single_wrap"] + " " + styles["disabled"]} onClick={() => props.toggle_spread()}>
                       <CgFormatJustify className={styles.single_page} />
+                      <span>Single</span>
                     </button>
                     <button type={"button"} className={props.spread == 'auto' ? styles["single_wrap"] + " " + styles["enabled"] : styles["single_wrap"] + " " + styles["disabled"]} onClick={() => props.toggle_spread()} >
                       <CgFormatJustify className={styles.double_page} />
                       <CgFormatJustify className={styles.double_page} />
+                      <span>Double</span>
                     </button>
                   </div>
                 </div>
@@ -267,9 +280,12 @@ toggle_delete_prompt({show: false, cfi: null, i: null})
                 <div className={styles.options}>
                   <button type={"button"} className={props.flow !== 'paginated' ? styles["scroll_flow"] + " " + styles["enabled"] : styles["scroll_flow"] + " " + styles["disabled"]} onClick={() => props.toggle_flow()}>
                     <GiMouse className={styles.scroll_flow_icon} />
+                    {props.w >= 1000 && ( <span>Scroll</span>)}
+                   
                   </button>
                   <button type={"button"} className={props.flow == 'paginated' ? styles["arrow_flow"] + " " + styles["enabled"] : styles["arrow_flow"] + " " + styles["disabled"]} onClick={() => props.toggle_flow()}>
                     <CgArrowsH className={styles.arrow_flow_icon} />
+                    {props.w >= 1000 && ( <span>Arrow</span>)}
                   </button>
                 </div>
               </div>
@@ -293,27 +309,19 @@ toggle_delete_prompt({show: false, cfi: null, i: null})
 
           {props.sidebar == 'annotations' && (
             <section className={styles.annotations_list_wrap}>
-
+<ul style ={{listStyleType: 'none'}}>
 {delete_prompt.show && (
-
 <div className = {styles.delete_prompt_frame}>
 <p>Are you sure you want to delete this annotation?</p>
 <div className = {styles.bottom_buttons}>
-
 <button type = {"button"} onClick = {() => send_delete_annotation()}>Delete</button>
 <button type = {"button"} onClick = {() => cancel_prompt()}>Cancel</button>
-
 </div>
-
 </div>
-
 )}
 
               {annotations.map((x: any, i: number) => {
 
-              //  let x_ = isAnnotationDataInner(x) && typeof x !== 'string' ? x : ''
-
-    
                   return <Annotation_Wrapper
                     key={i}
                     x={x}
@@ -325,6 +333,7 @@ toggle_delete_prompt({show: false, cfi: null, i: null})
                   />
                 
               })}
+              </ul>
             </section>)}
 
 

@@ -1,5 +1,5 @@
 'use client'
-import React, { Fragment, useState, useEffect, useRef } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import styles from '../css/homepage_styles.module.css'
 import Top_Bar_Homepage_Mobile from './Top_Bar_Homepage_Mobile'
 import Sidebar_Homepage from './Sidebar_Homepage'
@@ -55,6 +55,13 @@ export default function Page_User(props: PU_Props): JSX.Element {
   }, [])
 
 
+  useEffect(() => {
+
+console.log('setting user_data', props.user_data)
+set_user_data(props.user_data)
+
+  }, [props.user_data])
+
   function show_book_list() {
     set_book_list(!book_list)
   }
@@ -63,6 +70,8 @@ export default function Page_User(props: PU_Props): JSX.Element {
     set_edit({ show: true, annotation: annotation, book: book })
   }
 
+
+  
   function reset_user_data(x: User_Data) {
     set_user_data(x)
   }
@@ -123,9 +132,9 @@ export default function Page_User(props: PU_Props): JSX.Element {
                     <h2 className={styles.my_books}>My Books</h2>
 
 
-                    {props.user_data !== null ?  
+                    {user_data !== null ?  
                     <Fragment>
-                    {props.user_data.books.length > 0 && (props.user_data.books.map((x, i) => <Book_Item key={i} book_item={x} edit_annotation={edit_annotation} user_id={props.user_id} reset_user_data={reset_user_data} />))}
+                    {user_data.books.length > 0 && (props.user_data.books.map((x, i) => <Book_Item key={i} book_item={x} edit_annotation={edit_annotation} user_id={props.user_id} reset_user_data={reset_user_data} />))}
                     </Fragment>
                     :
                       
@@ -364,9 +373,11 @@ toggle_delete_prompt({show: true, to_delete: annotation})
       </blockquote>
       <p>{notes}</p>
       <footer className={styles.annotation_bottom_bar}>
-        <button type={"button"} onClick={() => view_in_book()}>View in book</button>
-        <MdEdit className={styles.edit_annotation} onClick={() => props.edit_annotation(y, book)} />
-        <IoMdTrash className={styles.delete_annotation} onClick={() => delete_annotation_pre(y)} />
+        <button type={"button"} onClick={() => view_in_book()}>View</button>
+
+        <button type = {"button"} onClick={() => props.edit_annotation(y, book)} className={styles.edit_annotation}  >  <MdEdit className={styles.edit_annotation_icon}  /> <span>Edit</span></button>
+          <button type = {"button"} onClick={() => delete_annotation_pre(y)} className={styles.delete_annotation} >  <IoMdTrash className={styles.delete_annotation_icon}  /><span>Delete</span></button>
+
 
 
       </footer>

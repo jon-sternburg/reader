@@ -55,7 +55,7 @@ async function post_handler(request) {
 let test =  await update_book(user_id, book_id, annotations, name)
    
 if (test !== null) { 
-console.log('RETRIEVED FROM DB')
+console.log('SAVED TO EXISTING BOOK IN DB')
     return NextResponse.json(test);
 
 } else {

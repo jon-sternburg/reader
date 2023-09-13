@@ -52,14 +52,11 @@ export default function Auth_Form():JSX.Element {
 
 await signIn('credentials', {
         callbackUrl: url,
-      //  redirect: false,
         redirect: true,
         email: enteredEmail,
         password: enteredPassword,
       });
-
-//router.push(url)
-
+      
     } else {
       try {
      await createUser(enteredEmail, enteredPassword);

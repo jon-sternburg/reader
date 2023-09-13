@@ -33,7 +33,7 @@ position: fixed;
 .popup_annotation {
     width: 100%;
     display: flex;
-    border-right: .5px solid rgb(211, 211, 211);
+    border-right: .5px solid #c0c4db !important;
     
     flex-wrap: wrap;
     flex-direction: row;
@@ -53,7 +53,7 @@ height: 100%;
     width: 100%;
     height: 100%;
     display: flex;
-    border-left: .5px solid rgb(211, 211, 211);
+    border-left: .5px solid #c0c4db !important;
 
     flex-wrap: wrap;
     flex-direction: row;

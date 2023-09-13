@@ -1,5 +1,4 @@
 'use client'
-import React from 'react'
 import styles from '../css/grid_styles.module.css'
 import popular from '../data/popular.json'
 import { MdKeyboardArrowRight } from "react-icons/md"

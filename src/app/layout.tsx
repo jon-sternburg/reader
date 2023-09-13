@@ -1,5 +1,5 @@
 'use client'
-import { NextAuthProvider } from "./util/providers";
+//import { NextAuthProvider } from "./util/providers";
 import { usePathname } from "next/navigation"
 
 
@@ -18,7 +18,7 @@ const modal_ = pathname.includes("login") ? props.modal : null
 
       <html lang="en">
 
-        <body><NextAuthProvider>{props.children}{modal_}</NextAuthProvider></body>
+        <body>{props.children}{modal_}</body>
 
       </html>
 

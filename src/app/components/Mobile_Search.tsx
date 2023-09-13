@@ -1,7 +1,8 @@
 'use client'
-import React, { SyntheticEvent } from 'react'
+import { SyntheticEvent } from 'react'
 import styles from '../css/topbar_styles.module.css'
-import { MdClose } from "react-icons/md"
+import { AiFillCloseCircle } from "react-icons/ai"
+
 
 type MS_Props = {
   selected_book: BookType
@@ -27,8 +28,15 @@ type BookType = {
 }
 export default function Mobile_Search(props: MS_Props) {
 
+
+
   return (
-    <div className={styles.topbar_search_wrap_mobile} role="search">
+
+   
+
+
+
+    <section className={styles.topbar_search_wrap_mobile} role="search">
       <form onSubmit={(e) => props.handle_text_submit(e)} >
         <input
           id="search_text_book"
@@ -36,14 +44,18 @@ export default function Mobile_Search(props: MS_Props) {
           placeholder="Search text..."
           onChange={(e) => props.handleInputChange_text(e.target.value)}
         />
+         <button type="submit">Search</button>
       </form>
-      {props.results_length > 0 && (<MdClose className={styles.quit_search} onClick={() => props.clear_input()} />)}
-    </div>
 
 
 
- 
 
+      
+      {props.results_length > 0 && (<AiFillCloseCircle className={styles.quit_search} onClick={() => props.clear_input()} />)}
+    </section>
+
+
+    
 
   )
 }

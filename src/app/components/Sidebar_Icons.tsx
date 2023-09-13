@@ -1,5 +1,5 @@
 'use client'
-import React, { Fragment, useState, useEffect, useRef, MouseEvent, SyntheticEvent, KeyboardEvent } from 'react'
+import { useState } from 'react'
 import styles from '../css/sidebar_styles.module.css'
 import { FaSearch } from "react-icons/fa"
 import { FaListOl } from "react-icons/fa"
@@ -16,19 +16,6 @@ type SI_Props = {
 
 export default function Sidebar_Icons(props: SI_Props) {
   const [show_tooltip, set_tooltip] = useState<boolean>(false)
-
-
-  /*
-  useEffect(() => {
-    const timer = setTimeout(() => set_tooltip(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
-*/
-
-
-
-
-
 
 
   return (

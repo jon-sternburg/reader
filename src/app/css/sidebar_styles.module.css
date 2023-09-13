@@ -10,16 +10,7 @@
     align-items: flex-start;
 }
 
-.delete_annotation,
-.edit_annotation {
-    color: grey;
 
-    /*
-    transition: all .2s ease-in-out;
-    */
-    margin-right: 5px;
-
-}
 
 .sidebar_icons button,
 .sidebar_icons_fixed_col button {
@@ -54,26 +45,7 @@ font-family: 'Lato', sans-serif;
 
 }
 
-.delete_annotation {
 
-    color: darkred !important;
-    border-radius: 50%;
-    background: salmon;
-
-    height: 1em;
-    width: 1em;
-    padding: .2em;
-}
-
-.edit_annotation {
-    background: #a6c2ff;
-    border-radius: 50%;
-    color: #2e70ff !important;
-    height: 1em;
-    width: 1em;
-    padding: .2em;
-
-}
 
 .hl {
 
@@ -151,7 +123,92 @@ font-family: 'Lato', sans-serif;
     border-bottom-left-radius: .3em;
     margin: 0;
 
+display: flex;
+flex-wrap: nowrap;
+flex-direction: row;
 
+}
+
+.annotation_bottom_bar span {
+
+    margin: 0 !important;
+}
+
+.delete_annotation{
+    width: auto;
+    outline: none;
+    border: none;
+   
+    background: #f6b1a9;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    font-size: 14px;
+
+    border-radius: 4px;
+
+    }
+    .delete_annotation:hover {
+        cursor: pointer;
+        background: #faa096;
+    }
+
+    .edit_annotation:hover, .view_in_book:hover {
+        cursor: pointer;
+        background: #9fbbf2;
+    }
+
+    .view_in_book {
+
+
+        width: auto;
+        outline: none;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        background: #baccf1;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        margin-right: 10px;
+
+
+
+    }
+
+.edit_annotation{
+width: auto;
+outline: none;
+border: none;
+border-radius: 4px;
+font-size: 14px;
+background: #baccf1;
+
+display: flex;
+align-items: center;
+flex-wrap: nowrap;
+flex-direction: row;
+margin-right: 10px;
+}
+
+.edit_annotation_icon, .delete_annotation_icon {
+font-size: 30px;
+margin-right: 2.5px;
+margin-left: 2.5px;
+
+}
+.edit_annotation_icon {
+
+    color: #2e70ff;
+}
+.delete_annotation_icon  {
+
+
+    color: darkred;
 }
 
 .sidebar_frame {
@@ -218,7 +275,7 @@ font-family: 'Lato', sans-serif;
     border-radius: 50%;
 
 }
-
+/*
 .indicator_icon {
     cursor: default !important;
 
@@ -233,6 +290,7 @@ font-family: 'Lato', sans-serif;
     justify-content: center;
     align-items: center;
 }
+*/
 
 .indicator_icon:hover {
     cursor: pointer !important;
@@ -285,8 +343,16 @@ font-family: 'Lato', sans-serif;
     flex-direction: row;
 
 }
+.annotations_list_wrap ul {
 
-.result_li:hover {
+
+    margin: 0;
+    padding:0;
+}
+
+
+
+.preview:hover {
 
     /*
     transform: scale(1.02);
@@ -458,15 +524,38 @@ font-family: 'Lato', sans-serif;
 
 }
 
+.result_top_wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    align-items: center;
+    
+}
+.book_item_expand_icon {
+
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+
 .search_results_wrap_sidebar_inner {
 
     width: 100%;
-    margin: 65px auto;
+  
     overflow-y: auto;
-    height: calc(100% - 65px);
+    height: calc(100% - 85px);
 
 
+    list-style-type: none;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    padding-inline-start: 0;
+    margin: 65px auto;
+    padding-bottom: 20px;
 }
+
+
 
 .search_results_wrap_sidebar {
     height: 100%;
@@ -499,28 +588,22 @@ font-family: 'Lato', sans-serif;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     border: 1px solid lightgrey;
+
+}
+
+
+.single_wrap,  .scroll_flow, .arrow_flow {
     margin: 0 20px;
-}
-
-.double_wrap {
-    height: 2em;
-    width: 2em;
     display: flex;
     justify-content: center;
-    padding: 5px;
+    padding: 5px 7px;
     align-items: center;
-    border-radius: 50%;
-
+    border-radius: 4px;
+    width: 120px;
+  
 }
-
-.single_wrap {
-    height: 2em;
-    width: 2em;
-    display: flex;
-    justify-content: center;
-    padding: 5px;
-    align-items: center;
-    border-radius: 50%;
+.single_wrap span, .scroll_flow span, .arrow_flow span {
+    margin-left: 10px;
 }
 
 .disabled:hover {
@@ -532,7 +615,7 @@ font-family: 'Lato', sans-serif;
  
 .disabled {
     opacity: .7;
-    margin: 0 20px;
+  
     border: 1px solid lightgrey;
     background: lightgrey;
 }
@@ -551,7 +634,7 @@ font-family: 'Lato', sans-serif;
 
 
 .single_page {
-    color: 121212;
+    color: #121212;
     height: 1.5em;
     width: 1.5em;
 
@@ -560,7 +643,7 @@ font-family: 'Lato', sans-serif;
 .double_page {
     height: 1.5em;
     width: 1.5em;
-    color: 121212;
+    color: #121212;
 
 
 }
@@ -575,25 +658,6 @@ font-family: 'Lato', sans-serif;
     border-radius: 50%;
 }
 
-.scroll_flow {
-    height: 2em;
-    width: 2em;
-    display: flex;
-    justify-content: center;
-    padding: 5px;
-    align-items: center;
-    border-radius: 50%;
-}
-
-.arrow_flow {
-    height: 2em;
-    width: 2em;
-    display: flex;
-    justify-content: center;
-    padding: 5px;
-    align-items: center;
-    border-radius: 50%;
-}
 
 .first {
 
@@ -604,14 +668,14 @@ font-family: 'Lato', sans-serif;
 .arrow_flow_icon {
     height: 1.5em;
     width: 1.5em;
-    color: 121212;
+    color: #121212;
 
 }
 
 .scroll_flow_icon {
     height: 1.5em;
     width: 1.5em;
-    color: 121212;
+    color: #121212;
 
 }
 
@@ -620,23 +684,24 @@ font-family: 'Lato', sans-serif;
     width: 60%;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: center;
+    justify-content: flex-start;
 
 
 }
 
 .dropdown_wrap {
 
-    width: 50%;
+ 
     color: black !important;
+    width: calc(57%);
+  display: flex;
+  justify-content: flex-start;
 
 }
 
 
 
 .settings_option {
-
-
 
     display: flex;
     background-color: #EEEEEE;
@@ -702,14 +767,31 @@ font-family: 'Lato', sans-serif;
 
 .close_menu {
 
-    color: darkred;
+    color: salmon;
     width: 2em;
     height: 2em;
+    border-radius: 100%;
+    padding: 0;
+background: darkred;
+}
+
+.toc_icon_back_mobile {
+
+    border: none;
+    border-radius: 100%;
+    padding: 0;
+    margin: 0;
+font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    position: absolute;
+    right: 20px;
 
 }
 
-
-.toc_icon_back_mobile {
+.toc_icon_close_mobile {
 
     border: none;
     border-radius: 100%;
@@ -755,19 +837,27 @@ font-family: 'Lato', sans-serif;
 
 .toc_icon {
     margin: 10px auto 30px auto;
-    border-radius: 50%;
+    border-radius: 100%;
     background: whitesmoke;
     display: flex;
     justify-content: center;
     align-items: center;
 font-size: 18px;
+padding: 5px;
 }
 
 
 .toc_icon_active,
 .search_icon,
 .annotations_icon,
-.settings_icon {
+.settings_icon,
+.search_icon_active,
+.annotations_icon_active,
+.settings_icon_active,
+.new_annotation_icon_active,
+.close_sidebar_icon,
+.trash_icon,
+.indicator_icon{
     padding: 5px;
     margin: 30px auto;
     border-radius: 100%;
@@ -804,17 +894,6 @@ font-size: 18px;
 
 
 
-
-
-
-
-.close_sidebar:hover,
-.trash:hover {
-    color: whitesmoke;
-    height: 1.2em;
-    width: 1.2em;
-}
-
 .close_sidebar,
 .trash {
     color: rgba(0, 0, 0, 0.84);
@@ -823,11 +902,14 @@ font-size: 18px;
 }
 
 .close_sidebar_icon:hover,
+
+
 .trash_icon:hover {
     background: lightgrey;
     cursor: pointer;
 }
 
+/*
 .close_sidebar_icon,
 .trash_icon {
 
@@ -842,7 +924,7 @@ font-size: 18px;
 
 }
 
-
+*/
 .sidebar_inner_frame {
 
     display: flex;
@@ -1103,7 +1185,7 @@ font-size: 18px;
     border-radius: 4px;
     font-family: 'Lato', sans-serif;
 position: relative;
-    top: -80px;
+    top: -78px;
     left: calc(4vw + 10px);
     z-index: 999999999999999999;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.2);
@@ -1181,14 +1263,7 @@ position: relative;
 
     }
 
-    .toc,
-    .settings,
-    .annotation,
-    .new_annotation {
 
-        font-size: 22px;
-
-    }
 
     .sidebar_title h5 {
 
@@ -1202,7 +1277,7 @@ position: relative;
         height: 2em;
 
     }
-
+    
     .scroll_flow {
         height: 40px;
         width: 40px;
@@ -1213,6 +1288,12 @@ position: relative;
         border-radius: 50%;
     }
 
+    .dropdown_wrap {
+
+        width: 58%;
+        color: black !important;
+    
+    }
     .arrow_flow {
         height: 40px;
         width: 40px;

@@ -154,47 +154,59 @@ font-size: 17px;
 margin-left: 10px;
 }
 
-.delete_annotation {
+.delete_annotation{
+    width: auto;
+    outline: none;
+    border: none;
+   
+    background: #f6b1a9 !important;
 
-    color: darkred !important;
-    border-radius: 50%;
-    background: salmon;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
 
-    height: 1em;
-    width: 1em;
-    padding: .2em;
+
+    border-radius: 4px;
+
+    }
+    .delete_annotation:hover {
+        cursor: pointer;
+        background: #faa096 !important;
+    }
+
+    .edit_annotation:hover {
+        cursor: pointer;
+        background: #9fbbf2 !important;
+    }
+.edit_annotation{
+width: auto;
+outline: none;
+border: none;
+border-radius: 4px;
+
+background: #baccf1 !important;
+
+display: flex;
+align-items: center;
+flex-wrap: nowrap;
+flex-direction: row;
+margin-right: 10px;
 }
 
-.edit_annotation {
-    background: #a6c2ff;
-    border-radius: 50%;
-    color: #2e70ff !important;
-    height: 1em;
-    width: 1em;
-    padding: .2em;
+.edit_annotation_icon, .delete_annotation_icon {
+font-size: 16px;
+margin-right: 5px;
 
 }
-.delete_annotation,
-.edit_annotation {
-  
-    margin-right: 10px;
+.edit_annotation_icon {
 
+    color: #2e70ff;
 }
+.delete_annotation_icon  {
 
 
-.delete_annotation:hover {
-    cursor: pointer;
-    color: #b34d4d !important;
-    background: #d8887f;
-
-}
-
-.edit_annotation:hover {
-  
-cursor: pointer;
-background: #bacbf2;
-color: #739cf5 !important;
-
+    color: darkred;
 }
 .annotation_bottom_bar {
 
@@ -208,9 +220,9 @@ align-items: center;
 
 }
 .annotation_bottom_bar button {
-
+font-size: 14px;
 outline: none;
-padding: 7px;
+padding: 7px 10px;
 background-color: lightblue;
 border: none;
 border-radius: 4px;

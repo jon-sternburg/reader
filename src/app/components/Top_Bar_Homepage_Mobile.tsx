@@ -58,7 +58,7 @@ export default function Top_Bar_Homepage_Mobile(props: TBHM_Props) {
   }
   return (
 
-    <nav className={styles.top_bar_frame_mobile}>
+    <header className={styles.top_bar_frame_mobile}>
 
       <div className={styles.title_wrap_mobile}>
         <div className={styles.book_icon_wrap_mobile} >
@@ -72,7 +72,7 @@ export default function Top_Bar_Homepage_Mobile(props: TBHM_Props) {
         <AiFillCloseCircle className={styles.close_grid_sidebar_icon} onClick={() => props.show_book_list()} />
 
         :
-        <div className ={styles.mobile_right_icon_wrap}>
+        <nav className ={styles.mobile_right_icon_wrap}>
 
         {pathname.includes('user') ? 
       <Fragment>
@@ -88,12 +88,12 @@ export default function Top_Bar_Homepage_Mobile(props: TBHM_Props) {
 
 
      
-        </div>
+        </nav>
       
       }
 
 
-    </nav>
+    </header>
   )
 }
 
