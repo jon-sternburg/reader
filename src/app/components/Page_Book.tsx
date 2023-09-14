@@ -64,13 +64,25 @@ type Annotation_Item = {
 
 
 type A_State = Annotation_Item[] | []
+//https://libguides.consortiumlibrary.org/c.php?g=488706&p=3342726
+const default_options = [
+  {label: 'Descriptive', value: 'Descriptive'},
+  {label: 'Evaluative ', value: 'Evaluative '},
+  {label: 'Informative', value: 'Informative'}
+]
 
 
+type default_uc = option_uc[]
 
+type option_uc = {
+  label: string
+  value: string
+}
 
 export default function Book_Page(props: BP_Props): JSX.Element {
   const [size, set_dim] = useState<Size>({ width: 0, height: 0 })
   const [annotations, set_annotations] = useState<A_State>([])
+  const [user_categories, set_user_categories] = useState<default_uc>(default_options)
 
 
   useEffect(() => {
@@ -83,14 +95,20 @@ export default function Book_Page(props: BP_Props): JSX.Element {
         .then((data) => {
 
 if (data[0]) { 
+  console.log(data)
+  if (data[0].user_categories && data[0].user_categories.length > 0) { set_user_categories(data[0].user_categories)}
   set_annotations(data[0].annotations)
+ 
+
 } else {
   set_annotations([])
+
 }
         })
         .catch(err => {
           console.log(err)
           set_annotations([])
+
 
         })
     }
@@ -116,8 +134,9 @@ if (data[0]) {
 
 
 
-function update_annotations(a: Annotation[]) {
+function update_annotations(a: Annotation[], c: option_uc | null) {
 set_annotations(a.map((x:any) => x[1]))
+if (c !== null) {set_user_categories(prevState => [...prevState, c])}
 }
 
   useEffect(() => {
@@ -149,6 +168,7 @@ set_annotations(a.map((x:any) => x[1]))
                 user_id={props.user_id}
                 query_cfi={props.cfi}
                 annotations={annotations}
+                user_categories={user_categories}
                 update_annotations={update_annotations}
               />
 

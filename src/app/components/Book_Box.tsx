@@ -27,7 +27,10 @@ import BookEpubType from '../../../node_modules/epubjs/types/book'
 import ContentsType from '../../../node_modules/epubjs/types/contents'
 import { EpubCFI } from 'epubjs'
 
-
+type option_uc = {
+  label: string
+  value: string
+}
 
 
 export default function Book_Box(props: BB_Props) {
@@ -74,15 +77,19 @@ export default function Book_Box(props: BB_Props) {
   }
 
   //set book data in db (if user logged in)
-  async function set_book_data() {
+  async function set_book_data(category: option_uc | null) {
     let annotations_ = rendition.current.annotations.each()
+
+    let uc = category == null || props.user_categories.includes(category) ? props.user_categories : [...props.user_categories, category]
+    console.log('updating uc: ', uc)
+
     return await fetch("/api/book", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ id: props.selected_book.id, name: props.selected_book.title, annotations: annotations_, user_id: props.user_id, edit: false })
+      body: JSON.stringify({ id: props.selected_book.id, name: props.selected_book.title, annotations: annotations_, user_id: props.user_id, edit: false, user_categories: uc })
     })
       .then((res) => res.json())
       .then((data) => data)
@@ -97,7 +104,6 @@ export default function Book_Box(props: BB_Props) {
 
   useEffect(() => {
 let a_ = rendition.current.annotations.each()
-console.log(a_.length)
     if (a_.length == 0 && props.annotations.length > 0) { 
       props.annotations.map((x_: AnnotationInner) => {
         if (x_ !== null) {
@@ -183,16 +189,10 @@ function set_url() {
         rendition.current.on('touchend',  function (event: TouchEvent) {
           touchEnd = event.changedTouches[0].screenX;
           if (touchStart < touchEnd) {
-         
             get_next()
-
-
           }
           if (touchStart > touchEnd) {
-         
             get_prev()
-
-
           }
         });
 
@@ -428,13 +428,13 @@ set_sidebar(val)
       resolve(rendition.current.annotations.remove(x, 'highlight'))
     }).then(() => {
       if (props.logged_in) {
-        set_book_data()
+        set_book_data(null)
       } else {
         localStorage.setItem(props.selected_book.id + '-annotations', JSON.stringify(rendition.current.annotations.each().map(x => {
           if (Array.isArray(x)) { return x[1] }
         })));
       }
-      props.update_annotations(rendition.current.annotations.each())
+      props.update_annotations(rendition.current.annotations.each(), null)
     }).catch(err => console.log(err))
   }
 
@@ -478,7 +478,7 @@ set_sidebar(val)
   }
 
 
-  async function save_annotation() {
+  async function save_annotation(picked_category: option_uc | null, color: string) {
     let time = getTimeStamp()
     let annotations = rendition.current.annotations.each()
     let dc_ = draft_cfi.current !== null && typeof draft_cfi.current == 'string' ? draft_cfi.current : draft_cfi.current !== null ? draft_cfi.current.cfiRange : ''
@@ -500,15 +500,15 @@ set_sidebar(val)
       let input_value = input_ref.current !== null && input_ref.current !== undefined ? input_ref.current.value : ''
 
       if (match_ !== null) {
-        resolve(match_.update({ text: text, data: ta_value, title: input_value, section: section, time: time }))
+        resolve(match_.update({ text: text, data: ta_value, title: input_value, section: section, time: time, category: picked_category, color: color }))
       }
     }).then(() => {
-      if (props.logged_in) { set_book_data() } else {
+      if (props.logged_in) { set_book_data(picked_category) } else {
         localStorage.setItem(props.selected_book.id + '-annotations', JSON.stringify(rendition.current.annotations.each().map(x => {
           if (Array.isArray(x)) { return x[1] }
         })));
       }
-      props.update_annotations(rendition.current.annotations.each())
+      props.update_annotations(rendition.current.annotations.each(), picked_category)
       set_sidebar('annotations')
       set_si(index)
     }).catch(err => console.log(err))
@@ -662,6 +662,7 @@ set_sidebar(val)
             set_sidebar={handle_set_sidebar}
             toc={toc.current}
             email={props.email}
+            user_categories={props.user_categories}
             annotations={props.annotations}
             w={props.w}
             mobile_search={

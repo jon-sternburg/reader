@@ -15,6 +15,7 @@ const booksSchema = new mongoose.Schema({
     loc: {
         type: String
     },
+    user_categories: [mongoose.Schema.Types.Mixed],
     createdAt: {
         type: Date,
         default: Date.now

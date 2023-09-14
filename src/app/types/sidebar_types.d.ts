@@ -60,6 +60,14 @@ export type ResultsData = {
   sd: string
   x: SectionType
 }
+
+
+type default_uc = option_uc[]
+
+type option_uc = {
+  label: string
+  value: string
+}
 export type S_Props = {
   annotations: Annotation_Item[] | []
   book_title: string
@@ -68,6 +76,7 @@ export type S_Props = {
   toc: (NavItem | [])[]
   w: number
   logged_in: boolean
+  user_categories: default_uc
   email: string | null
   mobile_search: JSX.Element
   textarea_ref: RefObject<HTMLTextAreaElement>
@@ -88,7 +97,7 @@ export type S_Props = {
   results: ResultsState
   si: number | null
   draft_cfi: DraftCfiType
-  save_annotation: () => void
+  save_annotation: (picked_category: option_uc | null, color: string) => void
   cancel_annotation: () => void
   clear_input: () => void
 

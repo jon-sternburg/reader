@@ -11,7 +11,7 @@ router.post(post_handler)
 router.get(get_handler)
 
 
-async function update_book(user_id, book_id, annotations) {
+async function update_book(user_id, book_id, annotations, user_categories) {
 
 
 try {
@@ -22,6 +22,7 @@ try {
         {
           $set: {
             "books.$.annotations": annotations, // UPDATE
+            "books.$.user_categories": user_categories // UPDATE
           },
         },
         { new: true, safe: true, upsert: true })
@@ -44,6 +45,7 @@ async function post_handler(request) {
         const req = await request.json()
         const book_id = req.id
         const annotations = req.edit ? req.annotations : req.annotations.map(x => x[1])
+        const user_categories = req.user_categories
         const user_id = req.user_id
         const name = req.name
         console.log(typeof req.edit, '   ', req.edit)
@@ -52,7 +54,7 @@ async function post_handler(request) {
         dbConnect()
 
 
-let test =  await update_book(user_id, book_id, annotations, name)
+let test =  await update_book(user_id, book_id, annotations, user_categories)
    
 if (test !== null) { 
 console.log('SAVED TO EXISTING BOOK IN DB')
@@ -64,7 +66,8 @@ console.log('SAVED TO EXISTING BOOK IN DB')
     let new_book = new Books({
         name: name,
         id: book_id,
-        annotations: annotations
+        annotations: annotations,
+        user_categories: user_categories
     })
 
 

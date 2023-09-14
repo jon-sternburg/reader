@@ -37,17 +37,25 @@ export type BookType = {
   color?: string
 }
 
+
+type default_uc = option_uc[]
+
+type option_uc = {
+  label: string
+  value: string
+}
 export type BB_Props = {
   selected_book: BookType
  // select_book: (book: BookType | null) => void
  logged_in: boolean
  email: string 
- update_annotations:  (x: Annotation[]) => void
+ update_annotations:  (x: Annotation[], c: option_uc | null) => void
  user_id: string 
   w: number
   h: number
   query_cfi: string | string[] | undefined
   logged_in: boolean
+  user_categories: default_uc
   annotations: Annotation_Item[] | []
 }
 type Annotation_Item = {

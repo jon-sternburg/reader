@@ -47,6 +47,7 @@ font-family: 'Lato', sans-serif;
 
 
 
+
 .hl {
 
     color: red;
@@ -981,25 +982,107 @@ padding: 5px;
 
 }
 
+.annotation_options_wrap {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    height: 70px;
+align-items: center;
+width: 85%;
+margin: 0 auto;
+font-family: 'Lato', sans-serif;
+}
 
 
 
+.picked_color_sample {
+
+    border: 2px solid grey;
+    height: 25px;
+    width: 25px;
+    border-radius: 100%;
+
+}
+.highlight_color_button {
+font-size: 16px;
+outline: none;
+border: none;
+border-radius: 4px;
+background: lightgrey;
+display: flex;
+flex-direction: row;
+flex-wrap: nowrap;
+align-items: center;
+padding: 5px 7px;
+
+}
+.highlight_color_button:hover {
+    background: #ece9e9;
+    cursor: pointer;
+}
+.highlight_color_button span {
+    width: 115px;
+    margin-right: 10px;
+}
+
+.pick_category_inner span {
+
+margin: 0 20px 0 10px;
+
+}
+.pick_category_inner { 
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: 300px;
+    border-radius: 4px;
+    background: lightgrey;
+}
+.category_select_wrap { 
+
+    z-index: 999;
+    font-family: 'Lato', sans-serif;
+    width: 210px;
+}
+
+.pick_color_wrap {
+
+  width: auto;
+    height: 50px;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    }
+.pick_category_wrap {
+    width: auto;
+
+
+
+display: flex;
+align-items: center;
+justify-content: flex-start;
+
+}
 .annotation_text_wrap {
-
+    height: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: flex-start;
-    height: 85%;
+   
 }
 
 .annotation_title_wrap {
     /*
     margin: 20px auto 10px auto;
     */
-    margin: 0 auto;
+    margin: 0 auto 20px auto;
     width: 85%;
 
     height: 5%;
@@ -1014,7 +1097,7 @@ padding: 5px;
     height: 20px;
     padding: 15px;
     border: 1px solid rgba(0, 0, 0, 0.34);
-    border-radius: .7rem;
+    border-radius: 4px;
     outline: 0;
     margin: 0 auto;
     background: #fff;
@@ -1090,12 +1173,14 @@ padding: 5px;
     justify-content: space-between;
     width: 95%;
     height: 5%;
-
+    margin-top: 20px;
     font-family: 'Lato', sans-serif;
     display: flex;
+/*
     position: absolute;
     bottom: 50px;
     left: 2.5%;
+*/
     align-items: center;
 
 
@@ -1120,7 +1205,7 @@ padding: 5px;
     height: 70%;
     box-sizing: border-box;
     border: 1px solid rgba(0, 0, 0, 0.34);
-    border-radius: .7rem;
+    border-radius: 4px;
     outline: 0;
     margin: 10px auto;
     background: #fff;

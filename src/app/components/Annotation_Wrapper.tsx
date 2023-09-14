@@ -15,6 +15,7 @@ type Annotation_Item = {
     time: string
     title: string
     epubcfi: string
+    category?:option_uc
   }
   sectionIndex: number
   mark?: {
@@ -35,7 +36,10 @@ type Annotation_Item = {
     }
   }
 }
-
+type option_uc = {
+  label: string
+  value: string
+}
 type A_Props = {
   key: number
   x: Annotation_Item
@@ -56,6 +60,7 @@ export default function Annotation_Wrapper(props: A_Props) {
   let cfiRange = props.x.cfiRange 
   let preview = text
   let notes_preview = notes ? notes : ''
+  let category = props.x.data.category ? props.x.data.category.label : null
   let title_ = title ? title : 'untitled'
 
   function element_clicked() {
@@ -69,7 +74,7 @@ export default function Annotation_Wrapper(props: A_Props) {
 
       <p className={props.selected ? styles.selected_title : styles.not_selected_title}>{title_}</p>
 
-
+{category !== null && (<p>Category: {category}</p>)}
       <Fragment>
         {section && section.length > 0 && (
           <p className={styles.section} style={{ fontStyle: 'italic' }}>{section}</p>
