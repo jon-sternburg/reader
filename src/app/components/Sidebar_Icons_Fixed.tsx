@@ -13,7 +13,7 @@ type SIF_Props = {
   annotations_length: number
   clear_input: () => void
   set_sidebar: (x: SidebarState) => void
-  cancel_annotation: () => void
+  handle_cancel_annotation: () => void
 
 }
 
@@ -25,7 +25,7 @@ export default function Sidebar_Icons_Fixed(props: SIF_Props) {
         <Sidebar_Icons results_length={props.results_length} annotations_length={props.annotations_length} set_sidebar={props.set_sidebar} />
         :
         <Fragment>
-          <button type={"button"} className={styles.close_sidebar_icon} onClick={() => props.sidebar == 'new_annotation' ? props.cancel_annotation() : props.set_sidebar(null)}>
+          <button type={"button"} className={styles.close_sidebar_icon} onClick={() => props.sidebar == 'new_annotation' ? props.handle_cancel_annotation() : props.set_sidebar(null)}>
             <MdClose className={styles.close_sidebar} />
           </button>
           <Fragment>

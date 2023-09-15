@@ -88,7 +88,6 @@ export type S_Props = {
   set_text_size: (option: RS_Option | null, actionMeta: ActionMeta<RS_Option>) => void
   text_size: TextSizeState
   delete_annotation: (x: string, i: number) => void
-  edit_annotation: (x: Annotation_Item) => void
   set_location: (x: string) => void
   spread: 'auto' | 'none'
   flow: 'paginated' | 'scrolled'
@@ -96,11 +95,9 @@ export type S_Props = {
   get_annotation: (x: string, i: number) => void
   results: ResultsState
   si: number | null
-  draft_cfi: DraftCfiType
-  save_annotation: (picked_category: option_uc | null, color: string) => void
+  save_annotation: (picked_category: option_uc | null, color: string, edit: Annotation_Item | null) => void
   cancel_annotation: () => void
   clear_input: () => void
-
 }
 
 

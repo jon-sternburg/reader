@@ -74,7 +74,7 @@ export default function Annotation_Wrapper(props: A_Props) {
 
       <p className={props.selected ? styles.selected_title : styles.not_selected_title}>{title_}</p>
 
-{category !== null && (<p>Category: {category}</p>)}
+{category !== null && (<p className={styles.category}>Category: {category}</p>)}
       <Fragment>
         {section && section.length > 0 && (
           <p className={styles.section} style={{ fontStyle: 'italic' }}>{section}</p>

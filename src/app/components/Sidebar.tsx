@@ -1,5 +1,5 @@
 'use client'
-import { Fragment, useState, TouchEvent, RefObject, ChangeEvent } from 'react'
+import { Fragment, useState, TouchEvent, RefObject, ChangeEvent, useEffect} from 'react'
 import styles from '../css/sidebar_styles.module.css'
 import { BiCommentAdd } from "react-icons/bi"
 import { FaSearch } from "react-icons/fa"
@@ -19,6 +19,7 @@ import { FaUserCircle } from "react-icons/fa"
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import { CirclePicker } from 'react-color';
 import CreatableSelect from 'react-select/creatable';
+import { Annotation_Item } from '../types/book_box_types'
 
 const text_size_options = [
   { value: 'x-large', label: 'X-Large' },
@@ -60,7 +61,7 @@ export default function Sidebar(props: S_Props) {
   const [delete_prompt, toggle_delete_prompt] = useState<DP_State>({show: false, cfi: null, i: null})
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
-
+  const [edit, set_edit] = useState<Annotation_Item | null>(null)
   const isNavItem = (content: NavItem | []): content is NavItem => 'label' in content
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -127,6 +128,28 @@ function handle_user_click(){
   }
 
 
+function edit_annotation(a: Annotation_Item) {
+
+props.set_sidebar('new_annotation')
+set_edit(a)
+
+
+}
+
+function handle_cancel_annotation() {
+
+  set_edit(null)
+  props.cancel_annotation()
+}
+
+function handle_save_annotation(picked_category: option_uc | null, color: string, edit_:Annotation_Item | null) {
+
+props.save_annotation(picked_category, color, edit_)
+set_edit(null)
+
+
+}
+
   let title = props.sidebar == 'toc' ? 'Contents' :
     props.sidebar == 'settings' ? 'Settings' :
       props.sidebar == 'menu' ? 'Menu' :
@@ -141,7 +164,7 @@ function handle_user_click(){
       {props.w > 1000 && (
         <Sidebar_Icons_Fixed
           set_sidebar={props.set_sidebar}
-          cancel_annotation={props.cancel_annotation}
+          handle_cancel_annotation={handle_cancel_annotation}
           results_length={props.results.length}
           sidebar={props.sidebar}
           annotations_length={annotations.length}
@@ -330,7 +353,7 @@ function handle_user_click(){
                     i={i}
                     selected={props.si == i}
                     get_annotation={props.get_annotation}
-                    edit_annotation={props.edit_annotation}
+                    edit_annotation={edit_annotation}
                     delete_annotation_pre={delete_annotation_pre}
                   />
                 
@@ -339,7 +362,15 @@ function handle_user_click(){
             </section>)}
 
 
-          {props.sidebar == 'new_annotation' && (<Sidebar_New_Annotation user_categories = {props.user_categories} input_ref={props.input_ref} textarea_ref={props.textarea_ref} save_annotation={props.save_annotation} cancel_annotation={props.cancel_annotation}/>)}
+          {props.sidebar == 'new_annotation' && (<Sidebar_New_Annotation 
+                                                    user_categories = {props.user_categories} 
+                                                    input_ref={props.input_ref} 
+                                                    textarea_ref={props.textarea_ref} 
+                                                    handle_save_annotation={handle_save_annotation} 
+                                                    handle_cancel_annotation={handle_cancel_annotation}
+                                                    edit={edit}
+                                                    />
+          )}
 
         </div>
       </aside>
@@ -350,11 +381,12 @@ function handle_user_click(){
 }
 
 type SNA_Props = {
-  save_annotation: (picked_category: option_uc | null, color: string) => void
-  cancel_annotation: () => void
+  handle_save_annotation: (picked_category: option_uc | null, color: string, edit: Annotation_Item | null) => void
+  handle_cancel_annotation: () => void
   textarea_ref: RefObject<HTMLTextAreaElement>
   input_ref: RefObject<HTMLInputElement>
   user_categories:default_uc
+  edit: Annotation_Item | null
 }
 
 type default_uc = option_uc[]
@@ -379,7 +411,6 @@ type RGBColor = {
   r: number;
 }
 
-type Color = string | HSLColor | RGBColor;
 
 type ColorResult = {
   hex: string;
@@ -388,27 +419,44 @@ type ColorResult = {
 }
 
 function Sidebar_New_Annotation(props: SNA_Props) {
-  
-  
-  
   const [color_panel, set_color_panel] = useState<boolean>(false)
-  const [color, set_color] = useState<string>('#ffeb3b')
-  const [picked_category, set_picked_category] = useState<option_uc | null>(null);
+  const [color, set_color] = useState<string>(props.edit !== null && props.edit.data.color ?  props.edit.data.color : '#ffeb3b')
+  const [picked_category, set_picked_category] = useState<option_uc | null>(props.edit !== null && props.edit.data.category ?  props.edit.data.category : null);
   const [options, set_options] = useState<default_uc>(props.user_categories);
 
 
 
+useEffect(() => {
 
 
-console.log('options: ', options)
+if (props.edit !== null) { 
+  if (props.input_ref.current !== null && props.input_ref.current !== undefined) {
+    props.input_ref.current.value = props.edit.data.title
+  }
+  if (props.textarea_ref.current !== null && props.textarea_ref.current !== undefined) {
+    props.textarea_ref.current.value = props.edit.data.data
+  }
+
+}
+
+
+}, [props.edit])
+
+
+
+
+
+
+
+
+
 function toggle_color_panel() {
 set_color_panel(!color_panel)
 }
 
-  function handle_color_change(color:ColorResult, event: ChangeEvent<HTMLInputElement>) {
-
-    console.log('color !')
-    console.log(color, event)
+  function handle_color_change(color_:ColorResult, event: ChangeEvent<HTMLInputElement>) {
+    set_color(color_.hex)
+    set_color_panel(false)
 
     }
 
@@ -429,7 +477,11 @@ return (
     <div className = {styles.annotation_options_wrap}>
 
 <div className = {styles.pick_color_wrap}>
-{color_panel && (<CirclePicker onChange={handle_color_change} />)}
+{color_panel && (
+  <div className ={styles.circle_wrap_inner}>
+<CirclePicker onChange={handle_color_change} />
+</div>
+  )}
 
 <button type = {'button'} className = {styles.highlight_color_button} onClick = {() => toggle_color_panel()}>
 <span>Highlight color</span>
@@ -464,8 +516,8 @@ placeholder={'Create...'}
 
   
   <div className={styles.button_wrap}>
-    <div className={styles.save} onClick={() => props.save_annotation(picked_category, color)}>Save</div>
-    <div className={styles.cancel} onClick={() => props.cancel_annotation()}>Cancel</div>
+    <div className={styles.save} onClick={() => props.handle_save_annotation(picked_category, color, props.edit)}>Save</div>
+    <div className={styles.cancel} onClick={() => props.handle_cancel_annotation()}>Cancel</div>
   </div>
   </div>
   

@@ -16,6 +16,8 @@ export type AnnotationInner = {
     text: string
     time: string
     title: string
+    color?: string
+    category?: option_uc
   },
   sectionIndex?: number,
   cb?: Function,
@@ -68,6 +70,8 @@ type Annotation_Item = {
     time: string
     title: string
     epubcfi: string
+    color?: string
+    category?: option_uc
   }
   sectionIndex: number
   mark?: {
