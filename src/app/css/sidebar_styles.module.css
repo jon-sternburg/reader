@@ -96,7 +96,7 @@ font-family: 'Lato', sans-serif;
     
 .selected_title {
     font-weight: 600;
-    padding: 5px 15px;
+    padding: 10px;
     color: blue;
 
 }
@@ -104,7 +104,7 @@ font-family: 'Lato', sans-serif;
 .not_selected_title {
 
     font-weight: 600;
-    padding: 5px 15px;
+    padding: 10px;
 
 }
 
@@ -388,11 +388,11 @@ margin-left: 2.5px;
 
 .section {
     background-color: #EEEEEE;
-    padding: 7.5px;
+    padding: 15px;
 }
 .category {
     background-color: #EEEEEE;
-    padding: 7.5px;
+    padding: 15px;
 }
 .search_li {
     margin: 10px;
@@ -439,18 +439,43 @@ margin-left: 2.5px;
 .result_li span {
 
     width: 100%;
-    display: flex;
+
     border-radius: .5em;
     margin: 5px;
 }
 
+.result_li blockquote{
 
+
+
+    font-style: italic;
+  
+    padding: 10px;
+    background: rgb(248, 248, 203);
+    border-radius: 4px;
+
+
+
+
+}
+.result_li header { 
+    
+    width: 100%;
+
+}
+.result_li h6 {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    font-weight: normal;
+    font-size: 17px;
+    margin-left: 5px;
+    }
 
 .annotation_notes {
 
     overflow-wrap: break-word;
     background-color: #EEEEEE;
-    padding: 7.5px;
+    padding: 15px;
 }
 
 .annotation_secton {
@@ -989,11 +1014,12 @@ padding: 5px;
 
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
 
-    height: 70px;
+    height: auto;
 align-items: center;
 width: 85%;
+padding: 10px;
 margin: 0 auto;
 font-family: 'Lato', sans-serif;
 }
@@ -1051,9 +1077,10 @@ margin: 0 20px 0 10px;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-    width: 300px;
+    width: 280px;
     border-radius: 4px;
     background: lightgrey;
+   
 }
 .category_select_wrap { 
 
@@ -1070,11 +1097,12 @@ margin: 0 20px 0 10px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    padding: 5px 0;
     }
 .pick_category_wrap {
     width: auto;
 
-
+    padding: 5px 0;
 
 display: flex;
 align-items: center;
@@ -1319,7 +1347,11 @@ position: relative;
     
 
 @media (max-width: 999px) {
+    .annotation_text_wrap_inner {
 
+        height: 75%;
+
+    }
     .delete_prompt_frame {
 
         padding: 10px;

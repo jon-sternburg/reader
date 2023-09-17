@@ -1,20 +1,30 @@
 'use client'
-import { Fragment, useState, useEffect, useRef } from "react";
+import { Fragment, useState, useEffect } from "react";
 import styles from '../css/homepage_styles.module.css'
 import Top_Bar_Homepage_Mobile from './Top_Bar_Homepage_Mobile'
 import Sidebar_Homepage from './Sidebar_Homepage'
+import Sidebar_New_Annotation from "./Sidebar_New_Annotation";
 import { IoMdTrash } from "react-icons/io"
 import { MdEdit, MdOutlineExpandMore, MdOutlineExpandLess } from "react-icons/md"
 import getTimeStamp from '../util/getTimeStamp'
 import { useRouter } from 'next/navigation'
 import { AiFillHome } from "react-icons/ai"
 import { signOut } from 'next-auth/react';
+import { Annotation_Item } from '../types/book_box_types'
+
+
 
 type Size = {
   width: number
   height: number
 }
 
+type default_uc = option_uc[]
+
+type option_uc = {
+  label: string
+  value: string
+}
 type Edit_State = {
   show: boolean
   annotation: Annotation_Item | null
@@ -28,6 +38,7 @@ type User_Data = {
   role: string
   __v: number
   _id: string
+  user_categories: default_uc
 }
 
 type PU_Props = {
@@ -35,6 +46,10 @@ type PU_Props = {
   email: string
   user_id: string
 }
+
+
+
+
 export default function Page_User(props: PU_Props): JSX.Element {
   const [size, set_dim] = useState<Size>({ width: 0, height: 0 })
   const [book_list, set_book_list] = useState<boolean>(false)
@@ -85,6 +100,60 @@ set_user_data(props.user_data)
   }
 
 
+  async function set_book_data(x: Set_Book_Data_Params) {
+    console.log('setting db data after save => ', x)
+    return await fetch("/api/book", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(x)
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('set_book_data response => ', data)
+        reset_user_data(data)
+       cancel_annotation()
+      })
+      .catch(err => {
+        console.log(err)
+        cancel_annotation()
+      })
+
+  }
+
+
+
+function handle_save_annotation(picked_category: option_uc | null, color: string, edit_:Annotation_Item | null, ta_val: string, input_val: string) {
+
+    let time = getTimeStamp()
+
+    if (edit.book !== null && edit.annotation !== null && user_data !== null) {
+    let annotation = edit.annotation
+    let annotations = [...edit.book.annotations]
+    let matching_index = annotations.findIndex(x => x.cfiRange == annotation.cfiRange)
+
+    annotations[matching_index].data.title = input_val
+    annotations[matching_index].data.data = ta_val
+    annotations[matching_index].data.time = time
+    annotations[matching_index].data.color = color
+
+    if (picked_category !== null) {   annotations[matching_index].data.category = picked_category }
+    let uc = picked_category == null || edit.book.user_categories.filter(x => x.label.toLowerCase() == picked_category.label.toLowerCase()).length > 0 ? edit.book.user_categories : [...edit.book.user_categories, picked_category]
+    set_book_data({ id: edit.book.id, name: edit.book.name, annotations: annotations, user_id: props.user_id, edit: true, user_categories: uc })
+    }
+
+
+}
+
+
+function handle_cancel_annotation() {
+
+  console.log('handle cancel!')
+  set_edit({ show: false, annotation: null, book: null })
+}
+
   return (
     <Fragment>
 
@@ -115,7 +184,17 @@ set_user_data(props.user_data)
                   </nav>
                 )}
 
-                {edit.show && edit.annotation !== null && edit.book !== null && (<Edit_Window annotation={edit.annotation} cancel_annotation={cancel_annotation} book={edit.book} user_id={props.user_id} />)}
+                {edit.show && edit.annotation !== null && edit.book !== null && user_data !== null && (
+                
+               <div className={styles.annotation_text_wrap}  >
+               <Sidebar_New_Annotation 
+               user_categories = {edit.book.user_categories} 
+               handle_save_annotation={handle_save_annotation} 
+               handle_cancel_annotation={handle_cancel_annotation}
+               edit={edit.annotation}
+               />
+               </div>
+                )}
 
 
                 <header>
@@ -169,36 +248,6 @@ type BI_Props = {
   user_id: string
 }
 
-type Annotation_Item = {
-  type: string
-  cfiRange: string
-  data: {
-    text: string
-    data: string
-    section: string
-    time: string
-    title: string
-    epubcfi: string
-  }
-  sectionIndex: number
-  mark?: {
-    element: null
-    className: string
-    data: {
-      text: string
-      data: string
-      section: string
-      time: string
-      title: string
-      epubcfi: string
-    }
-    attributes: {
-      fill: string
-      'fill-opacity': string
-      'mix-blend-mode': string
-    }
-  }
-}
 
 type Book_Item = {
   annotations: [Annotation_Item]
@@ -206,6 +255,7 @@ type Book_Item = {
   id: string
   name: string
   _id: string
+  user_categories: default_uc
 }
 
 function Book_Item(props: BI_Props) {
@@ -283,9 +333,10 @@ function Annotation(props: A_Props) {
   let time = y.data.time
   let title = y.data.title == '' ? 'untitled' : y.data.title
   let notes = y.data.data
+  let color = y.data.color
 
 
-  async function delete_set_book_data(x: Set_Book_Data_Params) {
+  async function delete_set_book_data(x: Delete_Book_Data_Params) {
 
     console.log('setting db data after save => ', x)
     return await fetch("/api/book", {
@@ -367,7 +418,7 @@ toggle_delete_prompt({show: true, to_delete: annotation})
 <header>
       <h6>{title} - <span style={{ fontStyle: 'italic' }}>{time}</span></h6>
       </header>
-      <blockquote>
+      <blockquote style = {{border: `2px solid ${color}`}}>
         <p>{section}</p>
         <p>{text}</p>
       </blockquote>
@@ -402,8 +453,18 @@ type Set_Book_Data_Params = {
   annotations: Annotation_Item[]
   user_id: string
   edit: boolean
+  user_categories: default_uc
 }
 
+type Delete_Book_Data_Params = {
+  id: string
+  name: string
+  annotations: Annotation_Item[]
+  user_id: string
+  edit: boolean
+}
+
+/*
 function Edit_Window(props: EW_Props) {
 
   const textarea_ref = useRef<HTMLTextAreaElement | null>(null);
@@ -471,7 +532,7 @@ function Edit_Window(props: EW_Props) {
 
   return (
 
-
+ 
     <section className={styles.annotation_text_wrap}  >
       <div className={styles.annotation_edit_quote_wrap}>
         <blockquote>
@@ -496,3 +557,4 @@ function Edit_Window(props: EW_Props) {
 
 
 }
+*/

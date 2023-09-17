@@ -79,8 +79,6 @@ export type S_Props = {
   user_categories: default_uc
   email: string | null
   mobile_search: JSX.Element
-  textarea_ref: RefObject<HTMLTextAreaElement>
-  input_ref: RefObject<HTMLInputElement>
   rendition: RenditionType
   get_context: (x: TextSearchResultsData, i: number, mobile: boolean) => void
   toggle_flow: () => void
@@ -95,7 +93,7 @@ export type S_Props = {
   get_annotation: (x: string, i: number) => void
   results: ResultsState
   si: number | null
-  save_annotation: (picked_category: option_uc | null, color: string, edit: Annotation_Item | null) => void
+  save_annotation: (picked_category: option_uc | null, color: string, edit: Annotation_Item | null, ta_val: string, input_val: string) => void
   cancel_annotation: () => void
   clear_input: () => void
 }

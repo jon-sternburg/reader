@@ -16,6 +16,7 @@ type Annotation_Item = {
     title: string
     epubcfi: string
     category?:option_uc
+    color?: string
   }
   sectionIndex: number
   mark?: {
@@ -57,11 +58,13 @@ export default function Annotation_Wrapper(props: A_Props) {
   let notes = props.x.data.data 
   let section = props.x.data.section 
   let title = props.x.data.title 
+  let time = props.x.data.time
   let cfiRange = props.x.cfiRange 
   let preview = text
   let notes_preview = notes ? notes : ''
   let category = props.x.data.category ? props.x.data.category.label : null
   let title_ = title ? title : 'untitled'
+  let color = props.x.data.color
 
   function element_clicked() {
     props.get_annotation(cfiRange, props.i)
@@ -71,15 +74,20 @@ export default function Annotation_Wrapper(props: A_Props) {
   return (
 
     <li style ={{listStyleType: 'none'}} className={props.selected ? styles["result_li"] + " " + styles["selected"] : styles["result_li"]}   >
+<header>
+      <h6 className={props.selected ? styles.selected_title : styles.not_selected_title}>{title_} - <span style={{ fontStyle: 'italic' }}>{time}</span></h6>
+      </header>
 
-      <p className={props.selected ? styles.selected_title : styles.not_selected_title}>{title_}</p>
 
 {category !== null && (<p className={styles.category}>Category: {category}</p>)}
       <Fragment>
+      <blockquote style = {{border: `2px solid ${color}`}}>
         {section && section.length > 0 && (
-          <p className={styles.section} style={{ fontStyle: 'italic' }}>{section}</p>
+          <p  style={{ fontStyle: 'italic' }}>{section}</p>
         )}
-        <p onClick={() => element_clicked()} className={styles.preview} style={{ fontStyle: 'italic' }}>...{preview}...</p>
+        <p onClick={() => element_clicked()}  style={{ fontStyle: 'italic' }}>...{preview}...</p>
+
+        </blockquote>
         <Fragment>
           {notes_preview && notes_preview.length > 0 && (
             <p className={styles.annotation_notes} >{notes_preview}</p>

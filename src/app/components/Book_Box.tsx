@@ -66,10 +66,7 @@ export default function Book_Box(props: BB_Props) {
   const prev_flow = useRef<'paginated' | 'scrolled'>('paginated');
   const search_highlights = useRef<Array<HighlightObj> | []>([]);
   const prev_spread = useRef<'auto' | 'none'>('auto');
-  const textarea_ref = useRef<HTMLTextAreaElement | null>(null);
-  const input_ref = useRef<HTMLInputElement | null>(null);
   const annotation_ref = useRef<HTMLButtonElement | null>(null);
-  const highlight_ref = useRef<HTMLButtonElement | null>(null);
   const popup_ref = useRef<HTMLDivElement | null>(null);
   const isSpine = (content: Spine | SpineLoaded): content is SpineLoaded => 'spineItems' in content
   const flag = empty_results && results.length == 0
@@ -87,8 +84,8 @@ export default function Book_Box(props: BB_Props) {
   async function set_book_data(category: option_uc | null) {
     let annotations_ = rendition.current.annotations.each()
 
-    let uc = category == null || props.user_categories.includes(category) ? props.user_categories : [...props.user_categories, category]
-    console.log('updating uc: ', uc)
+    let uc = category == null || props.user_categories.filter(x => x.label.toLowerCase() == category.label.toLowerCase()).length > 0 ? props.user_categories : [...props.user_categories, category]
+ 
 
     return await fetch("/api/book", {
       method: 'POST',
@@ -243,12 +240,12 @@ function annotation_cb(cfiRange: string, text: string, section: string, loc: Cur
               const { left, right, top, bottom } = getRect(range, frame)
                
               if (annotation_ref.current !== null && annotation_ref.current !== undefined &&
-                highlight_ref.current !== null && highlight_ref.current !== undefined &&
+              //  highlight_ref.current !== null && highlight_ref.current !== undefined &&
                 popup_ref.current !== null && popup_ref.current !== undefined) {
                 
                 let cfiRange = new EpubCFI(range, contents.cfiBase).toString()
 
-                  highlight_ref.current.onclick = () => handle_highlight(cfiRange, text)
+                //  highlight_ref.current.onclick = () => handle_highlight(cfiRange, text)
                   annotation_ref.current.onclick = () => handle_annotation(cfiRange, text)
                   popup_ref.current.style.top = `${top + 20}px`
                   popup_ref.current.style.right = `${right}px`
@@ -435,12 +432,7 @@ set_sidebar(null)
 
 
     } else {
-      if (textarea_ref.current !== null && textarea_ref.current !== undefined) {
-        textarea_ref.current.value = ''
-      }
-      if (input_ref.current !== null && input_ref.current !== undefined) {
-        input_ref.current.value = ''
-      }
+
       set_sidebar('annotations')
   
     }
@@ -465,13 +457,13 @@ set_sidebar(null)
 
 
 
-  async function save_annotation(picked_category: option_uc | null, color: string, edit: Annotation_Item | null) {
+  async function save_annotation(picked_category: option_uc | null, color: string, edit: Annotation_Item | null, ta_value: string, input_value: string) {
 
     let time = getTimeStamp()
 if (new_annotation.current !== null) {
   console.log('saving new annotation...')
-  let ta_value = textarea_ref.current !== null && textarea_ref.current !== undefined ? textarea_ref.current.value : ''
-  let input_value = input_ref.current !== null && input_ref.current !== undefined ? input_ref.current.value : ''
+  //let ta_value = textarea_ref.current !== null && textarea_ref.current !== undefined ? textarea_ref.current.value : ''
+ // let input_value = input_ref.current !== null && input_ref.current !== undefined ? input_ref.current.value : ''
 
   let cfiRange = new_annotation.current.cfiRange
   let text = new_annotation.current.text
@@ -514,8 +506,8 @@ console.log('saving edited annotation...')
 
     return new Promise((resolve, reject) => {
       let match_ = Array.isArray(matching[0]) ? matching[0][1] : null
-      let ta_value = textarea_ref.current !== null && textarea_ref.current !== undefined ? textarea_ref.current.value : ''
-      let input_value = input_ref.current !== null && input_ref.current !== undefined ? input_ref.current.value : ''
+   //   let ta_value = textarea_ref.current !== null && textarea_ref.current !== undefined ? textarea_ref.current.value : ''
+   //   let input_value = input_ref.current !== null && input_ref.current !== undefined ? input_ref.current.value : ''
 
     
 
@@ -663,10 +655,12 @@ rendition.current.annotations.add('highlight', match_.cfiRange, { text: text, da
             <IoIosCreate className={styles.annotation_icon} />
             <span>Annotation</span>
           </button>
+          {/*
           <button type={"button"} ref={highlight_ref} className = {styles.popup_highlight}>
             <FaHighlighter className={styles.highlight_icon} />
             <span>Highlight</span>
           </button>
+           */}
         </div>
 
 
@@ -717,8 +711,6 @@ rendition.current.annotations.add('highlight', match_.cfiRange, { text: text, da
                 handleInputChange_text={handleInputChange_text}
               />
             }
-            textarea_ref={textarea_ref}
-            input_ref={input_ref}
             rendition={rendition.current}
             get_context={get_context}
             toggle_flow={toggle_flow}
