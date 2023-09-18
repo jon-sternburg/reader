@@ -95,9 +95,9 @@ export default function Annotation_Wrapper(props: A_Props) {
 
 
           <div className={styles.annotation_bottom_bar}>
-          <button type={"button"} className={styles.view_in_book} onClick={() => element_clicked()}>View</button>
-          <button type = {"button"} onClick={() => props.edit_annotation(props.x)} className={styles.edit_annotation}  >  <MdEdit className={styles.edit_annotation_icon}  /> <span>Edit</span></button>
-          <button type = {"button"} onClick={() => props.delete_annotation_pre(cfiRange, props.i)} className={styles.delete_annotation} >  <IoMdTrash className={styles.delete_annotation_icon}  /><span>Delete</span></button>
+          <button aria-label = {"View annotation in book"}  type={"button"} className={styles.view_in_book} onClick={() => element_clicked()}>View</button>
+          <button aria-label = {"Edit annotation"} type = {"button"} onClick={() => props.edit_annotation(props.x)} className={styles.edit_annotation}  >  <MdEdit className={styles.edit_annotation_icon}  /> <span>Edit</span></button>
+          <button aria-label = {"Delete annotation"} type = {"button"} onClick={() => props.delete_annotation_pre(cfiRange, props.i)} className={styles.delete_annotation} >  <IoMdTrash className={styles.delete_annotation_icon}  /><span>Delete</span></button>
           </div>
 
         </Fragment>

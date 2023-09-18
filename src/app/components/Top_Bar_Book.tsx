@@ -79,8 +79,8 @@ if (pathname.includes('login')) {
       <div className={styles.header_wrap}>
 
       
-      {props.results_length <= 0 && props.keyvalue.length > 2 && (<button type = {"button"}><AiOutlineSearch className={styles.quit_search_topbar_book} onClick={(e) => props.handle_text_submit(e)} /></button>)}
-      {props.results_length > 0 && (<button type = {"button"}><MdClose className={styles.quit_search_topbar_book} onClick={() => props.clear_input()} /></button>)}
+      {props.results_length <= 0 && props.keyvalue.length > 2 && (<button aria-label = {"Submit search"}  type = {"button"}><AiOutlineSearch className={styles.quit_search_topbar_book} onClick={(e) => props.handle_text_submit(e)} /></button>)}
+      {props.results_length > 0 && (<button aria-label = {"Cancel search"}  type = {"button"}><MdClose className={styles.quit_search_topbar_book} onClick={() => props.clear_input()} /></button>)}
         {props.w > 1000 && (
           <div className={styles.topbar_search_wrap} role="search">
             <form onSubmit={(e) => props.handle_text_submit(e)} >
@@ -99,11 +99,11 @@ if (pathname.includes('login')) {
 
 <nav className = {styles.book_buttons_top_wrap}>
 {!props.logged_in ? 
-<button type = {'button'} className = {styles.login_button} onClick = {() => handle_login()}><span>Login</span></button>
+<button aria-label = {"Login"} type = {'button'} className = {styles.login_button} onClick = {() => handle_login()}><span>Login</span></button>
 : 
 <a  href = {'/user'} className = {styles.user_tag_top}><span>{props.email}</span></a>
 }
-<button type={"button"} className={styles.home_button} onClick={() => router.push('/')}> 
+<button aria-label = {"Home"} type={"button"} className={styles.home_button} onClick={() => router.push('/')}> 
         <AiFillHome className={styles.home} />
       </button>
 </nav>

@@ -44,7 +44,7 @@ export default function Mobile_Search(props: MS_Props) {
           placeholder="Search text..."
           onChange={(e) => props.handleInputChange_text(e.target.value)}
         />
-         <button type="submit">Search</button>
+         <button aria-label = {"Submit search"}  type="submit">Search</button>
       </form>
 
 

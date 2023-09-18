@@ -5,7 +5,6 @@ import ePub from 'epubjs'
 import { IoIosArrowBack } from "react-icons/io"
 import { IoIosArrowForward } from "react-icons/io"
 import { IoIosCreate } from "react-icons/io"
-import { FaHighlighter } from "react-icons/fa"
 import Sidebar from './Sidebar'
 import Loading_Circle from './Loading_Circle'
 import Top_Bar_Book from './Top_Bar_Book'
@@ -651,7 +650,7 @@ rendition.current.annotations.add('highlight', match_.cfiRange, { text: text, da
 
       <Fragment>
         <div ref={popup_ref} className={styles.popup} onClick={(e) => e.preventDefault()} >
-          <button type={"button"} ref={annotation_ref} className = {styles.popup_annotation}>
+          <button  aria-label = {"Create annotation"} type={"button"} ref={annotation_ref} className = {styles.popup_annotation}>
             <IoIosCreate className={styles.annotation_icon} />
             <span>Annotation</span>
           </button>
@@ -736,8 +735,8 @@ rendition.current.annotations.add('highlight', match_.cfiRange, { text: text, da
 
             {props.w > 1000 && (
               <Fragment>
-                {sidebar == null && (<button type={"button"} className={styles.arrow_left_arrow_wrap} onClick={(e) => previous_page(e)}><IoIosArrowBack className={styles.left_arrow_icon} /></button>)}
-                <button type={"button"} className={styles.arrow_right_arrow_wrap} onClick={(e) => next_page(e)}><IoIosArrowForward className={styles.right_arrow_icon} /></button>
+                {sidebar == null && (<button aria-label = {"Go to previous page"} type={"button"} className={styles.arrow_left_arrow_wrap} onClick={(e) => previous_page(e)}><IoIosArrowBack className={styles.left_arrow_icon} /></button>)}
+                <button aria-label = {"Go to next page"} type={"button"} className={styles.arrow_right_arrow_wrap} onClick={(e) => next_page(e)}><IoIosArrowForward className={styles.right_arrow_icon} /></button>
               </Fragment>)}
             {props.w <= 1000 && sidebar == null && (
               <Fragment>

@@ -25,11 +25,11 @@ export default function Sidebar_Icons_Fixed(props: SIF_Props) {
         <Sidebar_Icons results_length={props.results_length} annotations_length={props.annotations_length} set_sidebar={props.set_sidebar} />
         :
         <Fragment>
-          <button type={"button"} className={styles.close_sidebar_icon} onClick={() => props.sidebar == 'new_annotation' ? props.handle_cancel_annotation() : props.set_sidebar(null)}>
+          <button aria-label = {"Close sidebar"} type={"button"} className={styles.close_sidebar_icon} onClick={() => props.sidebar == 'new_annotation' ? props.handle_cancel_annotation() : props.set_sidebar(null)}>
             <MdClose className={styles.close_sidebar} />
           </button>
           <Fragment>
-            {props.sidebar == 'search' && (<button type={"button"} className={styles.trash_icon} onClick={() => props.clear_input()}><IoMdTrash className={styles.trash} /></button>)}
+            {props.sidebar == 'search' && (<button aria-label = {"Clear search and search results"} type={"button"} className={styles.trash_icon} onClick={() => props.clear_input()}><IoMdTrash className={styles.trash} /></button>)}
           </Fragment>
         </Fragment>
       }

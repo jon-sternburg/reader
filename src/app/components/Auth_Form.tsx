@@ -98,8 +98,8 @@ setNewRegistered(true)
 
             <div className = {styles.submit_wrap}>
 
-              <button className = {styles.left_button} type = {"submit"}>{isLogin ? 'Login' : 'Create Account'}</button>
-              <button className = {styles.right_button} type='button' onClick={switchAuthModeHandler}>{isLogin ? 'Sign Up' : 'Already a user? Login'}</button>
+              <button aria-label = {isLogin ? 'Login' : 'Create Account'} className = {styles.left_button} type = {"submit"}>{isLogin ? 'Login' : 'Create Account'}</button>
+              <button aria-label = {isLogin ? 'Sign Up' : 'Already a user? Login'}  className = {styles.right_button} type='button' onClick={switchAuthModeHandler}>{isLogin ? 'Sign Up' : 'Already a user? Login'}</button>
               
             </div>
 
@@ -110,7 +110,7 @@ setNewRegistered(true)
         <div className=''>
           <p>You have successfully registered!</p>
           
-          <button onClick={() => handle_registered()} className='button button-color'>Login Now</button>
+          <button aria-label = {"Login now"} onClick={() => handle_registered()} className='button button-color'>Login Now</button>
           
         </div>
       )}
@@ -138,7 +138,7 @@ setNewRegistered(true)
             />
           </div>
           <div className='my-5'>
-            <button type='submit' className='button button-color mr-4'>Login</button>
+            <button aria-label = {"Login"} type='submit' className='button button-color mr-4'>Login</button>
           </div>
         </form>
 

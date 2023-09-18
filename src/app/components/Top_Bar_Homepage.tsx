@@ -46,12 +46,12 @@ if (pathname.includes('login')) {
 
 <nav className = {styles.grid_buttons_top_wrap}>
 {!props.logged_in ? 
-<button type = {'button'} onClick = {() => handle_login()}><span>Login</span></button>
+<button aria-label = {"Login"} type = {'button'} onClick = {() => handle_login()}><span>Login</span></button>
 
 : props.logged_in && props.email ? 
 <Fragment>
   <a  href = {'/user'} className = {styles.user_tag_top}><span>{props.email}</span></a>
-<button type = {'button'} className = {styles.sign_out_top} onClick = {() =>  handle_signout()}><span>Sign out</span></button>
+<button aria-label = {"Sign out"} type = {'button'} className = {styles.sign_out_top} onClick = {() =>  handle_signout()}><span>Sign out</span></button>
 </Fragment>
 : null
 }

@@ -1,5 +1,5 @@
 'use client'
-import { Fragment, useState, TouchEvent } from 'react'
+import { Fragment, useState, TouchEvent, useCallback, useEffect, useRef} from 'react'
 import styles from '../css/sidebar_styles.module.css'
 import { BiCommentAdd } from "react-icons/bi"
 import { FaSearch } from "react-icons/fa"
@@ -19,6 +19,8 @@ import Sidebar_New_Annotation from './Sidebar_New_Annotation'
 import { FaUserCircle } from "react-icons/fa"
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import { Annotation_Item } from '../types/book_box_types'
+import { GrDrag } from "react-icons/gr"
+
 
 const text_size_options = [
   { value: 'x-large', label: 'X-Large' },
@@ -56,7 +58,6 @@ type DP_State = {
   }
 
 
-  type default_uc = option_uc[]
 
   type option_uc = {
     label: string
@@ -68,6 +69,9 @@ type DP_State = {
   
 
 export default function Sidebar(props: S_Props) {
+  const [sidebarWidth, setSidebarWidth] = useState<string | number>(props.w <= 1000 ? '100vw' : '50vw');
+  const sidebarRef = useRef<HTMLElement | null>(null);
+  const [isResizing, setIsResizing] = useState<boolean>(false);
   const [delete_prompt, toggle_delete_prompt] = useState<DP_State>({show: false, cfi: null, i: null})
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
@@ -94,7 +98,6 @@ export default function Sidebar(props: S_Props) {
     const isRightSwipe = distance < -minSwipeDistance
 
 if (isRightSwipe) {
-  console.log(props.sidebar)
 if (props.sidebar !== 'menu') { 
 props.set_sidebar('menu')
 } else if (props.sidebar == 'menu') {
@@ -103,8 +106,45 @@ props.set_sidebar('menu')
 }
   }
 
+  const startResizing = useCallback(() => {
+    setIsResizing(true);
+  }, []);
 
-  
+  const stopResizing = useCallback(() => {
+    setIsResizing(false);
+  }, []);
+
+  const resize = useCallback(
+    (mouseMoveEvent: MouseEvent) => {
+
+ 
+      if (isResizing && sidebarRef.current !== null) {
+
+        let width_ = mouseMoveEvent.clientX - sidebarRef.current.getBoundingClientRect().left
+        if (width_ <= props.w - (props.w * .04) && width_ >= (props.w * .5) ) { 
+
+          setSidebarWidth(width_);
+        }
+
+
+      }
+    },
+    [isResizing, props.w]
+  );
+
+  useEffect(() => {
+
+    if (props.w >= 1000) { 
+
+    window.addEventListener("mousemove", resize);
+    window.addEventListener("mouseup", stopResizing);
+    return () => {
+      window.removeEventListener("mousemove", resize);
+      window.removeEventListener("mouseup", stopResizing);
+    };
+
+  }
+  }, [resize, stopResizing, props.w]);
 
 function send_delete_annotation() {
 let cfi_ = delete_prompt.cfi !== null ? delete_prompt.cfi : ''
@@ -184,15 +224,25 @@ set_edit(null)
 
 
 {!sidebarCollapsed && (
-      <aside style = {{width: props.w <= 1000 ? '100vw' : '50vw'}} className={styles.sidebar_frame} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+      <aside 
+     // style = {{width: props.w <= 1000 ? '100vw' : '50vw'}}
+      style={{ width: sidebarWidth }}
+      className={styles.sidebar_frame}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      ref={sidebarRef}
+      onMouseDown={(e) => e.preventDefault()}
+         >
+       
         <div className={styles.sidebar_inner_frame}>
           <div className={styles.sidebar_header}>
             <div className={styles.sidebar_icons}>
-              {props.sidebar == 'toc' && (<button type={"button"} className={styles.toc_icon_active}  ><FaListOl className={styles.toc} /></button>)}
-              {props.sidebar == 'settings' && (<button type={"button"} className={styles.settings_icon_active} ><AiFillSetting className={styles.settings} /></button>)}
-              {props.sidebar == 'annotations' && (<button type={"button"} className={styles.annotations_icon_active} ><FaStickyNote className={styles.annotations} /></button>)}
-              {props.sidebar == 'new_annotation' && (<button type={"button"} className={styles.new_annotation_icon_active} ><BiCommentAdd className={styles.new_annotation} /></button>)}
-              {props.sidebar == 'mobile_search' && (<button type={"button"} className={styles.new_annotation_icon_active} ><FaSearch className={styles.new_annotation} /></button>)}
+              {props.sidebar == 'toc' && (<button aria-label = {"Table of Contents"} type={"button"} className={styles.toc_icon_active}  ><FaListOl className={styles.toc} /></button>)}
+              {props.sidebar == 'settings' && (<button aria-label = {"Settings"} type={"button"} className={styles.settings_icon_active} ><AiFillSetting className={styles.settings} /></button>)}
+              {props.sidebar == 'annotations' && (<button aria-label = {"Annotations"} type={"button"} className={styles.annotations_icon_active} ><FaStickyNote className={styles.annotations} /></button>)}
+              {props.sidebar == 'new_annotation' && (<button aria-label = {"New Annotation"} type={"button"} className={styles.new_annotation_icon_active} ><BiCommentAdd className={styles.new_annotation} /></button>)}
+              {props.sidebar == 'mobile_search' && (<button aria-label = {"Search text"} type={"button"} className={styles.new_annotation_icon_active} ><FaSearch className={styles.new_annotation} /></button>)}
             </div>
 
 
@@ -200,13 +250,13 @@ set_edit(null)
               {(
                 props.sidebar == 'menu' )
                 && props.w <= 1000 && (
-                  <button type={"button"} className={styles.toc_icon_close_mobile} onClick={() => props.set_sidebar('menu')} ><AiFillCloseCircle className={styles.close_menu} /></button>
+                  <button aria-label = {"Close menu"} type={"button"} className={styles.toc_icon_close_mobile} onClick={() => props.set_sidebar('menu')} ><AiFillCloseCircle className={styles.close_menu} /></button>
                 )}
                 
 
               {
                 props.sidebar == 'search' && props.w <= 1000 && (
-                  <button type={"button"} className={styles.toc_icon_close_mobile} onClick={() => cancel_search()} ><AiFillCloseCircle className={styles.close_menu} /></button>
+                  <button aria-label = {"Cancel search"} type={"button"} className={styles.toc_icon_close_mobile} onClick={() => cancel_search()} ><AiFillCloseCircle className={styles.close_menu} /></button>
                 )}
 
 
@@ -215,7 +265,7 @@ set_edit(null)
                 props.sidebar == 'toc' ||
                 props.sidebar == 'mobile_search' ||
                 props.sidebar == 'annotations') && props.w <= 1000 && (
-                  <button type={"button"} className={styles.toc_icon_back_mobile} onClick={() => props.set_sidebar('menu')} ><IoIosArrowBack className={styles.toc} /></button>
+                  <button aria-label = {"Back to menu"} type={"button"} className={styles.toc_icon_back_mobile} onClick={() => props.set_sidebar('menu')} ><IoIosArrowBack className={styles.toc} /></button>
                 )}
 
             </header>
@@ -252,28 +302,28 @@ set_edit(null)
 
           {props.sidebar == 'menu' && (
             <section className={styles.settings_wrap}>
-         <button type={"button"} className={styles.settings_option_mobile} onClick={() => handle_user_click()}>
+         <button aria-label = {"User profile page"} type={"button"} className={styles.settings_option_mobile} onClick={() => handle_user_click()}>
                 <FaUserCircle className={styles.settings_mobile_icon} /> 
                 <span>{props.logged_in ? props.email : 'Login'}</span>
               </button>
-              <button type={"button"} className={styles.settings_option_mobile} onClick={() => props.set_sidebar('toc')}>
+              <button aria-label = {"Table of contents"} type={"button"} className={styles.settings_option_mobile} onClick={() => props.set_sidebar('toc')}>
                 <FaListOl className={styles.settings_mobile_icon} />
                 <span>Table of Contents</span>
               </button>
 
-              <button type={"button"} className={styles.settings_option_mobile} onClick={() => props.set_sidebar('settings')}>
+              <button aria-label = {"Settings"} type={"button"} className={styles.settings_option_mobile} onClick={() => props.set_sidebar('settings')}>
                 <AiFillSetting className={styles.settings_mobile_icon} />
                 <span>Settings</span>
               </button>
 
 
 
-              <button type={"button"} className={annotations.length > 0 ? styles.settings_option_mobile : styles.settings_option_mobile_disabled} onClick={() => annotations.length > 0 ? props.set_sidebar('annotations') : {}}>
+              <button aria-label = {"Annotations"} type={"button"} className={annotations.length > 0 ? styles.settings_option_mobile : styles.settings_option_mobile_disabled} onClick={() => annotations.length > 0 ? props.set_sidebar('annotations') : {}}>
                 <FaStickyNote className={styles.settings_mobile_icon} />
                 <span>Annotations</span>
               </button>
 
-              <button type={"button"} className={styles.settings_option_mobile} onClick={() => props.set_sidebar(props.results.length > 0 ? 'search' : 'mobile_search')}>
+              <button aria-label = {"Search text"} type={"button"} className={styles.settings_option_mobile} onClick={() => props.set_sidebar(props.results.length > 0 ? 'search' : 'mobile_search')}>
                 <FaSearch className={styles.settings_mobile_icon} />
                 <span>{props.results.length > 0 ? 'Search Results' : 'Search Text'}</span>
               </button>
@@ -298,11 +348,11 @@ set_edit(null)
                 <div className={styles.settings_option}>
                   <span className={styles.setting_name}>Page layout</span>
                   <div className={styles.options}>
-                    <button type={"button"} className={props.spread == 'none' ? styles["single_wrap"] + " " + styles["enabled"] : styles["single_wrap"] + " " + styles["disabled"]} onClick={() => props.toggle_spread()}>
+                    <button aria-label = {"Single page layout"} type={"button"} className={props.spread == 'none' ? styles["single_wrap"] + " " + styles["enabled"] : styles["single_wrap"] + " " + styles["disabled"]} onClick={() => props.toggle_spread()}>
                       <CgFormatJustify className={styles.single_page} />
                       <span>Single</span>
                     </button>
-                    <button type={"button"} className={props.spread == 'auto' ? styles["single_wrap"] + " " + styles["enabled"] : styles["single_wrap"] + " " + styles["disabled"]} onClick={() => props.toggle_spread()} >
+                    <button aria-label = {"Double page layout"} type={"button"} className={props.spread == 'auto' ? styles["single_wrap"] + " " + styles["enabled"] : styles["single_wrap"] + " " + styles["disabled"]} onClick={() => props.toggle_spread()} >
                       <CgFormatJustify className={styles.double_page} />
                       <CgFormatJustify className={styles.double_page} />
                       <span>Double</span>
@@ -313,12 +363,12 @@ set_edit(null)
               <div className={styles.settings_option}>
                 <span className={styles.setting_name}>Navigation</span>
                 <div className={styles.options}>
-                  <button type={"button"} className={props.flow !== 'paginated' ? styles["scroll_flow"] + " " + styles["enabled"] : styles["scroll_flow"] + " " + styles["disabled"]} onClick={() => props.toggle_flow()}>
+                  <button aria-label = {"Scroll page layout"} type={"button"} className={props.flow !== 'paginated' ? styles["scroll_flow"] + " " + styles["enabled"] : styles["scroll_flow"] + " " + styles["disabled"]} onClick={() => props.toggle_flow()}>
                     <GiMouse className={styles.scroll_flow_icon} />
                     {props.w >= 1000 && ( <span>Scroll</span>)}
                    
                   </button>
-                  <button type={"button"} className={props.flow == 'paginated' ? styles["arrow_flow"] + " " + styles["enabled"] : styles["arrow_flow"] + " " + styles["disabled"]} onClick={() => props.toggle_flow()}>
+                  <button aria-label = {"Arrow page navigation layout"} type={"button"} className={props.flow == 'paginated' ? styles["arrow_flow"] + " " + styles["enabled"] : styles["arrow_flow"] + " " + styles["disabled"]} onClick={() => props.toggle_flow()}>
                     <CgArrowsH className={styles.arrow_flow_icon} />
                     {props.w >= 1000 && ( <span>Arrow</span>)}
                   </button>
@@ -349,8 +399,8 @@ set_edit(null)
 <div className = {styles.delete_prompt_frame}>
 <p>Are you sure you want to delete this annotation?</p>
 <div className = {styles.bottom_buttons}>
-<button type = {"button"} onClick = {() => send_delete_annotation()}>Delete</button>
-<button type = {"button"} onClick = {() => cancel_prompt()}>Cancel</button>
+<button aria-label = {"Delete annotation"} type = {"button"} onClick = {() => send_delete_annotation()}>Delete</button>
+<button aria-label = {"Cancel annotation"} type = {"button"} onClick = {() => cancel_prompt()}>Cancel</button>
 </div>
 </div>
 )}
@@ -382,6 +432,11 @@ set_edit(null)
           )}
 
         </div>
+        {props.w >= 1000 && (
+        <div className={styles.sidebar_resizer} onMouseDown={startResizing} >
+            <GrDrag className = {styles.resizer_icon} />
+          </div>
+          )}
       </aside>
       )}
     </Fragment>

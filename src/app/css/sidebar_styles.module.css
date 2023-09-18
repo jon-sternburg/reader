@@ -1024,12 +1024,15 @@ margin: 0 auto;
 font-family: 'Lato', sans-serif;
 }
 
+.relative_wrap {
 
+    position: relative;
+}
 .circle_wrap_inner {
 
     background: lightgrey;
     position: absolute;
-    top: 120px;
+    top: 45px;
     width: auto;
     height: auto;
     padding: 10px;
@@ -1225,6 +1228,23 @@ justify-content: flex-start;
 */
     align-items: center;
 
+
+}
+
+
+.sidebar_resizer {
+
+    cursor: col-resize;
+    resize: horizontal;
+width: 15px;
+background: lightgrey;
+align-items: center;
+display: flex;
+}
+
+.resizer_icon {
+
+font-size: 15px;
 
 }
 

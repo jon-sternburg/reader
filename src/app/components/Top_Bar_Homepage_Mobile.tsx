@@ -77,7 +77,7 @@ export default function Top_Bar_Homepage_Mobile(props: TBHM_Props) {
         {pathname.includes('user') ? 
       <Fragment>
           <AiFillHome className={styles.user_icon} onClick={() => router.push('/')} />
-          <button type = {'button'} className = {styles.sign_out_top} onClick = {() =>  handle_signout()}>Sign out</button>  
+          <button aria-label = {"Sign out"} type = {'button'} className = {styles.sign_out_top} onClick = {() =>  handle_signout()}>Sign out</button>  
           </Fragment>
         :
         <Fragment>

@@ -177,8 +177,8 @@ function handle_cancel_annotation() {
 
                 {size.width >= 1000 && (
                   <nav className={styles.user_top_bar}>
-                             <button type = {'button'} className = {styles.sign_out_top} onClick = {() =>  handle_signout()}>Sign out</button>
-                             <button type = {'button'} className = {styles.user_page_home_button}>
+                             <button aria-label = {"Sign out"} type = {'button'} className = {styles.sign_out_top} onClick = {() =>  handle_signout()}>Sign out</button>
+                             <button aria-label = {"Home"} type = {'button'} className = {styles.user_page_home_button}>
                     <AiFillHome className={styles.user_icon} onClick={() => router.push('/')} />
                     </button>
                   </nav>
@@ -405,8 +405,8 @@ toggle_delete_prompt({show: true, to_delete: annotation})
 <p>Are you sure you want to delete this annotation?</p>
 <div className = {styles.bottom_buttons}>
 
-<button type = {"button"} onClick = {() => delete_annotation()}>Delete</button>
-<button type = {"button"} onClick = {() => cancel_prompt()}>Cancel</button>
+<button aria-label = {"Confirm delete annotation"} type = {"button"} onClick = {() => delete_annotation()}>Delete</button>
+<button aria-label = {"Confirm cancel annotation"} type = {"button"} onClick = {() => cancel_prompt()}>Cancel</button>
 
 </div>
 
@@ -424,10 +424,10 @@ toggle_delete_prompt({show: true, to_delete: annotation})
       </blockquote>
       <p>{notes}</p>
       <footer className={styles.annotation_bottom_bar}>
-        <button type={"button"} onClick={() => view_in_book()}>View</button>
+        <button aria-label = {"View annotation in book"} type={"button"} onClick={() => view_in_book()}>View</button>
 
-        <button type = {"button"} onClick={() => props.edit_annotation(y, book)} className={styles.edit_annotation}  >  <MdEdit className={styles.edit_annotation_icon}  /> <span>Edit</span></button>
-          <button type = {"button"} onClick={() => delete_annotation_pre(y)} className={styles.delete_annotation} >  <IoMdTrash className={styles.delete_annotation_icon}  /><span>Delete</span></button>
+        <button aria-label = {"Edit annotation"} type = {"button"} onClick={() => props.edit_annotation(y, book)} className={styles.edit_annotation}  >  <MdEdit className={styles.edit_annotation_icon}  /> <span>Edit</span></button>
+          <button aria-label = {"Delete annotation"} type = {"button"} onClick={() => delete_annotation_pre(y)} className={styles.delete_annotation} >  <IoMdTrash className={styles.delete_annotation_icon}  /><span>Delete</span></button>
 
 
 
@@ -437,14 +437,6 @@ toggle_delete_prompt({show: true, to_delete: annotation})
   )
 }
 
-
-type EW_Props = {
-  annotation: Annotation_Item
-  cancel_annotation: () => void
-  book: Book_Item
-  user_id: string
-
-}
 
 
 type Set_Book_Data_Params = {
@@ -464,97 +456,3 @@ type Delete_Book_Data_Params = {
   edit: boolean
 }
 
-/*
-function Edit_Window(props: EW_Props) {
-
-  const textarea_ref = useRef<HTMLTextAreaElement | null>(null);
-  const input_ref = useRef<HTMLInputElement | null>(null);
-
-  let x = props.annotation
-  let text = x.data.text
-  let section = x.data.section
-
-  useEffect(() => {
-
-    if (textarea_ref.current !== null && textarea_ref.current !== undefined) {
-      textarea_ref.current.value = x.data.data
-    }
-    if (input_ref.current !== null && input_ref.current !== undefined) {
-      input_ref.current.value = x.data.title
-    }
-
-
-
-  }, [x.data.data, x.data.title])
-
-
-  async function set_book_data(x: Set_Book_Data_Params) {
-
-    console.log('setting db data after save => ', x)
-    return await fetch("/api/book", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(x)
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('set_book_data response => ', data)
-        props.cancel_annotation()
-      })
-      .catch(err => {
-        console.log(err)
-        props.cancel_annotation()
-      })
-
-  }
-
-  async function save_annotation() {
-    let time = getTimeStamp()
-
-    let annotation = props.annotation
-    let annotations = [...props.book.annotations]
-    let matching_index = annotations.findIndex(x => x.cfiRange == annotation.cfiRange)
-
-    annotations[matching_index].data.title = input_ref.current !== null && input_ref.current !== undefined ? input_ref.current.value : ''
-    annotations[matching_index].data.data = textarea_ref.current !== null && textarea_ref.current !== undefined ? textarea_ref.current.value : ''
-    annotations[matching_index].data.time = time
-
-
-    set_book_data({ id: props.book.id, name: props.book.name, annotations: annotations, user_id: props.user_id, edit: true })
-
-
-
-  }
-
-
-  return (
-
- 
-    <section className={styles.annotation_text_wrap}  >
-      <div className={styles.annotation_edit_quote_wrap}>
-        <blockquote>
-          <p>{section}</p>
-          <p>{text}</p>
-        </blockquote>
-      </div>
-
-      <div className={styles.annotation_title_wrap}>
-        <input ref={input_ref} className={styles.title_input_search} placeholder="Title..." name="annotation_title_search" type="text" />
-      </div>
-      <div className={styles.annotation_text_wrap_inner}>
-        <textarea ref={textarea_ref} className={styles.textarea_id} placeholder={'Notes...'} />
-      </div>
-      <div className={styles.button_wrap}>
-        <div className={styles.save} onClick={() => save_annotation()}>Save</div>
-        <div className={styles.cancel} onClick={() => props.cancel_annotation()}>Cancel</div>
-      </div>
-    </section>
-
-  )
-
-
-}
-*/

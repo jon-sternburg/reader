@@ -56,7 +56,6 @@ export default function Sidebar_New_Annotation(props: SNA_Props) {
     const input_ref = useRef<HTMLInputElement | null>(null);
   
   
-  
   useEffect(() => {
   
   if (props.edit !== null) { 
@@ -136,16 +135,18 @@ function handle_cancel() {
       <div className = {styles.annotation_options_wrap}>
   
   <div className = {styles.pick_color_wrap}>
+    <div className = {styles.relative_wrap}>
   {color_panel && (
-    <div className ={styles.circle_wrap_inner}>
+    <div className ={styles.circle_wrap_inner} >
   <CirclePicker onChange={handle_color_change} />
   </div>
     )}
   
-  <button type = {'button'} className = {styles.highlight_color_button} onClick = {() => toggle_color_panel()}>
+  <button aria-label = {"Highlight color"} type = {'button'} className = {styles.highlight_color_button} onClick = {() => toggle_color_panel()}>
   <span>Highlight color</span>
   <div className = {styles.picked_color_sample} style = {{background: color}} />
   </button>
+  </div>
   </div>
   
   
