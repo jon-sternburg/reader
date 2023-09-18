@@ -7,7 +7,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: 100dvh;
 
 }
 
@@ -15,7 +15,7 @@
     overflow-y: scroll;
     padding: 0 6px;
     background-color: white;
-    height: calc(100vh - 140px);
+    height: calc(100dvh - 140px);
 
     width: 100%;
 }
@@ -96,7 +96,7 @@
 }
 
 .book_icon_wrap {
-    height: 7.5vh;
+    height: 7.5dvh;
     display: flex;
     align-items: center;
 }
@@ -166,9 +166,9 @@
         left: 0;
         width: calc(100vw - 24px);
         border-radius: 0;
-        top: 7.5vh;
+        top: 7.5dvh;
         padding-top: 10px;
-        min-height: 100vh;
+        min-height: 100dvh;
         z-index: 999999;
     }
 
@@ -189,6 +189,6 @@
 
     .book_list_wrap {
 
-        height: calc(92.5vh - 60px);
+        height: calc(92.5dvh - 60px);
     }
 }

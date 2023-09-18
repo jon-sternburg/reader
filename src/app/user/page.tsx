@@ -38,7 +38,6 @@ export default async function Page(): Promise<JSX.Element | void> {
   if (session) { 
 
     const user_data = await fetch_data(session?.user._id)
-    console.log('FETCHED USER DATA FROM USER PAGE')
     const user_id = session?.user._id ? session.user._id : ''
     const email = session?.user.email ? session.user.email : ''
     return ( 

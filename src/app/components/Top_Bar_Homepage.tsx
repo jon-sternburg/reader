@@ -14,10 +14,6 @@ email: string | null
 }
 
 export default function Top_Bar_Homepage(props: TBH_Props): JSX.Element {
-
-//const [logged_in, toggle_login] = useState<boolean>(false)
-
- // const { data: session } = useSession()
  const pathname = usePathname();
   const router = useRouter()
 

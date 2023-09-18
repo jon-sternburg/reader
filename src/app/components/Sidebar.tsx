@@ -1,5 +1,5 @@
 'use client'
-import { Fragment, useState, TouchEvent, useCallback, useEffect, useRef} from 'react'
+import React, { Fragment, useState, TouchEvent, useCallback, useEffect, useRef} from 'react'
 import styles from '../css/sidebar_styles.module.css'
 import { BiCommentAdd } from "react-icons/bi"
 import { FaSearch } from "react-icons/fa"
@@ -71,6 +71,7 @@ type DP_State = {
 export default function Sidebar(props: S_Props) {
   const [sidebarWidth, setSidebarWidth] = useState<string | number>(props.w <= 1000 ? '100vw' : '50vw');
   const sidebarRef = useRef<HTMLElement | null>(null);
+  const resizer_ref = useRef<HTMLDivElement | null>(null);
   const [isResizing, setIsResizing] = useState<boolean>(false);
   const [delete_prompt, toggle_delete_prompt] = useState<DP_State>({show: false, cfi: null, i: null})
   const [touchStart, setTouchStart] = useState<number | null>(null)
@@ -145,6 +146,17 @@ props.set_sidebar('menu')
 
   }
   }, [resize, stopResizing, props.w]);
+
+
+const handle_default = (e:React.MouseEvent) => {
+
+
+  if (e.target == resizer_ref.current) {
+    e.preventDefault()
+  }
+
+}
+
 
 function send_delete_annotation() {
 let cfi_ = delete_prompt.cfi !== null ? delete_prompt.cfi : ''
@@ -232,7 +244,8 @@ set_edit(null)
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
       ref={sidebarRef}
-      onMouseDown={(e) => e.preventDefault()}
+      onMouseDown={handle_default}
+
          >
        
         <div className={styles.sidebar_inner_frame}>
@@ -433,7 +446,7 @@ set_edit(null)
 
         </div>
         {props.w >= 1000 && (
-        <div className={styles.sidebar_resizer} onMouseDown={startResizing} >
+        <div className={styles.sidebar_resizer} onMouseDown={startResizing} ref = {resizer_ref}>
             <GrDrag className = {styles.resizer_icon} />
           </div>
           )}

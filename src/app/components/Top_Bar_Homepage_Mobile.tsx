@@ -1,5 +1,5 @@
 'use client'
-import React, {Fragment} from 'react'
+import {Fragment} from 'react'
 import styles from '../css/topbar_styles.module.css'
 import { AiFillCloseCircle } from "react-icons/ai"
 import { FcBookmark } from "react-icons/fc"
@@ -20,20 +20,9 @@ type TBHM_Props = {
 
 
 export default function Top_Bar_Homepage_Mobile(props: TBHM_Props) {
- // const [logged_in, toggle_login] = useState<boolean>(false)
- // const [user_panel, toggle_user_panel] = useState<boolean>(false)
- // const { data: session } = useSession()
   const pathname = usePathname();
    const router = useRouter()
-/*
-  useEffect(() => {
-    if (session?.user?.email) { 
-      toggle_login(true)
-    } else {
-      toggle_login(false)
-    }
-  }, [session])
-*/
+
 
   async function handle_signout() {
     await signOut({callbackUrl: process.env.NEXTAUTH_URL})

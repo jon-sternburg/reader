@@ -461,9 +461,6 @@ set_sidebar(null)
     let time = getTimeStamp()
 if (new_annotation.current !== null) {
   console.log('saving new annotation...')
-  //let ta_value = textarea_ref.current !== null && textarea_ref.current !== undefined ? textarea_ref.current.value : ''
- // let input_value = input_ref.current !== null && input_ref.current !== undefined ? input_ref.current.value : ''
-
   let cfiRange = new_annotation.current.cfiRange
   let text = new_annotation.current.text
   let section = new_annotation.current.section
@@ -505,12 +502,6 @@ console.log('saving edited annotation...')
 
     return new Promise((resolve, reject) => {
       let match_ = Array.isArray(matching[0]) ? matching[0][1] : null
-   //   let ta_value = textarea_ref.current !== null && textarea_ref.current !== undefined ? textarea_ref.current.value : ''
-   //   let input_value = input_ref.current !== null && input_ref.current !== undefined ? input_ref.current.value : ''
-
-    
-
-
 
       if (match_ !== null) {
 
@@ -654,12 +645,6 @@ rendition.current.annotations.add('highlight', match_.cfiRange, { text: text, da
             <IoIosCreate className={styles.annotation_icon} />
             <span>Annotation</span>
           </button>
-          {/*
-          <button type={"button"} ref={highlight_ref} className = {styles.popup_highlight}>
-            <FaHighlighter className={styles.highlight_icon} />
-            <span>Highlight</span>
-          </button>
-           */}
         </div>
 
 

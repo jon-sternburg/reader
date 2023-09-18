@@ -91,8 +91,8 @@ setNewRegistered(true)
       <form onSubmit={submitHandler} id = {"login_form"}>
             <div className = {styles.field_wrap}>
 
-              <input type='email' id='email'   placeholder='email' required ref={emailInputRef} />
-              <input type='password' placeholder='password' id='password' required ref={passwordInputRef} />
+              <input aria-label = {"email input"} type='email' id='email'   placeholder='email' required ref={emailInputRef} />
+              <input aria-label = {"password input"} type='password' placeholder='password' id='password' required ref={passwordInputRef} />
      
             </div>
 
@@ -126,13 +126,14 @@ setNewRegistered(true)
         <form onSubmit={submitHandler}>
           <div >
             <label htmlFor='email'>Email</label>
-            <input type='email' id='email' required ref={emailInputRef} />
+            <input aria-label = {"email input"}  type='email' id='email' required ref={emailInputRef} />
           </div>
           <div >
             <label htmlFor='password'>Password</label>
             <input
               type='password'
               id='password'
+              aria-label = {"password input"} 
               required
               ref={passwordInputRef}
             />

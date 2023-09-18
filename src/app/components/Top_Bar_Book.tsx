@@ -87,6 +87,7 @@ if (pathname.includes('login')) {
               <input
                 id="search_text_book"
                 value={props.keyvalue}
+                aria-label = {"text search input"} 
                 placeholder="Search text..."
                 onChange={(e) => props.handleInputChange_text(e.target.value)}
                 type={"search"}

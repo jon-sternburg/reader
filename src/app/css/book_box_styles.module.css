@@ -91,21 +91,21 @@ margin-right: 10px;
     z-index: 999999999999;
     position: fixed;
     left: 0vw;
-    top: 7.5vh;
+    top: 7.5dvh;
     background-color: whitesmoke;
 
 width: 4vw;
 
  
 
-    height: calc(92.5vh);
+    height: calc(92.5dvh);
 
 }
 
 .no_results {
     position: absolute;
     z-index: 999999;
-    top: 8.5vh;
+    top: 8.5dvh;
 
     background: #fcdcdc;
     padding: 20px;
@@ -127,7 +127,7 @@ width: 4vw;
     height: calc(92.5dvh - 80px);
     overflow: hidden;
     position: absolute;
-    top: 7.5vh;
+    top: 7.5dvh;
     right: 0;
 
     display: flex;
@@ -144,13 +144,13 @@ width: 4vw;
     position: fixed;
     z-index: 999999999;
     right: 0;
-    top: 7.5vh;
+    top: 7.5dvh;
 
     background: rgba(0, 0, 0, 0.5);
     
  
-    height: 100vh;
-    width: 100vw;
+    height: 100dvh;
+    width: 100dvw;
 }
 
 .book_box_inner_wrap {
@@ -230,7 +230,7 @@ width: 4vw;
 
     .book_box_inner_wrap {
         border-radius: 10px;
-        height: calc(92.5vh - 80px);
+        height: calc(92.5dvh - 80px);
         position: absolute;
         right: 0;
         top: 20px;
@@ -248,7 +248,7 @@ width: 4vw;
         position: fixed;
         bottom: 0;
         width: 100vw;
-        height: 7.5vh;
+        height: 7.5dvh;
         display: flex;
         background: whitesmoke;
         display: flex;
