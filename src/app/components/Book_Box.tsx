@@ -1,5 +1,5 @@
 'use client'
-import { Fragment, useState, useEffect, useRef, MouseEvent, SyntheticEvent, KeyboardEvent, TouchEvent  } from 'react'
+import { Fragment, useState, useEffect, useRef, MouseEvent, SyntheticEvent, KeyboardEvent  } from 'react'
 import styles from '../css/book_box_styles.module.css'
 import ePub from 'epubjs'
 import { IoIosArrowBack } from "react-icons/io"
@@ -196,27 +196,6 @@ function annotation_cb(cfiRange: string, text: string, section: string, loc: Cur
           annotation_clicked(cfiRange)
         })
 
-
-
-        let touchStart = 0;
-        let touchEnd = 0;
-        
-        rendition.current.on('touchstart',  function (event: TouchEvent) {
-          touchStart = event.changedTouches[0].screenX;
-        });
-        
-        rendition.current.on('touchend',  function (event: TouchEvent) {
-          touchEnd = event.changedTouches[0].screenX;
-          if (touchStart < touchEnd) {
-            get_next()
-          }
-          if (touchStart > touchEnd) {
-            get_prev()
-          }
-        });
-
-
-
         const getRect = (target: Range, frame: Element | "" | null) => {
           const rect = target.getBoundingClientRect()
           const viewElementRect = frame ? frame.getBoundingClientRect() : { left: 0, top: 0 }
@@ -239,12 +218,9 @@ function annotation_cb(cfiRange: string, text: string, section: string, loc: Cur
               const { left, right, top, bottom } = getRect(range, frame)
                
               if (annotation_ref.current !== null && annotation_ref.current !== undefined &&
-              //  highlight_ref.current !== null && highlight_ref.current !== undefined &&
                 popup_ref.current !== null && popup_ref.current !== undefined) {
                 
                 let cfiRange = new EpubCFI(range, contents.cfiBase).toString()
-
-                //  highlight_ref.current.onclick = () => handle_highlight(cfiRange, text)
                   annotation_ref.current.onclick = () => handle_annotation(cfiRange, text)
                   popup_ref.current.style.top = `${top + 20}px`
                   popup_ref.current.style.right = `${right}px`
@@ -598,7 +574,9 @@ rendition.current.annotations.add('highlight', match_.cfiRange, { text: text, da
           })
 // sorts by chapter order
           let res = res_.sort((a, b) => parseInt(a.sd.replace('np-', '')) - parseInt(b.sd.replace('np-', '')))
-          set_sidebar(res && res.length > 0 ? 'search' : null)
+          if (res &&  res.length > 0) { 
+            set_sidebar('search')
+          }
           set_empty_results(res && res.length > 0 ? false : true)
           set_results(res)
         }).catch(err => console.log(err))
@@ -720,16 +698,16 @@ rendition.current.annotations.add('highlight', match_.cfiRange, { text: text, da
 
             {props.w > 1000 && (
               <Fragment>
-                {sidebar == null && (<button aria-label = {"Go to previous page"} type={"button"} className={styles.arrow_left_arrow_wrap} onClick={(e) => previous_page(e)}><IoIosArrowBack className={styles.left_arrow_icon} /></button>)}
-                <button aria-label = {"Go to next page"} type={"button"} className={styles.arrow_right_arrow_wrap} onClick={(e) => next_page(e)}><IoIosArrowForward className={styles.right_arrow_icon} /></button>
+                {sidebar == null && (<button aria-label = {"Previous page"} type={"button"} className={styles.arrow_left_arrow_wrap} onClick={(e) => previous_page(e)}><IoIosArrowBack className={styles.left_arrow_icon} /></button>)}
+                <button aria-label = {"Next page"} type={"button"} className={styles.arrow_right_arrow_wrap} onClick={(e) => next_page(e)}><IoIosArrowForward className={styles.right_arrow_icon} /></button>
               </Fragment>)}
             {props.w <= 1000 && sidebar == null && (
               <Fragment>
                 <footer className={styles.bottom_bar_wrap}>
-                  <IoIosArrowBack className={styles.left_arrow_icon} onClick={(e) => previous_page(e)} />
-                  <AiFillHome className={styles.home_mobile} onClick={() => router.push('/')} />
-                  <FaEllipsisV className={styles.settings_mobile} onClick={() => handle_set_sidebar('menu')} />
-                  <IoIosArrowForward className={styles.right_arrow_icon} onClick={(e) => next_page(e)} />
+                <button aria-label = {"Previous page"} type={"button"}  onClick={(e) => previous_page(e)}><IoIosArrowBack className={styles.left_arrow_icon}  /></button>
+                <button aria-label = {"Home"} type={"button"}  onClick={() => router.push('/')}><AiFillHome className={styles.home_mobile}  /></button>
+                <button aria-label = {"Menu"} type={"button"}  onClick={() => handle_set_sidebar('menu')} > <FaEllipsisV className={styles.settings_mobile} /></button>
+                <button aria-label = {"Next page"} type={"button"}  onClick={(e) => next_page(e)}>  <IoIosArrowForward className={styles.right_arrow_icon}  /></button>
                 </footer>
               </Fragment>
             )}

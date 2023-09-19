@@ -52,7 +52,7 @@ export default function Mobile_Search(props: MS_Props) {
 
 
       
-      {props.results_length > 0 && (<AiFillCloseCircle className={styles.quit_search} onClick={() => props.clear_input()} />)}
+      {props.results_length > 0 && (<button aria-label = {"Quit search"} className = {styles.quit_search_button} type="button"><AiFillCloseCircle className={styles.quit_search} onClick={() => props.clear_input()} /></button>)}
     </section>
 
 

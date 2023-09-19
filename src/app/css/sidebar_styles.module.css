@@ -444,7 +444,7 @@ margin-left: 2.5px;
     margin: 5px;
 }
 
-.result_li blockquote{
+.result_li blockquote, .keyvalue_wrap blockquote{
 
 
 
@@ -512,8 +512,12 @@ margin-left: 2.5px;
 }
 
 .sidebar_title h5 {
-
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
     font-size: 18px;
+    width: 95%;
 }
 
 .search_result_item {
@@ -590,7 +594,7 @@ margin-left: 2.5px;
     height: 100%;
     position: absolute;
     left: 0;
-    width: 100%;
+    width: calc(100% - 20px);
     top: 0;
 
 }
@@ -819,7 +823,20 @@ font-size: 25px;
     right: 20px;
 
 }
+.toc_icon_close_mobile_search {
+    border: none;
+    border-radius: 100%;
+    padding: 0;
+    margin: 0;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    position: absolute;
+    right:60px;
+
+}
 .toc_icon_close_mobile {
 
     border: none;

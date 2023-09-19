@@ -104,20 +104,21 @@ width: 4vw;
 
 .no_results {
     position: absolute;
-    z-index: 999999;
-    top: 8.5dvh;
-
-    background: #fcdcdc;
-    padding: 20px;
-    width: 300px;
+    z-index: 9999999990;
+    top: 45dvh;
+text-align: center;
+    background: #000000;
+    padding: 10px;
+    width: 200px;
     left: 0;
     right: 0;
     margin: 0 auto;
     justify-content: center;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.2);
-    font-size: 18px;
+    font-size: 16px;
+    border-radius: 4px;
     font-family: 'Lato', sans-serif;
     display: flex;
+    color: whitesmoke;
 }
 
 .book_box_frame {
@@ -256,7 +257,17 @@ width: 4vw;
         justify-content: space-between;
 
     }
+    .bottom_bar_wrap button {
+padding: 0;
+height: 100%;
+width: 100%;
+background: none;
+padding-block: 0;
+padding-inline: 0;
+border: none;
+outline: none;
 
+    }
     .left_arrow_icon,
     .home_mobile,
     .settings_mobile,

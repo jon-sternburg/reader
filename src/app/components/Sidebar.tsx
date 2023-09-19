@@ -1,5 +1,5 @@
 'use client'
-import React, { Fragment, useState, TouchEvent, useCallback, useEffect, useRef} from 'react'
+import React, { Fragment, useState, useCallback, useEffect, useRef} from 'react'
 import styles from '../css/sidebar_styles.module.css'
 import { BiCommentAdd } from "react-icons/bi"
 import { FaSearch } from "react-icons/fa"
@@ -74,8 +74,6 @@ export default function Sidebar(props: S_Props) {
   const resizer_ref = useRef<HTMLDivElement | null>(null);
   const [isResizing, setIsResizing] = useState<boolean>(false);
   const [delete_prompt, toggle_delete_prompt] = useState<DP_State>({show: false, cfi: null, i: null})
-  const [touchStart, setTouchStart] = useState<number | null>(null)
-  const [touchEnd, setTouchEnd] = useState<number | null>(null)
   const [edit, set_edit] = useState<Annotation_Item | null>(null)
   const isNavItem = (content: NavItem | []): content is NavItem => 'label' in content
   const router = useRouter()
@@ -84,28 +82,6 @@ export default function Sidebar(props: S_Props) {
   const sidebarCollapsed = props.sidebar == null
   const annotations = props.annotations 
 
-
-  const minSwipeDistance = 50 
-  
-  const onTouchStart = (e: TouchEvent) => {
-    setTouchEnd(null) // otherwise the swipe is fired even with usual touch events
-    setTouchStart(e.targetTouches[0].clientX)
-  }
-  const onTouchMove = (e: TouchEvent) => setTouchEnd(e.targetTouches[0].clientX)
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return
-    const distance = touchStart - touchEnd
-    const isRightSwipe = distance < -minSwipeDistance
-
-if (isRightSwipe) {
-if (props.sidebar !== 'menu') { 
-props.set_sidebar('menu')
-} else if (props.sidebar == 'menu') {
-  props.set_sidebar(null)
-}
-}
-  }
 
   const startResizing = useCallback(() => {
     setIsResizing(true);
@@ -117,44 +93,30 @@ props.set_sidebar('menu')
 
   const resize = useCallback(
     (mouseMoveEvent: MouseEvent) => {
-
- 
       if (isResizing && sidebarRef.current !== null) {
-
         let width_ = mouseMoveEvent.clientX - sidebarRef.current.getBoundingClientRect().left
-        if (width_ <= props.w - (props.w * .04) && width_ >= (props.w * .5) ) { 
-
-          setSidebarWidth(width_);
-        }
-
-
+        if (width_ <= props.w - (props.w * .04) && width_ >= (props.w * .5) ) { setSidebarWidth(width_); }
       }
     },
     [isResizing, props.w]
   );
 
   useEffect(() => {
-
     if (props.w >= 1000) { 
-
     window.addEventListener("mousemove", resize);
     window.addEventListener("mouseup", stopResizing);
     return () => {
       window.removeEventListener("mousemove", resize);
       window.removeEventListener("mouseup", stopResizing);
     };
-
   }
   }, [resize, stopResizing, props.w]);
 
 
 const handle_default = (e:React.MouseEvent) => {
-
-
   if (e.target == resizer_ref.current) {
     e.preventDefault()
   }
-
 }
 
 
@@ -217,7 +179,7 @@ set_edit(null)
       props.sidebar == 'menu' ? 'Menu' :
         props.sidebar == 'mobile_search' ? 'Search' :
           props.sidebar == 'annotations' ? 'Annotations' :
-            props.sidebar == 'search' ? `Search for '${props.keyvalue}'` :
+            props.sidebar == 'search' ? 'Text search' :
               props.sidebar == 'new_annotation' ? 'New Annotation' : null
 
   return (
@@ -237,12 +199,8 @@ set_edit(null)
 
 {!sidebarCollapsed && (
       <aside 
-     // style = {{width: props.w <= 1000 ? '100vw' : '50vw'}}
       style={{ width: sidebarWidth }}
       className={styles.sidebar_frame}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
       ref={sidebarRef}
       onMouseDown={handle_default}
 
@@ -269,7 +227,7 @@ set_edit(null)
 
               {
                 props.sidebar == 'search' && props.w <= 1000 && (
-                  <button aria-label = {"Cancel search"} type={"button"} className={styles.toc_icon_close_mobile} onClick={() => cancel_search()} ><AiFillCloseCircle className={styles.close_menu} /></button>
+                  <button aria-label = {"Cancel search"} type={"button"} className={styles.toc_icon_close_mobile_search} onClick={() => cancel_search()} ><AiFillCloseCircle className={styles.close_menu} /></button>
                 )}
 
 
@@ -277,6 +235,7 @@ set_edit(null)
                 props.sidebar == 'settings' ||
                 props.sidebar == 'toc' ||
                 props.sidebar == 'mobile_search' ||
+                props.sidebar == 'search' ||
                 props.sidebar == 'annotations') && props.w <= 1000 && (
                   <button aria-label = {"Back to menu"} type={"button"} className={styles.toc_icon_back_mobile} onClick={() => props.set_sidebar('menu')} ><IoIosArrowBack className={styles.toc} /></button>
                 )}
@@ -289,6 +248,11 @@ set_edit(null)
                 {props.results.length > 0 && (
 
                   <ul className={styles.search_results_wrap_sidebar_inner}>
+                    <li className = {styles.keyvalue_wrap}>
+                      <blockquote>
+                      {props.keyvalue}
+                      </blockquote>
+                      </li>
                     {props.results.map((x, i) => {
 
                       return <Search_Section_Result key={i} w={props.w} x={x} i={i} get_context={props.get_context} keyvalue={props.keyvalue} />
