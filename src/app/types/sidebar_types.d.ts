@@ -9,7 +9,7 @@ export type TextSizeState = {
   label: string
 }
 
-export type SidebarState = null | 'toc' | 'settings' | 'annotations' | 'new_annotation' | 'mobile_search' | 'menu' | 'search'
+export type SidebarState = null | 'toc' | 'settings' | 'annotations' | 'new_annotation' | 'mobile_search' | 'menu' | 'search' | 'sparknotes'
 
 export type NavItem = {
   id: string,

@@ -45,6 +45,7 @@ type A_Props = {
   key: number
   x: Annotation_Item
   selected: boolean
+  sparknotes: boolean
   i: number
   get_annotation: (x: string, i: number) => void
   delete_annotation_pre: (x: string, i: number) => void

@@ -610,7 +610,7 @@ margin-left: 2.5px;
 .settings_wrap {
     position: absolute;
     left: 0;
-    width: 100%;
+    width: calc(100% - 15px);
     top: 80px;
     overflow-y: auto;
     height: 100%;

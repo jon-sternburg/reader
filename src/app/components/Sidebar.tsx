@@ -180,6 +180,7 @@ set_edit(null)
         props.sidebar == 'mobile_search' ? 'Search' :
           props.sidebar == 'annotations' ? 'Annotations' :
             props.sidebar == 'search' ? 'Text search' :
+            props.sidebar == 'sparknotes' ? 'SparkNotes Annotations' :
               props.sidebar == 'new_annotation' ? 'New Annotation' : null
 
   return (
@@ -203,11 +204,11 @@ set_edit(null)
       className={styles.sidebar_frame}
       ref={sidebarRef}
       onMouseDown={handle_default}
-
          >
        
         <div className={styles.sidebar_inner_frame}>
           <div className={styles.sidebar_header}>
+            {/* 
             <div className={styles.sidebar_icons}>
               {props.sidebar == 'toc' && (<button aria-label = {"Table of Contents"} type={"button"} className={styles.toc_icon_active}  ><FaListOl className={styles.toc} /></button>)}
               {props.sidebar == 'settings' && (<button aria-label = {"Settings"} type={"button"} className={styles.settings_icon_active} ><AiFillSetting className={styles.settings} /></button>)}
@@ -215,7 +216,7 @@ set_edit(null)
               {props.sidebar == 'new_annotation' && (<button aria-label = {"New Annotation"} type={"button"} className={styles.new_annotation_icon_active} ><BiCommentAdd className={styles.new_annotation} /></button>)}
               {props.sidebar == 'mobile_search' && (<button aria-label = {"Search text"} type={"button"} className={styles.new_annotation_icon_active} ><FaSearch className={styles.new_annotation} /></button>)}
             </div>
-
+*/}
 
             <header className={styles.sidebar_title}> <h5>{title}</h5>
               {(
@@ -254,9 +255,7 @@ set_edit(null)
                       </blockquote>
                       </li>
                     {props.results.map((x, i) => {
-
                       return <Search_Section_Result key={i} w={props.w} x={x} i={i} get_context={props.get_context} keyvalue={props.keyvalue} />
-
                     })}
                   </ul>
                 )}
@@ -388,6 +387,7 @@ set_edit(null)
                     key={i}
                     x={x}
                     i={i}
+                    sparknotes={false}
                     selected={props.si == i}
                     get_annotation={props.get_annotation}
                     edit_annotation={edit_annotation}
@@ -397,6 +397,29 @@ set_edit(null)
               })}
               </ul>
             </section>)}
+
+
+            {/*props.sidebar == 'sparknotes' && (
+            <section className={styles.annotations_list_wrap}>
+<ul style ={{listStyleType: 'none'}}>
+
+              {sparknotes_annotations.map((x: any, i: number) => {
+
+                  return <Annotation_Wrapper
+                    key={i}
+                    x={x}
+                    i={i}
+                    sparknotes={true}
+                    selected={props.si == i}
+                    get_annotation={props.get_annotation}
+                    edit_annotation={edit_annotation}
+                    delete_annotation_pre={delete_annotation_pre}
+                  />
+                
+              })}
+              </ul>
+            </section>)*/}
+
 
 
           {props.sidebar == 'new_annotation' && (    <section className={styles.annotation_text_wrap} >
