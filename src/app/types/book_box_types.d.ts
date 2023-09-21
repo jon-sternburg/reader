@@ -46,9 +46,18 @@ type option_uc = {
   label: string
   value: string
 }
+
+type SparkType = {
+  cfi: string
+  quote: string
+  desc: string
+  page: string
+  section?:string
+  }
+
 export type BB_Props = {
   selected_book: BookType
- // select_book: (book: BookType | null) => void
+ sparknotes_annotations: SparkType[] | undefined
  logged_in: boolean
  email: string 
  update_annotations:  (x: Annotation[], c: option_uc | null) => void
@@ -165,6 +174,7 @@ export type renditionMarkClickedData = {
   section: string
   loc: CurrentLocType
   epubcfi: string
+  source?:string
 }
 
 export type HighlightObj = {

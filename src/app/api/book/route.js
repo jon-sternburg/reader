@@ -44,7 +44,8 @@ async function post_handler(request) {
       if (session) { 
         const req = await request.json()
         const book_id = req.id
-        const annotations = req.edit ? req.annotations : req.annotations.map(x => x[1])
+        //const annotations = req.edit ? req.annotations : req.annotations.map(x => x[1])
+        const annotations = req.annotations 
         const user_categories = req.user_categories
         const user_id = req.user_id
         const name = req.name

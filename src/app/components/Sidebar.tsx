@@ -1,7 +1,6 @@
 'use client'
 import React, { Fragment, useState, useCallback, useEffect, useRef} from 'react'
 import styles from '../css/sidebar_styles.module.css'
-import { BiCommentAdd } from "react-icons/bi"
 import { FaSearch } from "react-icons/fa"
 import { FaListOl } from "react-icons/fa"
 import { FaStickyNote } from "react-icons/fa"
@@ -20,7 +19,7 @@ import { FaUserCircle } from "react-icons/fa"
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import { Annotation_Item } from '../types/book_box_types'
 import { GrDrag } from "react-icons/gr"
-
+import { BsAsterisk } from "react-icons/bs"
 
 const text_size_options = [
   { value: 'x-large', label: 'X-Large' },
@@ -81,7 +80,7 @@ export default function Sidebar(props: S_Props) {
   const pathname = usePathname();
   const sidebarCollapsed = props.sidebar == null
   const annotations = props.annotations 
-
+  const sparknotes_annotations = props.sparknotes_annotations !== undefined ? props.sparknotes_annotations : []
 
   const startResizing = useCallback(() => {
     setIsResizing(true);
@@ -193,6 +192,7 @@ set_edit(null)
           results_length={props.results.length}
           sidebar={props.sidebar}
           annotations_length={annotations.length}
+          spark_length={sparknotes_annotations.length}
           clear_input={props.clear_input}
         />
       )}
@@ -234,6 +234,7 @@ set_edit(null)
 
               {(
                 props.sidebar == 'settings' ||
+                props.sidebar == 'sparknotes' ||
                 props.sidebar == 'toc' ||
                 props.sidebar == 'mobile_search' ||
                 props.sidebar == 'search' ||
@@ -286,19 +287,18 @@ set_edit(null)
                 <FaListOl className={styles.settings_mobile_icon} />
                 <span>Table of Contents</span>
               </button>
-
               <button aria-label = {"Settings"} type={"button"} className={styles.settings_option_mobile} onClick={() => props.set_sidebar('settings')}>
                 <AiFillSetting className={styles.settings_mobile_icon} />
                 <span>Settings</span>
               </button>
-
-
-
               <button aria-label = {"Annotations"} type={"button"} className={annotations.length > 0 ? styles.settings_option_mobile : styles.settings_option_mobile_disabled} onClick={() => annotations.length > 0 ? props.set_sidebar('annotations') : {}}>
                 <FaStickyNote className={styles.settings_mobile_icon} />
                 <span>Annotations</span>
               </button>
-
+              <button aria-label = {"SparkNotes Annotations"} type={"button"} className={sparknotes_annotations.length > 0 ? styles.settings_option_mobile : styles.settings_option_mobile_disabled} onClick={() => sparknotes_annotations.length > 0 ? props.set_sidebar('sparknotes') : {}}>
+                <BsAsterisk className={styles.settings_mobile_icon} />
+                <span>SparkNotes Annotations</span>
+              </button>
               <button aria-label = {"Search text"} type={"button"} className={styles.settings_option_mobile} onClick={() => props.set_sidebar(props.results.length > 0 ? 'search' : 'mobile_search')}>
                 <FaSearch className={styles.settings_mobile_icon} />
                 <span>{props.results.length > 0 ? 'Search Results' : 'Search Text'}</span>
@@ -399,7 +399,7 @@ set_edit(null)
             </section>)}
 
 
-            {/*props.sidebar == 'sparknotes' && (
+            {props.sidebar == 'sparknotes' && (
             <section className={styles.annotations_list_wrap}>
 <ul style ={{listStyleType: 'none'}}>
 
@@ -418,7 +418,7 @@ set_edit(null)
                 
               })}
               </ul>
-            </section>)*/}
+            </section>)}
 
 
 

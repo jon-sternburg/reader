@@ -29,6 +29,14 @@ type BP_Props = {
   email: string
   user_id: string 
   cfi?: string | string[] | undefined
+  sparknotes_annotations: SparkType[] | undefined
+}
+
+type SparkType = {
+cfi: string
+quote: string
+desc: string
+page: string
 }
 
 type Annotation_Item = {
@@ -79,6 +87,9 @@ type option_uc = {
   value: string
 }
 
+
+
+
 export default function Book_Page(props: BP_Props): JSX.Element {
   const [size, set_dim] = useState<Size>({ width: 0, height: 0 })
   const [annotations, set_annotations] = useState<A_State>([])
@@ -95,11 +106,8 @@ export default function Book_Page(props: BP_Props): JSX.Element {
         .then((data) => {
 
 if (data[0]) { 
-  console.log(data)
   if (data[0].user_categories && data[0].user_categories.length > 0) { set_user_categories(data[0].user_categories)}
   set_annotations(data[0].annotations)
- 
-
 } else {
   set_annotations([])
 
@@ -134,8 +142,10 @@ if (data[0]) {
 
 
 
-function update_annotations(a: Annotation[], c: option_uc | null) {
-set_annotations(a.map((x:any) => x[1]))
+function update_annotations(a: Annotation_Item[], c: option_uc | null) {
+//set_annotations(a.map((x:any) => x[1]))
+console.log(a)
+set_annotations(a)
 if (c !== null) {set_user_categories(prevState => [...prevState, c])}
 }
 
@@ -175,6 +185,7 @@ if (c !== null) {set_user_categories(prevState => [...prevState, c])}
                 user_id={props.user_id}
                 query_cfi={props.cfi}
                 annotations={annotations}
+                sparknotes_annotations={props.sparknotes_annotations}
                 user_categories={user_categories}
                 update_annotations={update_annotations}
               />

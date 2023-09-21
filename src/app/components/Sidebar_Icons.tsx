@@ -6,23 +6,23 @@ import { FaListOl } from "react-icons/fa"
 import { FaStickyNote } from "react-icons/fa"
 import { AiFillSetting } from "react-icons/ai"
 import { SidebarState } from '../types/sidebar_types'
-
-import { BsFillInfoCircleFill } from "react-icons/bs"
+import { BsFillInfoCircleFill, BsAsterisk } from "react-icons/bs"
 type SI_Props = {
   results_length: number
   annotations_length: number
   set_sidebar: (x: SidebarState) => void
+  spark_length: number
 }
 
 export default function Sidebar_Icons(props: SI_Props) {
   const [show_tooltip, set_tooltip] = useState<boolean>(false)
-
 
   return (
     <div className={styles.sidebar_icons}>
       <button aria-label = {"Table of contents"} type={"button"} className={styles.toc_icon} onClick={() => props.set_sidebar('toc')} ><FaListOl className={styles.toc} /></button>
       <button aria-label = {"Settings"} type={"button"} className={styles.settings_icon} onClick={() => props.set_sidebar('settings')}><AiFillSetting className={styles.settings} /></button>
       <button aria-label = {"Annotations"} type={"button"} className={props.annotations_length > 0 ? styles.annotations_icon : styles.annotations_icon_disabled} onClick={() => props.annotations_length > 0 ? props.set_sidebar('annotations') : {}}><FaStickyNote /></button>
+      <button aria-label = {"SparkNotes Annotations"} type={"button"} className={props.spark_length > 0 ? styles.annotations_icon : styles.annotations_icon_disabled} onClick={() => props.spark_length > 0 ? props.set_sidebar('sparknotes') : {}}><BsAsterisk /></button>
       <button aria-label = {"Help tooltip"} type={"button"} className={styles.settings_icon}   onMouseEnter={() => set_tooltip(true)}   onMouseLeave={() => set_tooltip(false)}><BsFillInfoCircleFill className={styles.settings} /></button>
       
       {props.results_length > 0 && (<button aria-label = {"Search text"} type={"button"} className={styles.indicator_icon} onClick={() => props.set_sidebar('search')}><FaSearch className={styles.indicator} /></button>)}

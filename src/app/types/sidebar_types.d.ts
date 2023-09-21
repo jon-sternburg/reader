@@ -96,6 +96,13 @@ export type S_Props = {
   save_annotation: (picked_category: option_uc | null, color: string, edit: Annotation_Item | null, ta_val: string, input_val: string) => void
   cancel_annotation: () => void
   clear_input: () => void
+  sparknotes_annotations: SparkType[] | undefined
 }
 
 
+type SparkType = {
+  cfi: string
+  quote: string
+  desc: string
+  page: string
+  }
