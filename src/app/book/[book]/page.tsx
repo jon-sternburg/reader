@@ -45,20 +45,7 @@ export async function generateMetadata(
 }
 
 
-function get_spark(id: string) {
 
-
-  const list = require('../../data/complete_scraped_book_list.json')
-  
-  const match = list.filter((x: ScrapedList) => x.id == id)
-  
-  if (match && match.length > 0) { 
-  
-  let data = require(`../../../../complete_book_data/${id}.json`)
-  return data
-  
-  } 
-  }
 
   
 
@@ -74,7 +61,20 @@ export default async function Page({ params, searchParams }: Props): Promise<JSX
 
   const sparknotes_annotations = get_spark(book.id)
 
+  function get_spark(id: string) {
 
+
+    const list = require('../../data/complete_scraped_book_list.json')
+    
+    const match = list.filter((x: ScrapedList) => x.id == id)
+    
+    if (match && match.length > 0) { 
+    
+    let data = require(`../../data/complete_book_data/${id}.json`)
+    return data
+    
+    } 
+    }
   return (
 
 
