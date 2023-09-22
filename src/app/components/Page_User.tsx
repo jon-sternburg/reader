@@ -71,10 +71,7 @@ export default function Page_User(props: PU_Props): JSX.Element {
 
 
   useEffect(() => {
-
-console.log('setting user_data', props.user_data)
 set_user_data(props.user_data)
-
   }, [props.user_data])
 
   function show_book_list() {
@@ -101,7 +98,6 @@ set_user_data(props.user_data)
 
 
   async function set_book_data(x: Set_Book_Data_Params) {
-    console.log('setting db data after save => ', x)
     return await fetch("/api/book", {
       method: 'POST',
       headers: {
@@ -112,7 +108,6 @@ set_user_data(props.user_data)
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log('set_book_data response => ', data)
         reset_user_data(data)
        cancel_annotation()
       })
@@ -149,8 +144,6 @@ function handle_save_annotation(picked_category: option_uc | null, color: string
 
 
 function handle_cancel_annotation() {
-
-  console.log('handle cancel!')
   set_edit({ show: false, annotation: null, book: null })
 }
 
@@ -338,7 +331,6 @@ function Annotation(props: A_Props) {
 
   async function delete_set_book_data(x: Delete_Book_Data_Params) {
 
-    console.log('setting db data after save => ', x)
     return await fetch("/api/book", {
       method: 'POST',
       headers: {
@@ -349,7 +341,6 @@ function Annotation(props: A_Props) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log('set_book_data response => ', data)
         toggle_delete_prompt({show: false, to_delete: null})
         props.reset_user_data(data)
       })

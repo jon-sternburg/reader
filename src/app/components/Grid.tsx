@@ -54,7 +54,7 @@ router.push(`/book/${x.id}`)
 
         <div className={styles.hero_top}>
           <h2>Read your favorite eBooks from the Project Gutenberg Library</h2>
-          <h4>Full annotation, highlight, and text search support</h4>
+          <h4>Full annotation, highlight, SparkNotes, and text search support</h4>
         </div>
         {props.w <= 1000 && (
 

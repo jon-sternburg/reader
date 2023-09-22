@@ -2,7 +2,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import styles from '../css/homepage_styles.module.css'
 import Book_Box from './Book_Box'
-import { Annotation } from "epubjs/types/annotations";
+
 
 
 type BookType = {
@@ -143,8 +143,6 @@ if (data[0]) {
 
 
 function update_annotations(a: Annotation_Item[], c: option_uc | null) {
-//set_annotations(a.map((x:any) => x[1]))
-console.log(a)
 set_annotations(a)
 if (c !== null) {set_user_categories(prevState => [...prevState, c])}
 }

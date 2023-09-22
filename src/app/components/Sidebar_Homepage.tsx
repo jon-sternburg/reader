@@ -23,6 +23,7 @@ type BookType = {
   bg: string
   border: string
   color?: string
+  count?: number
 }
 type ResultsState = BookType[] | []
 export default function SidebarHomepage(props: SH_Props): JSX.Element {
@@ -60,8 +61,8 @@ export default function SidebarHomepage(props: SH_Props): JSX.Element {
       let results_title = _.filter(_source, isMatch_title)
       let results_author = _.filter(_source, isMatch_author)
       let results_ = results_title.concat(results_author)
-
-      set_results(results_)
+      let filtered_:ResultsState = results_.filter((x: any,i) => results_.indexOf(x) == i)
+      set_results(filtered_)
 
 
     }

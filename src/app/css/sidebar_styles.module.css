@@ -972,17 +972,19 @@ padding: 5px;
 
 */
 .sidebar_inner_frame {
-
+/*
     display: flex;
 
     align-items: flex-start;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
+*/
     overflow-x: hidden;
     width: 100%;
     height: 100%;
     overflow-y: auto;
-    justify-content: center;
+
 
 
 }

@@ -17,8 +17,9 @@ async function createUser(request, res) {
     let user = await User.create(req)
     return NextResponse.status(201).json({ message: 'Created user!' })
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: 'ERROR' })
+   // console.error('ERRRRRRRRRRORRRRRRRRRRRRRR ', error);
+   console.log(error)
+    return NextResponse.json({ message: error })
 
   }
   

@@ -58,6 +58,9 @@ export default function Sidebar_New_Annotation(props: SNA_Props) {
   
   useEffect(() => {
   
+let t_ref = textarea_ref.current
+let i_ref = input_ref.current
+
   if (props.edit !== null) { 
     if (input_ref && input_ref.current !== null && input_ref.current !== undefined) {
       input_ref.current.value = props.edit.data.title
@@ -71,11 +74,11 @@ export default function Sidebar_New_Annotation(props: SNA_Props) {
 
   return () => {
 
-    if (input_ref && input_ref.current !== null && input_ref.current !== undefined) {
-      input_ref.current.value = ''
+    if (i_ref && i_ref !== null && i_ref !== undefined) {
+      i_ref.value = ''
     }
-    if (textarea_ref && textarea_ref.current !== null && textarea_ref.current !== undefined) {
-      textarea_ref.current.value = ''
+    if (t_ref && t_ref !== null && t_ref !== undefined) {
+      t_ref.value = ''
     }
   
      }

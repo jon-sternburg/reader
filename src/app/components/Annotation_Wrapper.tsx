@@ -3,8 +3,9 @@ import { Fragment } from 'react'
 import styles from '../css/sidebar_styles.module.css'
 import { IoMdTrash } from "react-icons/io"
 import { MdEdit } from "react-icons/md"
- 
 import { BiLinkAlt } from "react-icons/bi"
+
+
 type Annotation_Item = {
   cfi?: string
   desc?:string
@@ -87,7 +88,7 @@ function go_to_source() {
 
     <li style ={{listStyleType: 'none'}} className={props.selected ? styles["result_li"] + " " + styles["selected"] : styles["result_li"]}   >
 <header>
-      <h6 className={props.selected ? styles.selected_title : styles.not_selected_title}>{title}  {props.sparknotes && (<span style={{ fontStyle: 'italic' }}> - {time}</span>)}</h6>
+      <h6 className={props.selected ? styles.selected_title : styles.not_selected_title}>{title}  {!props.sparknotes && (<span style={{ fontStyle: 'italic' }}> - {time}</span>)}</h6>
       </header>
 
 

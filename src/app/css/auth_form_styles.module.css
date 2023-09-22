@@ -10,7 +10,16 @@
     width: 100dvw;
 
 }
+.already_exists {
 
+    text-align: center;
+    position: absolute;
+    background: none;
+    margin: 0 auto;
+    bottom: 90px;
+    left: 0;
+    right: 0;
+}
 .auth_form_wrap {
 
 position: fixed;

@@ -24,14 +24,38 @@ async function createUser(email:string, password:string) {
 
 
 export default function Auth_Form():JSX.Element {
-  const [registered, setRegistered] = useState<boolean>(false)
   const [new_register, setNewRegistered] = useState<boolean>(false)
+  const [already_exists, set_already_exists] = useState<boolean>(false)
+  const [bad_email, set_bad_email] = useState<boolean>(false)
   const emailInputRef = useRef<HTMLInputElement | null>(null);
   const passwordInputRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter()
 
   const [isLogin, setIsLogin] = useState(true);
 
+  useEffect(() => {
+    if (already_exists) {
+      setTimeout(() => {
+        set_already_exists(false);
+      }, 3000);
+    }
+  }, [already_exists])
+
+  useEffect(() => {
+    if (bad_email) {
+      setTimeout(() => {
+        set_bad_email(false);
+      }, 3000);
+    }
+  }, [bad_email])
+
+  useEffect(() => {
+    if (new_register) {
+      setTimeout(() => {
+        setNewRegistered(false);
+      }, 3000);
+    }
+  }, [new_register])
 
   function switchAuthModeHandler() {
     setIsLogin((prevState) => !prevState);
@@ -59,34 +83,72 @@ await signIn('credentials', {
       
     } else {
       try {
-     await createUser(enteredEmail, enteredPassword);
-        setRegistered(true)
+   let create =   await createUser(enteredEmail, enteredPassword);
+
+
+   if (create.message.code && create.message.code == 11000) { 
+    set_already_exists(true)
+
+   } else if (create.message.name && create.message.name == "ValidationError") { 
+    set_bad_email(true)
+
+   } else { 
+    setNewRegistered(true) 
+    setIsLogin(true)
+}
+
+
       } catch (error) {
         console.log(error);
       }
     }
   }
 
+
+
 function handle_tint_click() {
 router.back()
 }
-  function handle_registered() {
-setIsLogin(true)
-setNewRegistered(true)
-  }
+
+
+
+
   return (
 
 
 <div className = {styles.window_tint}>
 <OutsideAlerter handle_tint_click = {handle_tint_click}>
-    {!new_register ? 
+
     <section className={styles.auth_form_wrap}>
-      {!registered ? (
+
         <Fragment>
         <header>
           <h1>{isLogin ? 'Login Now' : 'Sign Up'}</h1>
           </header>
 
+{already_exists && (
+
+<div className = {styles.already_exists}>
+  Account already exists.
+</div>
+
+)}
+
+{bad_email && (
+
+<div className = {styles.already_exists}>
+  Please enter a valid email address.
+</div>
+
+)}
+
+{new_register  && (
+
+<div className = {styles.already_exists}>
+You have successfully registered.
+</div>
+
+)}
 
       <form onSubmit={submitHandler} id = {"login_form"}>
             <div className = {styles.field_wrap}>
@@ -106,46 +168,13 @@ setNewRegistered(true)
           </form>
 
         </Fragment>
-      ) : (
-        <div className=''>
-          <p>You have successfully registered!</p>
-          
-          <button aria-label = {"Login now"} onClick={() => handle_registered()} className='button button-color'>Login Now</button>
-          
-        </div>
-      )}
 
     </section>
     
 
-: 
 
 
-  <section className={styles.auth_form_wrap} >
-        <h1>Login</h1>
-        <form onSubmit={submitHandler}>
-          <div >
-            <label htmlFor='email'>Email</label>
-            <input aria-label = {"email input"}  type='email' id='email' required ref={emailInputRef} />
-          </div>
-          <div >
-            <label htmlFor='password'>Password</label>
-            <input
-              type='password'
-              id='password'
-              aria-label = {"password input"} 
-              required
-              ref={passwordInputRef}
-            />
-          </div>
-          <div className='my-5'>
-            <button aria-label = {"Login"} type='submit' className='button button-color mr-4'>Login</button>
-          </div>
-        </form>
 
-        </section>
-
-    }
     </OutsideAlerter>
     </div>
 

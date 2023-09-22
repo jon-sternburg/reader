@@ -8,7 +8,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(249, 149, 154, 0.5)",
-        "border": "rgba(137, 1, 5, 0.5)"
+        "border": "rgba(137, 1, 5, 0.5)",
+        "count": 0
     },
     {
         "title": "Et dukkehjem. English",
@@ -19,7 +20,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(247, 228, 165, 0.5)",
-        "border": "rgba(181, 140, 5, 0.5)"
+        "border": "rgba(181, 140, 5, 0.5)",
+        "count": 0
     },
     {
         "title": "Anthem",
@@ -30,7 +32,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(162, 249, 171, 0.5)",
-        "border": "rgba(165, 175, 15, 0.5)"
+        "border": "rgba(165, 175, 15, 0.5)",
+        "count": 40
     },
     {
         "title": "The Legend of Sleepy Hollow",
@@ -41,7 +44,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(163, 230, 255, 0.5)",
-        "border": "rgba(4, 89, 135, 0.5)"
+        "border": "rgba(4, 89, 135, 0.5)",
+        "count": 0
     },
     {
         "title": "A Modest Proposal",
@@ -52,7 +56,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(156, 121, 247, 0.5)",
-        "border": "rgba(47, 1, 127, 0.5)"
+        "border": "rgba(47, 1, 127, 0.5)",
+        "count": 0
     },
     {
         "title": "Metamorphosis",
@@ -63,7 +68,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(252, 174, 208, 0.5)",
-        "border": "rgba(204, 0, 146, 0.5)"
+        "border": "rgba(204, 0, 146, 0.5)",
+        "count": 0
     },
     {
         "title": "A Tale of Two Cities",
@@ -74,7 +80,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(247, 165, 192, 0.5)",
-        "border": "rgba(178, 15, 12, 0.5)"
+        "border": "rgba(178, 15, 12, 0.5)",
+        "count": 31
     },
     {
         "title": "The Turn of the Screw",
@@ -85,7 +92,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(242, 191, 150, 0.5)",
-        "border": "rgba(204, 87, 14, 0.5)"
+        "border": "rgba(204, 87, 14, 0.5)",
+        "count": 2
     },
     {
         "title": "A Christmas Carol in Prose; Being a Ghost Story of Christmas",
@@ -96,7 +104,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 251, 188, 0.5)",
-        "border": "rgba(216, 196, 13, 0.5)"
+        "border": "rgba(216, 196, 13, 0.5)",
+        "count": 0
     },
     {
         "title": "The Masque of the Red Death",
@@ -107,7 +116,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(149, 242, 130, 0.5)",
-        "border": "rgba(13, 165, 114, 0.5)"
+        "border": "rgba(13, 165, 114, 0.5)",
+        "count": 0
     },
     {
         "title": "The Adventures of Sherlock Holmes",
@@ -118,7 +128,8 @@
         "height": 299,
         "width": 199,
         "bg": "rgba(183, 201, 255, 0.5)",
-        "border": "rgba(11, 50, 117, 0.5)"
+        "border": "rgba(11, 50, 117, 0.5)",
+        "count": 0
     },
     {
         "title": "Il Principe. English",
@@ -129,7 +140,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(156, 107, 229, 0.5)",
-        "border": "rgba(81, 13, 145, 0.5)"
+        "border": "rgba(81, 13, 145, 0.5)",
+        "count": 0
     },
     {
         "title": "Dracula",
@@ -140,7 +152,8 @@
         "height": 300,
         "width": 180,
         "bg": "rgba(244, 161, 232, 0.5)",
-        "border": "rgba(214, 14, 177, 0.5)"
+        "border": "rgba(214, 14, 177, 0.5)",
+        "count": 32
     },
     {
         "title": "Moby Dick; Or, The Whale",
@@ -151,7 +164,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(249, 167, 170, 0.5)",
-        "border": "rgba(191, 67, 19, 0.5)"
+        "border": "rgba(191, 67, 19, 0.5)",
+        "count": 0
     },
     {
         "title": "Narrative of the Life of Frederick Douglass, an American Slave",
@@ -162,7 +176,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(242, 214, 145, 0.5)",
-        "border": "rgba(209, 93, 16, 0.5)"
+        "border": "rgba(209, 93, 16, 0.5)",
+        "count": 5
     },
     {
         "title": "The Importance of Being Earnest: A Trivial Comedy for Serious People",
@@ -173,7 +188,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(244, 230, 134, 0.5)",
-        "border": "rgba(242, 249, 24, 0.5)"
+        "border": "rgba(242, 249, 24, 0.5)",
+        "count": 0
     },
     {
         "title": "The Awakening, and Selected Short Stories",
@@ -184,7 +200,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(124, 255, 183, 0.5)",
-        "border": "rgba(123, 153, 4, 0.5)"
+        "border": "rgba(123, 153, 4, 0.5)",
+        "count": 29
     },
     {
         "title": "The Souls of Black Folk",
@@ -195,7 +212,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(139, 173, 232, 0.5)",
-        "border": "rgba(12, 14, 135, 0.5)"
+        "border": "rgba(12, 14, 135, 0.5)",
+        "count": 6
     },
     {
         "title": "Adventures of Huckleberry Finn",
@@ -206,7 +224,8 @@
         "height": 213,
         "width": 200,
         "bg": "rgba(200, 150, 247, 0.5)",
-        "border": "rgba(67, 15, 158, 0.5)"
+        "border": "rgba(67, 15, 158, 0.5)",
+        "count": 19
     },
     {
         "title": "The Slang Dictionary: Etymological, Historical and Andecdotal",
@@ -217,7 +236,8 @@
         "height": 266,
         "width": 200,
         "bg": "rgba(244, 194, 252, 0.5)",
-        "border": "rgba(204, 8, 151, 0.5)"
+        "border": "rgba(204, 8, 151, 0.5)",
+        "count": 0
     },
     {
         "title": "The Adventures of Tom Sawyer",
@@ -228,7 +248,8 @@
         "height": 249,
         "width": 200,
         "bg": "rgba(255, 193, 208, 0.5)",
-        "border": "rgba(173, 31, 3, 0.5)"
+        "border": "rgba(173, 31, 3, 0.5)",
+        "count": 36
     },
     {
         "title": "Jane Eyre: An Autobiography",
@@ -239,7 +260,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(249, 173, 132, 0.5)",
-        "border": "rgba(201, 98, 14, 0.5)"
+        "border": "rgba(201, 98, 14, 0.5)",
+        "count": 12
     },
     {
         "title": "The Picture of Dorian Gray",
@@ -250,7 +272,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 241, 175, 0.5)",
-        "border": "rgba(234, 226, 0, 0.5)"
+        "border": "rgba(234, 226, 0, 0.5)",
+        "count": 22
     },
     {
         "title": "Grimms' Fairy Tales",
@@ -261,7 +284,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(165, 255, 137, 0.5)",
-        "border": "rgba(124, 135, 10, 0.5)"
+        "border": "rgba(124, 135, 10, 0.5)",
+        "count": 0
     },
     {
         "title": "The Republic",
@@ -272,7 +296,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(118, 113, 242, 0.5)",
-        "border": "rgba(0, 121, 132, 0.5)"
+        "border": "rgba(0, 121, 132, 0.5)",
+        "count": 0
     },
     {
         "title": "The Philippine Islands, 1493-1898, Volume 33, 1519-1522",
@@ -283,7 +308,8 @@
         "height": 266,
         "width": 200,
         "bg": "rgba(206, 149, 237, 0.5)",
-        "border": "rgba(85, 12, 124, 0.5)"
+        "border": "rgba(85, 12, 124, 0.5)",
+        "count": 0
     },
     {
         "title": "Peter Pan",
@@ -294,7 +320,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 198, 237, 0.5)",
-        "border": "rgba(234, 23, 157, 0.5)"
+        "border": "rgba(234, 23, 157, 0.5)",
+        "count": 0
     },
     {
         "title": "Treasure Island",
@@ -305,7 +332,8 @@
         "height": 273,
         "width": 200,
         "bg": "rgba(247, 148, 159, 0.5)",
-        "border": "rgba(183, 49, 9, 0.5)"
+        "border": "rgba(183, 49, 9, 0.5)",
+        "count": 2
     },
     {
         "title": "The Call of the Wild",
@@ -316,7 +344,8 @@
         "height": 300,
         "width": 198,
         "bg": "rgba(252, 232, 191, 0.5)",
-        "border": "rgba(183, 65, 11, 0.5)"
+        "border": "rgba(183, 65, 11, 0.5)",
+        "count": 54
     },
     {
         "title": "The Iliad",
@@ -327,7 +356,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 250, 165, 0.5)",
-        "border": "rgba(209, 216, 6, 0.5)"
+        "border": "rgba(209, 216, 6, 0.5)",
+        "count": 0
     },
     {
         "title": "The Hound of the Baskervilles",
@@ -338,7 +368,8 @@
         "height": 300,
         "width": 190,
         "bg": "rgba(146, 244, 190, 0.5)",
-        "border": "rgba(6, 150, 133, 0.5)"
+        "border": "rgba(6, 150, 133, 0.5)",
+        "count": 41
     },
     {
         "title": "A History of the Philippines",
@@ -349,7 +380,8 @@
         "height": 285,
         "width": 200,
         "bg": "rgba(145, 188, 234, 0.5)",
-        "border": "rgba(6, 111, 137, 0.5)"
+        "border": "rgba(6, 111, 137, 0.5)",
+        "count": 0
     },
     {
         "title": "Leviathan",
@@ -360,7 +392,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(199, 136, 247, 0.5)",
-        "border": "rgba(52, 8, 127, 0.5)"
+        "border": "rgba(52, 8, 127, 0.5)",
+        "count": 0
     },
     {
         "title": "Heart of Darkness",
@@ -371,7 +404,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(233, 113, 237, 0.5)",
-        "border": "rgba(209, 14, 102, 0.5)"
+        "border": "rgba(209, 14, 102, 0.5)",
+        "count": 2
     },
     {
         "title": "Uncle Tom's Cabin",
@@ -382,7 +416,8 @@
         "height": 280,
         "width": 200,
         "bg": "rgba(247, 113, 167, 0.5)",
-        "border": "rgba(140, 29, 4, 0.5)"
+        "border": "rgba(140, 29, 4, 0.5)",
+        "count": 0
     },
     {
         "title": "Emma",
@@ -393,18 +428,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(237, 179, 125, 0.5)",
-        "border": "rgba(216, 123, 2, 0.5)"
-    },
-    {
-        "title": "Frankenstein; Or, The Modern Prometheus",
-        "author": "Mary Wollstonecraft Shelley",
-        "url": "https://www.gutenberg.org/ebooks/42324.epub.noimages",
-        "id": "42324",
-        "path": "/files/42324.epub",
-        "height": 300,
-        "width": 200,
-        "bg": "rgba(247, 252, 113, 0.5)",
-        "border": "rgba(209, 177, 20, 0.5)"
+        "border": "rgba(216, 123, 2, 0.5)",
+        "count": 1
     },
     {
         "title": "Siddhartha",
@@ -415,7 +440,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(153, 247, 233, 0.5)",
-        "border": "rgba(13, 114, 4, 0.5)"
+        "border": "rgba(13, 114, 4, 0.5)",
+        "count": 0
     },
     {
         "title": "A Dictionary of Cebuano Visayan",
@@ -426,7 +452,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(166, 200, 252, 0.5)",
-        "border": "rgba(3, 102, 122, 0.5)"
+        "border": "rgba(3, 102, 122, 0.5)",
+        "count": 0
     },
     {
         "title": "Little Women",
@@ -437,7 +464,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(218, 168, 247, 0.5)",
-        "border": "rgba(43, 0, 130, 0.5)"
+        "border": "rgba(43, 0, 130, 0.5)",
+        "count": 1
     },
     {
         "title": "War and Peace",
@@ -448,7 +476,8 @@
         "height": 289,
         "width": 200,
         "bg": "rgba(236, 153, 255, 0.5)",
-        "border": "rgba(237, 11, 222, 0.5)"
+        "border": "rgba(237, 11, 222, 0.5)",
+        "count": 4
     },
     {
         "title": "The Interesting Narrative of the Life of Olaudah Equiano, Or Gustavus Vassa, The African",
@@ -459,7 +488,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(252, 116, 136, 0.5)",
-        "border": "rgba(137, 8, 40, 0.5)"
+        "border": "rgba(137, 8, 40, 0.5)",
+        "count": 0
     },
     {
         "title": "Ulysses",
@@ -470,7 +500,8 @@
         "height": 280,
         "width": 200,
         "bg": "rgba(249, 226, 172, 0.5)",
-        "border": "rgba(229, 150, 13, 0.5)"
+        "border": "rgba(229, 150, 13, 0.5)",
+        "count": 0
     },
     {
         "title": "Anne of Green Gables",
@@ -481,7 +512,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(249, 223, 119, 0.5)",
-        "border": "rgba(247, 199, 7, 0.5)"
+        "border": "rgba(247, 199, 7, 0.5)",
+        "count": 4
     },
     {
         "title": "Pygmalion",
@@ -492,7 +524,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(128, 247, 140, 0.5)",
-        "border": "rgba(10, 147, 44, 0.5)"
+        "border": "rgba(10, 147, 44, 0.5)",
+        "count": 0
     },
     {
         "title": "The Prophet",
@@ -503,7 +536,8 @@
         "height": 300,
         "width": 178,
         "bg": "rgba(127, 182, 255, 0.5)",
-        "border": "rgba(0, 1, 117, 0.5)"
+        "border": "rgba(0, 1, 117, 0.5)",
+        "count": 0
     },
     {
         "title": "The Wonderful Wizard of Oz",
@@ -514,7 +548,8 @@
         "height": 266,
         "width": 200,
         "bg": "rgba(189, 146, 244, 0.5)",
-        "border": "rgba(79, 7, 130, 0.5)"
+        "border": "rgba(79, 7, 130, 0.5)",
+        "count": 0
     },
     {
         "title": "The Count of Monte Cristo, Illustrated",
@@ -525,7 +560,8 @@
         "height": 297,
         "width": 200,
         "bg": "rgba(252, 186, 252, 0.5)",
-        "border": "rgba(216, 2, 159, 0.5)"
+        "border": "rgba(216, 2, 159, 0.5)",
+        "count": 6
     },
     {
         "title": "The Odyssey",
@@ -536,7 +572,8 @@
         "height": 280,
         "width": 200,
         "bg": "rgba(255, 147, 180, 0.5)",
-        "border": "rgba(181, 20, 9, 0.5)"
+        "border": "rgba(181, 20, 9, 0.5)",
+        "count": 0
     },
     {
         "title": "Prestuplenie i nakazanie. English",
@@ -547,7 +584,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(247, 221, 170, 0.5)",
-        "border": "rgba(224, 93, 6, 0.5)"
+        "border": "rgba(224, 93, 6, 0.5)",
+        "count": 0
     },
     {
         "title": "The War of the Worlds",
@@ -558,7 +596,8 @@
         "height": 254,
         "width": 200,
         "bg": "rgba(253, 255, 165, 0.5)",
-        "border": "rgba(229, 212, 20, 0.5)"
+        "border": "rgba(229, 212, 20, 0.5)",
+        "count": 4
     },
     {
         "title": "The Happy Prince, and Other Tales",
@@ -569,7 +608,8 @@
         "height": 274,
         "width": 200,
         "bg": "rgba(110, 244, 222, 0.5)",
-        "border": "rgba(51, 145, 4, 0.5)"
+        "border": "rgba(51, 145, 4, 0.5)",
+        "count": 0
     },
     {
         "title": "The Secret Garden",
@@ -580,7 +620,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(158, 168, 247, 0.5)",
-        "border": "rgba(7, 58, 140, 0.5)"
+        "border": "rgba(7, 58, 140, 0.5)",
+        "count": 3
     },
     {
         "title": "Wuthering Heights",
@@ -591,7 +632,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(198, 170, 247, 0.5)",
-        "border": "rgba(64, 7, 155, 0.5)"
+        "border": "rgba(64, 7, 155, 0.5)",
+        "count": 21
     },
     {
         "title": "The Jungle",
@@ -602,7 +644,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(249, 132, 230, 0.5)",
-        "border": "rgba(232, 18, 214, 0.5)"
+        "border": "rgba(232, 18, 214, 0.5)",
+        "count": 31
     },
     {
         "title": "Don Quixote",
@@ -613,7 +656,8 @@
         "height": 259,
         "width": 200,
         "bg": "rgba(252, 186, 192, 0.5)",
-        "border": "rgba(165, 1, 31, 0.5)"
+        "border": "rgba(165, 1, 31, 0.5)",
+        "count": 0
     },
     {
         "title": "The Works of Edgar Allan Poe — Volume 2",
@@ -624,7 +668,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(239, 188, 148, 0.5)",
-        "border": "rgba(214, 117, 21, 0.5)"
+        "border": "rgba(214, 117, 21, 0.5)",
+        "count": 0
     },
     {
         "title": "A Study in Scarlet",
@@ -635,7 +680,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(250, 252, 156, 0.5)",
-        "border": "rgba(249, 226, 14, 0.5)"
+        "border": "rgba(249, 226, 14, 0.5)",
+        "count": 0
     },
     {
         "title": "Autobiography of Benjamin Franklin",
@@ -646,7 +692,8 @@
         "height": 300,
         "width": 189,
         "bg": "rgba(154, 249, 246, 0.5)",
-        "border": "rgba(5, 119, 64, 0.5)"
+        "border": "rgba(5, 119, 64, 0.5)",
+        "count": 0
     },
     {
         "title": "Essays of Michel de Montaigne — Complete",
@@ -657,7 +704,8 @@
         "height": 292,
         "width": 200,
         "bg": "rgba(150, 210, 234, 0.5)",
-        "border": "rgba(4, 0, 96, 0.5)"
+        "border": "rgba(4, 0, 96, 0.5)",
+        "count": 0
     },
     {
         "title": "Le jardin des supplices (French)",
@@ -668,7 +716,8 @@
         "height": 266,
         "width": 200,
         "bg": "rgba(224, 170, 247, 0.5)",
-        "border": "rgba(78, 1, 155, 0.5)"
+        "border": "rgba(78, 1, 155, 0.5)",
+        "count": 0
     },
     {
         "title": "Second Treatise of Government",
@@ -679,7 +728,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(234, 141, 244, 0.5)",
-        "border": "rgba(242, 24, 162, 0.5)"
+        "border": "rgba(242, 24, 162, 0.5)",
+        "count": 0
     },
     {
         "title": "The Kama Sutra of Vatsyayana",
@@ -690,7 +740,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(242, 151, 123, 0.5)",
-        "border": "rgba(153, 12, 66, 0.5)"
+        "border": "rgba(153, 12, 66, 0.5)",
+        "count": 0
     },
     {
         "title": "Candide",
@@ -701,7 +752,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(249, 214, 177, 0.5)",
-        "border": "rgba(183, 123, 3, 0.5)"
+        "border": "rgba(183, 123, 3, 0.5)",
+        "count": 0
     },
     {
         "title": "The Brothers Karamazov",
@@ -712,7 +764,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(244, 227, 127, 0.5)",
-        "border": "rgba(216, 176, 17, 0.5)"
+        "border": "rgba(216, 176, 17, 0.5)",
+        "count": 0
     },
     {
         "title": "Incidents in the Life of a Slave Girl, Written by Herself",
@@ -723,7 +776,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(143, 252, 133, 0.5)",
-        "border": "rgba(2, 142, 100, 0.5)"
+        "border": "rgba(2, 142, 100, 0.5)",
+        "count": 0
     },
     {
         "title": "Les Misérables",
@@ -734,7 +788,8 @@
         "height": 281,
         "width": 200,
         "bg": "rgba(196, 236, 255, 0.5)",
-        "border": "rgba(4, 9, 104, 0.5)"
+        "border": "rgba(4, 9, 104, 0.5)",
+        "count": 0
     },
     {
         "title": "Divine Comedy, Longfellow's Translation, Hell",
@@ -745,7 +800,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(139, 96, 214, 0.5)",
-        "border": "rgba(64, 4, 147, 0.5)"
+        "border": "rgba(64, 4, 147, 0.5)",
+        "count": 0
     },
     {
         "title": "The Cask of Amontillado",
@@ -756,7 +812,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(237, 118, 187, 0.5)",
-        "border": "rgba(209, 13, 226, 0.5)"
+        "border": "rgba(209, 13, 226, 0.5)",
+        "count": 0
     },
     {
         "title": "The Confessions of St. Augustine",
@@ -767,7 +824,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 187, 186, 0.5)",
-        "border": "rgba(155, 12, 29, 0.5)"
+        "border": "rgba(155, 12, 29, 0.5)",
+        "count": 0
     },
     {
         "title": "Cyrano de Bergerac",
@@ -778,7 +836,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(247, 197, 170, 0.5)",
-        "border": "rgba(191, 102, 1, 0.5)"
+        "border": "rgba(191, 102, 1, 0.5)",
+        "count": 0
     },
     {
         "title": "Sunzi bing fa. English",
@@ -789,7 +848,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(247, 234, 136, 0.5)",
-        "border": "rgba(239, 194, 14, 0.5)"
+        "border": "rgba(239, 194, 14, 0.5)",
+        "count": 0
     },
     {
         "title": "Narrative of the Captivity and Restoration of Mrs. Mary Rowlandson",
@@ -800,7 +860,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(222, 239, 134, 0.5)",
-        "border": "rgba(118, 145, 0, 0.5)"
+        "border": "rgba(118, 145, 0, 0.5)",
+        "count": 0
     },
     {
         "title": "The Tragical History of Doctor Faustus",
@@ -811,7 +872,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(170, 233, 239, 0.5)",
-        "border": "rgba(0, 95, 114, 0.5)"
+        "border": "rgba(0, 95, 114, 0.5)",
+        "count": 0
     },
     {
         "title": "The Jungle Book",
@@ -822,7 +884,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(234, 196, 255, 0.5)",
-        "border": "rgba(73, 3, 127, 0.5)"
+        "border": "rgba(73, 3, 127, 0.5)",
+        "count": 0
     },
     {
         "title": "Beyond Good and Evil",
@@ -833,7 +896,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(238, 170, 255, 0.5)",
-        "border": "rgba(211, 16, 195, 0.5)"
+        "border": "rgba(211, 16, 195, 0.5)",
+        "count": 0
     },
     {
         "title": "Three Men in a Boat (To Say Nothing of the Dog)",
@@ -844,7 +908,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 209, 204, 0.5)",
-        "border": "rgba(160, 33, 11, 0.5)"
+        "border": "rgba(160, 33, 11, 0.5)",
+        "count": 0
     },
     {
         "title": "The Monkey's Paw",
@@ -855,7 +920,8 @@
         "height": 250,
         "width": 199,
         "bg": "rgba(249, 217, 127, 0.5)",
-        "border": "rgba(150, 49, 6, 0.5)"
+        "border": "rgba(150, 49, 6, 0.5)",
+        "count": 0
     },
     {
         "title": "The Time Machine",
@@ -866,7 +932,8 @@
         "height": 300,
         "width": 195,
         "bg": "rgba(247, 238, 111, 0.5)",
-        "border": "rgba(229, 187, 0, 0.5)"
+        "border": "rgba(229, 187, 0, 0.5)",
+        "count": 0
     },
     {
         "title": "Common Sense",
@@ -877,7 +944,8 @@
         "height": 300,
         "width": 188,
         "bg": "rgba(137, 255, 225, 0.5)",
-        "border": "rgba(27, 122, 1, 0.5)"
+        "border": "rgba(27, 122, 1, 0.5)",
+        "count": 2
     },
     {
         "title": "A Journal of the Plague Year",
@@ -888,7 +956,8 @@
         "height": 300,
         "width": 161,
         "bg": "rgba(113, 242, 242, 0.5)",
-        "border": "rgba(38, 6, 135, 0.5)"
+        "border": "rgba(38, 6, 135, 0.5)",
+        "count": 0
     },
     {
         "title": "On Liberty",
@@ -899,7 +968,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(182, 151, 244, 0.5)",
-        "border": "rgba(109, 16, 163, 0.5)"
+        "border": "rgba(109, 16, 163, 0.5)",
+        "count": 0
     },
     {
         "title": "Also sprach Zarathustra. English",
@@ -910,7 +980,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(223, 171, 242, 0.5)",
-        "border": "rgba(219, 10, 149, 0.5)"
+        "border": "rgba(219, 10, 149, 0.5)",
+        "count": 0
     },
     {
         "title": "Ethan Frome",
@@ -921,7 +992,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(252, 207, 189, 0.5)",
-        "border": "rgba(153, 19, 15, 0.5)"
+        "border": "rgba(153, 19, 15, 0.5)",
+        "count": 4
     },
     {
         "title": "Oliver Twist",
@@ -932,7 +1004,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(249, 210, 147, 0.5)",
-        "border": "rgba(196, 75, 19, 0.5)"
+        "border": "rgba(196, 75, 19, 0.5)",
+        "count": 15
     },
     {
         "title": "The Devil's Dictionary",
@@ -943,7 +1016,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(249, 248, 144, 0.5)",
-        "border": "rgba(244, 217, 12, 0.5)"
+        "border": "rgba(244, 217, 12, 0.5)",
+        "count": 0
     },
     {
         "title": "David Copperfield",
@@ -954,7 +1028,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(178, 255, 224, 0.5)",
-        "border": "rgba(88, 124, 11, 0.5)"
+        "border": "rgba(88, 124, 11, 0.5)",
+        "count": 2
     },
     {
         "title": "Myths and Legends of Ancient Greece and Rome",
@@ -965,7 +1040,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(170, 218, 255, 0.5)",
-        "border": "rgba(0, 87, 127, 0.5)"
+        "border": "rgba(0, 87, 127, 0.5)",
+        "count": 0
     },
     {
         "title": "Le Morte d'Arthur: Volume 1",
@@ -976,7 +1052,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(192, 160, 239, 0.5)",
-        "border": "rgba(64, 11, 130, 0.5)"
+        "border": "rgba(64, 11, 130, 0.5)",
+        "count": 0
     },
     {
         "title": "Chaucer's Works, Volume 4 — The Canterbury Tales (Middle English)",
@@ -987,7 +1064,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(252, 131, 187, 0.5)",
-        "border": "rgba(195, 14, 211, 0.5)"
+        "border": "rgba(195, 14, 211, 0.5)",
+        "count": 0
     },
     {
         "title": "Essays by Ralph Waldo Emerson",
@@ -998,7 +1076,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(242, 118, 149, 0.5)",
-        "border": "rgba(155, 18, 0, 0.5)"
+        "border": "rgba(155, 18, 0, 0.5)",
+        "count": 0
     },
     {
         "title": "The Mysterious Affair at Styles",
@@ -1009,7 +1088,8 @@
         "height": 278,
         "width": 200,
         "bg": "rgba(239, 166, 115, 0.5)",
-        "border": "rgba(193, 141, 9, 0.5)"
+        "border": "rgba(193, 141, 9, 0.5)",
+        "count": 0
     },
     {
         "title": "The Problems of Philosophy",
@@ -1020,7 +1100,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(252, 255, 186, 0.5)",
-        "border": "rgba(223, 226, 4, 0.5)"
+        "border": "rgba(223, 226, 4, 0.5)",
+        "count": 0
     },
     {
         "title": "Democracy in America — Volume 1",
@@ -1031,7 +1112,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(175, 255, 203, 0.5)",
-        "border": "rgba(147, 173, 17, 0.5)"
+        "border": "rgba(147, 173, 17, 0.5)",
+        "count": 0
     },
     {
         "title": "The Philippines a Century Hence",
@@ -1042,7 +1124,8 @@
         "height": 300,
         "width": 190,
         "bg": "rgba(119, 240, 244, 0.5)",
-        "border": "rgba(2, 102, 135, 0.5)"
+        "border": "rgba(2, 102, 135, 0.5)",
+        "count": 0
     },
     {
         "title": "Complete Original Short Stories of Guy De Maupassant",
@@ -1053,7 +1136,8 @@
         "height": 293,
         "width": 200,
         "bg": "rgba(202, 174, 249, 0.5)",
-        "border": "rgba(73, 8, 147, 0.5)"
+        "border": "rgba(73, 8, 147, 0.5)",
+        "count": 0
     },
     {
         "title": "Sense and Sensibility",
@@ -1064,7 +1148,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(244, 141, 239, 0.5)",
-        "border": "rgba(185, 19, 191, 0.5)"
+        "border": "rgba(185, 19, 191, 0.5)",
+        "count": 0
     },
     {
         "title": "Gulliver's Travels into Several Remote Nations of the World",
@@ -1075,7 +1160,8 @@
         "height": 280,
         "width": 200,
         "bg": "rgba(239, 147, 143, 0.5)",
-        "border": "rgba(175, 55, 15, 0.5)"
+        "border": "rgba(175, 55, 15, 0.5)",
+        "count": 0
     },
     {
         "title": "Northanger Abbey",
@@ -1086,7 +1172,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(242, 188, 155, 0.5)",
-        "border": "rgba(214, 81, 10, 0.5)"
+        "border": "rgba(214, 81, 10, 0.5)",
+        "count": 3
     },
     {
         "title": "An Index of The Divine Comedy by Dante",
@@ -1097,7 +1184,8 @@
         "height": 272,
         "width": 200,
         "bg": "rgba(244, 225, 161, 0.5)",
-        "border": "rgba(217, 224, 20, 0.5)"
+        "border": "rgba(217, 224, 20, 0.5)",
+        "count": 0
     },
     {
         "title": "Anna Karenina",
@@ -1108,7 +1196,8 @@
         "height": 280,
         "width": 200,
         "bg": "rgba(176, 255, 163, 0.5)",
-        "border": "rgba(1, 107, 24, 0.5)"
+        "border": "rgba(1, 107, 24, 0.5)",
+        "count": 0
     },
     {
         "title": "Manifest der Kommunistischen Partei. English",
@@ -1119,7 +1208,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(183, 236, 247, 0.5)",
-        "border": "rgba(13, 46, 137, 0.5)"
+        "border": "rgba(13, 46, 137, 0.5)",
+        "count": 0
     },
     {
         "title": "Carmilla",
@@ -1130,7 +1220,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(220, 150, 255, 0.5)",
-        "border": "rgba(61, 1, 145, 0.5)"
+        "border": "rgba(61, 1, 145, 0.5)",
+        "count": 0
     },
     {
         "title": "The Life and Adventures of Robinson Crusoe",
@@ -1141,7 +1232,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(225, 142, 255, 0.5)",
-        "border": "rgba(219, 0, 116, 0.5)"
+        "border": "rgba(219, 0, 116, 0.5)",
+        "count": 0
     },
     {
         "title": "Hard Times",
@@ -1152,7 +1244,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(244, 165, 151, 0.5)",
-        "border": "rgba(168, 21, 13, 0.5)"
+        "border": "rgba(168, 21, 13, 0.5)",
+        "count": 0
     },
     {
         "title": "Through the Looking-Glass",
@@ -1163,7 +1256,8 @@
         "height": 261,
         "width": 200,
         "bg": "rgba(252, 233, 189, 0.5)",
-        "border": "rgba(229, 136, 22, 0.5)"
+        "border": "rgba(229, 136, 22, 0.5)",
+        "count": 1
     },
     {
         "title": "Songs of Innocence, and Songs of Experience",
@@ -1174,7 +1268,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(242, 221, 128, 0.5)",
-        "border": "rgba(209, 188, 2, 0.5)"
+        "border": "rgba(209, 188, 2, 0.5)",
+        "count": 0
     },
     {
         "title": "The Friars in the Philippines",
@@ -1185,7 +1280,8 @@
         "height": 300,
         "width": 180,
         "bg": "rgba(123, 237, 178, 0.5)",
-        "border": "rgba(1, 130, 82, 0.5)"
+        "border": "rgba(1, 130, 82, 0.5)",
+        "count": 0
     },
     {
         "title": "The Decameron of Giovanni Boccaccio",
@@ -1196,7 +1292,8 @@
         "height": 300,
         "width": 194,
         "bg": "rgba(126, 215, 247, 0.5)",
-        "border": "rgba(8, 3, 104, 0.5)"
+        "border": "rgba(8, 3, 104, 0.5)",
+        "count": 0
     },
     {
         "title": "His Grace of Osmonde",
@@ -1207,7 +1304,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(233, 199, 252, 0.5)",
-        "border": "rgba(81, 10, 135, 0.5)"
+        "border": "rgba(81, 10, 135, 0.5)",
+        "count": 0
     },
     {
         "title": "Rizal's own story of his life",
@@ -1218,7 +1316,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 160, 203, 0.5)",
-        "border": "rgba(164, 14, 206, 0.5)"
+        "border": "rgba(164, 14, 206, 0.5)",
+        "count": 0
     },
     {
         "title": "The American Occupation of the Philippines 1898-1912",
@@ -1229,18 +1328,8 @@
         "height": 300,
         "width": 177,
         "bg": "rgba(247, 116, 151, 0.5)",
-        "border": "rgba(188, 15, 17, 0.5)"
-    },
-    {
-        "title": "The Autobiography of Benjamin Franklin",
-        "author": "Benjamin Franklin",
-        "url": "https://www.gutenberg.org/ebooks/148.epub.noimages",
-        "id": "148",
-        "path": "/files/148.epub",
-        "height": 300,
-        "width": 188,
-        "bg": "rgba(252, 213, 189, 0.5)",
-        "border": "rgba(216, 131, 19, 0.5)"
+        "border": "rgba(188, 15, 17, 0.5)",
+        "count": 0
     },
     {
         "title": "Don Quijote (Spanish)",
@@ -1251,7 +1340,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(252, 247, 179, 0.5)",
-        "border": "rgba(209, 192, 14, 0.5)"
+        "border": "rgba(209, 192, 14, 0.5)",
+        "count": 0
     },
     {
         "title": "The Complete Works of William Shakespeare",
@@ -1262,7 +1352,8 @@
         "height": 300,
         "width": 175,
         "bg": "rgba(171, 244, 122, 0.5)",
-        "border": "rgba(76, 145, 11, 0.5)"
+        "border": "rgba(76, 145, 11, 0.5)",
+        "count": 0
     },
     {
         "title": "Don Juan",
@@ -1273,7 +1364,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(157, 228, 242, 0.5)",
-        "border": "rgba(9, 77, 117, 0.5)"
+        "border": "rgba(9, 77, 117, 0.5)",
+        "count": 0
     },
     {
         "title": "How the Other Half Lives: Studies Among the Tenements of New York",
@@ -1284,7 +1376,8 @@
         "height": 300,
         "width": 192,
         "bg": "rgba(226, 183, 255, 0.5)",
-        "border": "rgba(40, 6, 112, 0.5)"
+        "border": "rgba(40, 6, 112, 0.5)",
+        "count": 0
     },
     {
         "title": "The Romance of Lust: A classic Victorian erotic novel",
@@ -1295,7 +1388,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(243, 128, 247, 0.5)",
-        "border": "rgba(170, 15, 221, 0.5)"
+        "border": "rgba(170, 15, 221, 0.5)",
+        "count": 0
     },
     {
         "title": "De re coquinaria. English",
@@ -1306,7 +1400,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 201, 206, 0.5)",
-        "border": "rgba(140, 12, 63, 0.5)"
+        "border": "rgba(140, 12, 63, 0.5)",
+        "count": 0
     },
     {
         "title": "The Sign of the Four",
@@ -1317,7 +1412,8 @@
         "height": 299,
         "width": 200,
         "bg": "rgba(255, 196, 147, 0.5)",
-        "border": "rgba(206, 104, 2, 0.5)"
+        "border": "rgba(206, 104, 2, 0.5)",
+        "count": 0
     },
     {
         "title": "Leaves of Grass",
@@ -1328,7 +1424,8 @@
         "height": 266,
         "width": 200,
         "bg": "rgba(242, 230, 125, 0.5)",
-        "border": "rgba(242, 211, 12, 0.5)"
+        "border": "rgba(242, 211, 12, 0.5)",
+        "count": 0
     },
     {
         "title": "Hamlet, Prince of Denmark",
@@ -1339,7 +1436,8 @@
         "height": 62,
         "width": 200,
         "bg": "rgba(170, 255, 197, 0.5)",
-        "border": "rgba(28, 130, 5, 0.5)"
+        "border": "rgba(28, 130, 5, 0.5)",
+        "count": 0
     },
     {
         "title": "Mosses from an Old Manse, and Other Stories",
@@ -1350,7 +1448,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(134, 214, 232, 0.5)",
-        "border": "rgba(41, 2, 140, 0.5)"
+        "border": "rgba(41, 2, 140, 0.5)",
+        "count": 0
     },
     {
         "title": "The Republic of Plato",
@@ -1361,7 +1460,8 @@
         "height": 300,
         "width": 177,
         "bg": "rgba(169, 137, 229, 0.5)",
-        "border": "rgba(83, 10, 132, 0.5)"
+        "border": "rgba(83, 10, 132, 0.5)",
+        "count": 0
     },
     {
         "title": "Ambrotox and Limping Dick",
@@ -1372,7 +1472,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(242, 201, 255, 0.5)",
-        "border": "rgba(198, 13, 219, 0.5)"
+        "border": "rgba(198, 13, 219, 0.5)",
+        "count": 0
     },
     {
         "title": "Hedda Gabler",
@@ -1383,7 +1484,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(244, 149, 171, 0.5)",
-        "border": "rgba(163, 29, 14, 0.5)"
+        "border": "rgba(163, 29, 14, 0.5)",
+        "count": 0
     },
     {
         "title": "Meditations",
@@ -1394,7 +1496,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(249, 188, 127, 0.5)",
-        "border": "rgba(132, 40, 1, 0.5)"
+        "border": "rgba(132, 40, 1, 0.5)",
+        "count": 0
     },
     {
         "title": "Southern Horrors: Lynch Law in All Its Phases",
@@ -1405,7 +1508,8 @@
         "height": 300,
         "width": 183,
         "bg": "rgba(239, 213, 110, 0.5)",
-        "border": "rgba(234, 223, 11, 0.5)"
+        "border": "rgba(234, 223, 11, 0.5)",
+        "count": 0
     },
     {
         "title": "Notes from the Underground",
@@ -1416,7 +1520,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(107, 239, 121, 0.5)",
-        "border": "rgba(13, 173, 19, 0.5)"
+        "border": "rgba(13, 173, 19, 0.5)",
+        "count": 0
     },
     {
         "title": "Spenser's The Faerie Queene, Book I",
@@ -1427,7 +1532,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(109, 203, 232, 0.5)",
-        "border": "rgba(9, 52, 122, 0.5)"
+        "border": "rgba(9, 52, 122, 0.5)",
+        "count": 0
     },
     {
         "title": "The History of the Decline and Fall of the Roman Empire",
@@ -1438,7 +1544,8 @@
         "height": 300,
         "width": 176,
         "bg": "rgba(227, 186, 252, 0.5)",
-        "border": "rgba(99, 11, 142, 0.5)"
+        "border": "rgba(99, 11, 142, 0.5)",
+        "count": 0
     },
     {
         "title": "Democracy and Education: An Introduction to the Philosophy of Education",
@@ -1449,7 +1556,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(242, 167, 209, 0.5)",
-        "border": "rgba(242, 24, 140, 0.5)"
+        "border": "rgba(242, 24, 140, 0.5)",
+        "count": 0
     },
     {
         "title": "Poetics. English",
@@ -1460,7 +1568,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(239, 130, 122, 0.5)",
-        "border": "rgba(160, 9, 1, 0.5)"
+        "border": "rgba(160, 9, 1, 0.5)",
+        "count": 0
     },
     {
         "title": "The Elements of Style",
@@ -1471,7 +1580,8 @@
         "height": 300,
         "width": 177,
         "bg": "rgba(255, 235, 186, 0.5)",
-        "border": "rgba(178, 98, 17, 0.5)"
+        "border": "rgba(178, 98, 17, 0.5)",
+        "count": 0
     },
     {
         "title": "A Pickle for the Knowing Ones",
@@ -1482,7 +1592,8 @@
         "height": 300,
         "width": 189,
         "bg": "rgba(249, 232, 132, 0.5)",
-        "border": "rgba(224, 184, 22, 0.5)"
+        "border": "rgba(224, 184, 22, 0.5)",
+        "count": 0
     },
     {
         "title": "Plays",
@@ -1493,7 +1604,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(239, 252, 159, 0.5)",
-        "border": "rgba(78, 168, 10, 0.5)"
+        "border": "rgba(78, 168, 10, 0.5)",
+        "count": 0
     },
     {
         "title": "On the origin of species",
@@ -1504,7 +1616,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(161, 199, 234, 0.5)",
-        "border": "rgba(1, 74, 94, 0.5)"
+        "border": "rgba(1, 74, 94, 0.5)",
+        "count": 5
     },
     {
         "title": "Demonology and Devil-lore",
@@ -1515,18 +1628,8 @@
         "height": 266,
         "width": 200,
         "bg": "rgba(192, 169, 252, 0.5)",
-        "border": "rgba(61, 11, 122, 0.5)"
-    },
-    {
-        "title": "The Secret Garden",
-        "author": "Frances Hodgson Burnett",
-        "url": "https://www.gutenberg.org/ebooks/17396.epub.noimages",
-        "id": "17396",
-        "path": "/files/17396.epub",
-        "height": 298,
-        "width": 200,
-        "bg": "rgba(222, 111, 242, 0.5)",
-        "border": "rgba(232, 18, 192, 0.5)"
+        "border": "rgba(61, 11, 122, 0.5)",
+        "count": 0
     },
     {
         "title": "An Occurrence at Owl Creek Bridge",
@@ -1537,7 +1640,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 178, 150, 0.5)",
-        "border": "rgba(130, 0, 56, 0.5)"
+        "border": "rgba(130, 0, 56, 0.5)",
+        "count": 0
     },
     {
         "title": "The History of the Peloponnesian War",
@@ -1548,7 +1652,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 209, 117, 0.5)",
-        "border": "rgba(206, 116, 6, 0.5)"
+        "border": "rgba(206, 116, 6, 0.5)",
+        "count": 0
     },
     {
         "title": "An Inquiry into the Nature and Causes of the Wealth of Nations",
@@ -1559,7 +1664,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(248, 252, 146, 0.5)",
-        "border": "rgba(232, 217, 16, 0.5)"
+        "border": "rgba(232, 217, 16, 0.5)",
+        "count": 0
     },
     {
         "title": "Friars and Filipinos",
@@ -1570,18 +1676,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(136, 239, 186, 0.5)",
-        "border": "rgba(119, 153, 0, 0.5)"
-    },
-    {
-        "title": "The Wonderful Wizard of Oz",
-        "author": "L. Frank Baum",
-        "url": "https://www.gutenberg.org/ebooks/43936.epub.noimages",
-        "id": "43936",
-        "path": "/files/43936.epub",
-        "height": 300,
-        "width": 200,
-        "bg": "rgba(198, 215, 255, 0.5)",
-        "border": "rgba(2, 93, 112, 0.5)"
+        "border": "rgba(119, 153, 0, 0.5)",
+        "count": 0
     },
     {
         "title": "Madame Bovary",
@@ -1592,7 +1688,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(208, 187, 247, 0.5)",
-        "border": "rgba(67, 0, 140, 0.5)"
+        "border": "rgba(67, 0, 140, 0.5)",
+        "count": 1
     },
     {
         "title": "The Tale of Peter Rabbit",
@@ -1603,7 +1700,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(249, 182, 245, 0.5)",
-        "border": "rgba(216, 10, 213, 0.5)"
+        "border": "rgba(216, 10, 213, 0.5)",
+        "count": 0
     },
     {
         "title": "Twelve Years a Slave",
@@ -1614,7 +1712,8 @@
         "height": 268,
         "width": 200,
         "bg": "rgba(249, 175, 162, 0.5)",
-        "border": "rgba(140, 9, 14, 0.5)"
+        "border": "rgba(140, 9, 14, 0.5)",
+        "count": 3
     },
     {
         "title": "Persuasion",
@@ -1625,7 +1724,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 239, 204, 0.5)",
-        "border": "rgba(178, 136, 10, 0.5)"
+        "border": "rgba(178, 136, 10, 0.5)",
+        "count": 1
     },
     {
         "title": "The Prince and the Pauper",
@@ -1636,7 +1736,8 @@
         "height": 216,
         "width": 200,
         "bg": "rgba(242, 219, 142, 0.5)",
-        "border": "rgba(224, 188, 8, 0.5)"
+        "border": "rgba(224, 188, 8, 0.5)",
+        "count": 0
     },
     {
         "title": "Mansfield Park",
@@ -1647,7 +1748,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(119, 244, 180, 0.5)",
-        "border": "rgba(119, 127, 8, 0.5)"
+        "border": "rgba(119, 127, 8, 0.5)",
+        "count": 0
     },
     {
         "title": "English Literature",
@@ -1658,7 +1760,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(198, 255, 255, 0.5)",
-        "border": "rgba(5, 5, 117, 0.5)"
+        "border": "rgba(5, 5, 117, 0.5)",
+        "count": 0
     },
     {
         "title": "Noli me tángere. English",
@@ -1669,7 +1772,8 @@
         "height": 286,
         "width": 200,
         "bg": "rgba(192, 137, 229, 0.5)",
-        "border": "rgba(83, 6, 127, 0.5)"
+        "border": "rgba(83, 6, 127, 0.5)",
+        "count": 0
     },
     {
         "title": "Utopia",
@@ -1680,18 +1784,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(228, 144, 244, 0.5)",
-        "border": "rgba(223, 21, 242, 0.5)"
-    },
-    {
-        "title": "Frankenstein; Or, The Modern Prometheus",
-        "author": "Mary Wollstonecraft Shelley",
-        "url": "https://www.gutenberg.org/ebooks/41445.epub.noimages",
-        "id": "41445",
-        "path": "/files/41445.epub",
-        "height": 300,
-        "width": 200,
-        "bg": "rgba(244, 134, 175, 0.5)",
-        "border": "rgba(155, 7, 52, 0.5)"
+        "border": "rgba(223, 21, 242, 0.5)",
+        "count": 0
     },
     {
         "title": "2 B R 0 2 B",
@@ -1702,7 +1796,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(237, 191, 132, 0.5)",
-        "border": "rgba(219, 163, 10, 0.5)"
+        "border": "rgba(219, 163, 10, 0.5)",
+        "count": 0
     },
     {
         "title": "Noli Me Tangere (Tagalog)",
@@ -1713,7 +1808,8 @@
         "height": 300,
         "width": 39,
         "bg": "rgba(244, 240, 124, 0.5)",
-        "border": "rgba(219, 169, 6, 0.5)"
+        "border": "rgba(219, 169, 6, 0.5)",
+        "count": 0
     },
     {
         "title": "Around the World in Eighty Days",
@@ -1724,7 +1820,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(134, 252, 128, 0.5)",
-        "border": "rgba(4, 140, 45, 0.5)"
+        "border": "rgba(4, 140, 45, 0.5)",
+        "count": 0
     },
     {
         "title": "The Federalist Papers",
@@ -1735,7 +1832,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(111, 134, 237, 0.5)",
-        "border": "rgba(3, 25, 114, 0.5)"
+        "border": "rgba(3, 25, 114, 0.5)",
+        "count": 0
     },
     {
         "title": "The Invisible Man: A Grotesque Romance",
@@ -1746,7 +1844,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(191, 137, 249, 0.5)",
-        "border": "rgba(75, 13, 137, 0.5)"
+        "border": "rgba(75, 13, 137, 0.5)",
+        "count": 0
     },
     {
         "title": "Die Leiden des jungen Werther. English",
@@ -1757,18 +1856,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(247, 133, 198, 0.5)",
-        "border": "rgba(232, 4, 125, 0.5)"
-    },
-    {
-        "title": "The Iliad",
-        "author": "Homer",
-        "url": "https://www.gutenberg.org/ebooks/2199.epub.noimages",
-        "id": "2199",
-        "path": "/files/2199.epub",
-        "height": 300,
-        "width": 200,
-        "bg": "rgba(252, 189, 171, 0.5)",
-        "border": "rgba(145, 10, 28, 0.5)"
+        "border": "rgba(232, 4, 125, 0.5)",
+        "count": 0
     },
     {
         "title": "Antiquities of the Jews",
@@ -1779,18 +1868,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(249, 212, 187, 0.5)",
-        "border": "rgba(204, 155, 8, 0.5)"
-    },
-    {
-        "title": "The Odyssey",
-        "author": "Homer",
-        "url": "https://www.gutenberg.org/ebooks/3160.epub.noimages",
-        "id": "3160",
-        "path": "/files/3160.epub",
-        "height": 280,
-        "width": 200,
-        "bg": "rgba(252, 231, 126, 0.5)",
-        "border": "rgba(198, 201, 4, 0.5)"
+        "border": "rgba(204, 155, 8, 0.5)",
+        "count": 0
     },
     {
         "title": "The King in Yellow",
@@ -1801,7 +1880,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(225, 239, 117, 0.5)",
-        "border": "rgba(13, 153, 9, 0.5)"
+        "border": "rgba(13, 153, 9, 0.5)",
+        "count": 0
     },
     {
         "title": "The Origin of Tyranny",
@@ -1812,7 +1892,8 @@
         "height": 300,
         "width": 187,
         "bg": "rgba(128, 168, 229, 0.5)",
-        "border": "rgba(2, 104, 119, 0.5)"
+        "border": "rgba(2, 104, 119, 0.5)",
+        "count": 0
     },
     {
         "title": "Ethica. English",
@@ -1823,7 +1904,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(222, 199, 252, 0.5)",
-        "border": "rgba(94, 4, 140, 0.5)"
+        "border": "rgba(94, 4, 140, 0.5)",
+        "count": 0
     },
     {
         "title": "The City of God, Volume I",
@@ -1834,7 +1916,8 @@
         "height": 300,
         "width": 164,
         "bg": "rgba(215, 158, 239, 0.5)",
-        "border": "rgba(183, 4, 219, 0.5)"
+        "border": "rgba(183, 4, 219, 0.5)",
+        "count": 0
     },
     {
         "title": "The Lady with the Dog and Other Stories",
@@ -1845,7 +1928,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(247, 179, 178, 0.5)",
-        "border": "rgba(170, 36, 15, 0.5)"
+        "border": "rgba(170, 36, 15, 0.5)",
+        "count": 0
     },
     {
         "title": "A Portrait of the Artist as a Young Man",
@@ -1856,7 +1940,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(249, 211, 184, 0.5)",
-        "border": "rgba(224, 109, 2, 0.5)"
+        "border": "rgba(224, 109, 2, 0.5)",
+        "count": 2
     },
     {
         "title": "The Works of Edgar Allan Poe — Volume 1",
@@ -1867,7 +1952,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(244, 220, 122, 0.5)",
-        "border": "rgba(224, 179, 15, 0.5)"
+        "border": "rgba(224, 179, 15, 0.5)",
+        "count": 0
     },
     {
         "title": "Lyrical Ballads, With a Few Other Poems (1798)",
@@ -1878,7 +1964,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(199, 249, 154, 0.5)",
-        "border": "rgba(99, 122, 8, 0.5)"
+        "border": "rgba(99, 122, 8, 0.5)",
+        "count": 0
     },
     {
         "title": "A Vindication of the Rights of Woman",
@@ -1889,7 +1976,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(127, 143, 232, 0.5)",
-        "border": "rgba(6, 68, 114, 0.5)"
+        "border": "rgba(6, 68, 114, 0.5)",
+        "count": 0
     },
     {
         "title": "The Fall of the House of Usher",
@@ -1900,7 +1988,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(209, 162, 239, 0.5)",
-        "border": "rgba(78, 12, 158, 0.5)"
+        "border": "rgba(78, 12, 158, 0.5)",
+        "count": 0
     },
     {
         "title": "A Treatise of Human Nature",
@@ -1911,7 +2000,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(252, 191, 255, 0.5)",
-        "border": "rgba(201, 4, 99, 0.5)"
+        "border": "rgba(201, 4, 99, 0.5)",
+        "count": 0
     },
     {
         "title": "Tess of the d'Urbervilles: A Pure Woman",
@@ -1922,7 +2012,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 198, 201, 0.5)",
-        "border": "rgba(178, 4, 1, 0.5)"
+        "border": "rgba(178, 4, 1, 0.5)",
+        "count": 0
     },
     {
         "title": "El Filibusterismo. English",
@@ -1933,7 +2024,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(252, 191, 141, 0.5)",
-        "border": "rgba(183, 114, 11, 0.5)"
+        "border": "rgba(183, 114, 11, 0.5)",
+        "count": 0
     },
     {
         "title": "The Wind in the Willows",
@@ -1944,7 +2036,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(252, 250, 156, 0.5)",
-        "border": "rgba(219, 192, 21, 0.5)"
+        "border": "rgba(219, 192, 21, 0.5)",
+        "count": 0
     },
     {
         "title": "White Fang",
@@ -1955,7 +2048,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(142, 255, 176, 0.5)",
-        "border": "rgba(15, 173, 99, 0.5)"
+        "border": "rgba(15, 173, 99, 0.5)",
+        "count": 0
     },
     {
         "title": "Nature",
@@ -1966,7 +2060,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(200, 196, 252, 0.5)",
-        "border": "rgba(10, 19, 135, 0.5)"
+        "border": "rgba(10, 19, 135, 0.5)",
+        "count": 0
     },
     {
         "title": "Household Stories by the Brothers Grimm",
@@ -1977,7 +2072,8 @@
         "height": 29,
         "width": 200,
         "bg": "rgba(210, 137, 244, 0.5)",
-        "border": "rgba(80, 4, 142, 0.5)"
+        "border": "rgba(80, 4, 142, 0.5)",
+        "count": 0
     },
     {
         "title": "On War",
@@ -1988,7 +2084,8 @@
         "height": 299,
         "width": 200,
         "bg": "rgba(255, 191, 248, 0.5)",
-        "border": "rgba(201, 4, 142, 0.5)"
+        "border": "rgba(201, 4, 142, 0.5)",
+        "count": 0
     },
     {
         "title": "The Red Record",
@@ -1999,7 +2096,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 173, 208, 0.5)",
-        "border": "rgba(153, 4, 39, 0.5)"
+        "border": "rgba(153, 4, 39, 0.5)",
+        "count": 0
     },
     {
         "title": "Aesop's Fables",
@@ -2010,7 +2108,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(249, 213, 127, 0.5)",
-        "border": "rgba(211, 160, 21, 0.5)"
+        "border": "rgba(211, 160, 21, 0.5)",
+        "count": 0
     },
     {
         "title": "Pascal's Pensées",
@@ -2021,7 +2120,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(252, 238, 166, 0.5)",
-        "border": "rgba(242, 226, 9, 0.5)"
+        "border": "rgba(242, 226, 9, 0.5)",
+        "count": 0
     },
     {
         "title": "A Complete Guide to Heraldry",
@@ -2032,7 +2132,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(120, 237, 149, 0.5)",
-        "border": "rgba(0, 142, 7, 0.5)"
+        "border": "rgba(0, 142, 7, 0.5)",
+        "count": 0
     },
     {
         "title": "Steam, Its Generation and Use",
@@ -2043,7 +2144,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(147, 188, 249, 0.5)",
-        "border": "rgba(5, 105, 107, 0.5)"
+        "border": "rgba(5, 105, 107, 0.5)",
+        "count": 0
     },
     {
         "title": "The Tinguian: Social, Religious, and Economic Life of a Philippine Tribe",
@@ -2054,7 +2156,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(200, 164, 244, 0.5)",
-        "border": "rgba(103, 0, 155, 0.5)"
+        "border": "rgba(103, 0, 155, 0.5)",
+        "count": 0
     },
     {
         "title": "Poirot Investigates",
@@ -2065,7 +2168,8 @@
         "height": 300,
         "width": 194,
         "bg": "rgba(229, 139, 237, 0.5)",
-        "border": "rgba(175, 0, 76, 0.5)"
+        "border": "rgba(175, 0, 76, 0.5)",
+        "count": 0
     },
     {
         "title": "The Red Badge of Courage: An Episode of the American Civil War",
@@ -2076,7 +2180,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(252, 179, 159, 0.5)",
-        "border": "rgba(140, 5, 32, 0.5)"
+        "border": "rgba(140, 5, 32, 0.5)",
+        "count": 0
     },
     {
         "title": "The Consolation of Philosophy",
@@ -2087,7 +2192,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 205, 183, 0.5)",
-        "border": "rgba(196, 89, 1, 0.5)"
+        "border": "rgba(196, 89, 1, 0.5)",
+        "count": 0
     },
     {
         "title": "Lineage, Life and Labors of José Rizal, Philippine Patriot",
@@ -2098,7 +2204,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 250, 114, 0.5)",
-        "border": "rgba(209, 162, 10, 0.5)"
+        "border": "rgba(209, 162, 10, 0.5)",
+        "count": 0
     },
     {
         "title": "The Rape of the Lock, and Other Poems",
@@ -2109,7 +2216,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(195, 242, 121, 0.5)",
-        "border": "rgba(120, 160, 11, 0.5)"
+        "border": "rgba(120, 160, 11, 0.5)",
+        "count": 0
     },
     {
         "title": "Bleak House",
@@ -2120,7 +2228,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(129, 106, 232, 0.5)",
-        "border": "rgba(30, 6, 135, 0.5)"
+        "border": "rgba(30, 6, 135, 0.5)",
+        "count": 3
     },
     {
         "title": "Personal Memoirs of U. S. Grant, Complete",
@@ -2131,7 +2240,8 @@
         "height": 296,
         "width": 200,
         "bg": "rgba(196, 116, 242, 0.5)",
-        "border": "rgba(82, 15, 158, 0.5)"
+        "border": "rgba(82, 15, 158, 0.5)",
+        "count": 0
     },
     {
         "title": "The Divine Comedy by Dante, Illustrated, Paradise, Complete",
@@ -2142,7 +2252,8 @@
         "height": 258,
         "width": 200,
         "bg": "rgba(255, 160, 253, 0.5)",
-        "border": "rgba(229, 16, 186, 0.5)"
+        "border": "rgba(229, 16, 186, 0.5)",
+        "count": 0
     },
     {
         "title": "The Island of Doctor Moreau",
@@ -2153,7 +2264,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(242, 164, 140, 0.5)",
-        "border": "rgba(168, 53, 15, 0.5)"
+        "border": "rgba(168, 53, 15, 0.5)",
+        "count": 0
     },
     {
         "title": "An Enquiry Concerning Human Understanding",
@@ -2164,7 +2276,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(249, 217, 157, 0.5)",
-        "border": "rgba(211, 91, 0, 0.5)"
+        "border": "rgba(211, 91, 0, 0.5)",
+        "count": 0
     },
     {
         "title": "Just So Stories",
@@ -2175,7 +2288,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 250, 181, 0.5)",
-        "border": "rgba(216, 180, 0, 0.5)"
+        "border": "rgba(216, 180, 0, 0.5)",
+        "count": 0
     },
     {
         "title": "The Castle of Otranto",
@@ -2186,7 +2300,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(215, 252, 156, 0.5)",
-        "border": "rgba(66, 132, 11, 0.5)"
+        "border": "rgba(66, 132, 11, 0.5)",
+        "count": 0
     },
     {
         "title": "A Connecticut Yankee in King Arthur's Court",
@@ -2197,7 +2312,8 @@
         "height": 205,
         "width": 200,
         "bg": "rgba(129, 202, 226, 0.5)",
-        "border": "rgba(6, 109, 127, 0.5)"
+        "border": "rgba(6, 109, 127, 0.5)",
+        "count": 0
     },
     {
         "title": "Paradise Lost",
@@ -2208,7 +2324,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(235, 188, 255, 0.5)",
-        "border": "rgba(44, 3, 124, 0.5)"
+        "border": "rgba(44, 3, 124, 0.5)",
+        "count": 0
     },
     {
         "title": "Man and Superman: A Comedy and a Philosophy",
@@ -2219,7 +2336,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(238, 164, 249, 0.5)",
-        "border": "rgba(84, 7, 117, 0.5)"
+        "border": "rgba(84, 7, 117, 0.5)",
+        "count": 0
     },
     {
         "title": "Ramayana. English",
@@ -2230,7 +2348,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(244, 141, 139, 0.5)",
-        "border": "rgba(175, 12, 77, 0.5)"
+        "border": "rgba(175, 12, 77, 0.5)",
+        "count": 0
     },
     {
         "title": "A Christmas Carol",
@@ -2241,7 +2360,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(252, 176, 143, 0.5)",
-        "border": "rgba(183, 88, 16, 0.5)"
+        "border": "rgba(183, 88, 16, 0.5)",
+        "count": 0
     },
     {
         "title": "The Last of the Mohicans; A narrative of 1757",
@@ -2252,7 +2372,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(255, 247, 188, 0.5)",
-        "border": "rgba(247, 199, 24, 0.5)"
+        "border": "rgba(247, 199, 24, 0.5)",
+        "count": 2
     },
     {
         "title": "The Ten Books on Architecture",
@@ -2263,7 +2384,8 @@
         "height": 300,
         "width": 200,
         "bg": "rgba(228, 239, 107, 0.5)",
-        "border": "rgba(4, 119, 20, 0.5)"
+        "border": "rgba(4, 119, 20, 0.5)",
+        "count": 0
     },
     {
         "title": "Pride and Prejudice",
@@ -2275,7 +2397,8 @@
         "height": 280,
         "width": 200,
         "bg": "rgba(127, 207, 249, 0.5)",
-        "border": "rgba(6, 111, 137, 0.5)"
+        "border": "rgba(6, 111, 137, 0.5)",
+        "count": 16
     },
     {
         "title": "Alice's Adventures in Wonderland",
@@ -2287,7 +2410,8 @@
         "height": 276,
         "width": 200,
         "bg": "rgba(196, 147, 255, 0.5)",
-        "border": "rgba(70, 0, 127, 0.5)"
+        "border": "rgba(70, 0, 127, 0.5)",
+        "count": 0
     },
     {
         "title": "Walden, and On The Duty Of Civil Disobedience",
@@ -2299,7 +2423,8 @@
         "height": 287,
         "width": 200,
         "bg": "rgba(244, 173, 231, 0.5)",
-        "border": "rgba(242, 16, 189, 0.5)"
+        "border": "rgba(242, 16, 189, 0.5)",
+        "count": 5
     },
     {
         "title": "The Yellow Wallpaper",
@@ -2311,7 +2436,8 @@
         "height": 290,
         "width": 200,
         "bg": "rgba(242, 162, 180, 0.5)",
-        "border": "rgba(132, 0, 41, 0.5)"
+        "border": "rgba(132, 0, 41, 0.5)",
+        "count": 24
     },
     {
         "title": "Great Expectations",
@@ -2323,7 +2449,8 @@
         "height": 280,
         "width": 200,
         "bg": "rgba(244, 220, 149, 0.5)",
-        "border": "rgba(224, 119, 6, 0.5)"
+        "border": "rgba(224, 119, 6, 0.5)",
+        "count": 28
     },
     {
         "title": "Dubliners",
@@ -2335,7 +2462,8 @@
         "height": 293,
         "width": 200,
         "bg": "rgba(252, 235, 179, 0.5)",
-        "border": "rgba(244, 244, 4, 0.5)"
+        "border": "rgba(244, 244, 4, 0.5)",
+        "count": 32
     },
     {
         "title": "The Strange Case of Dr. Jekyll and Mr. Hyde",
@@ -2347,7 +2475,8 @@
         "height": 300,
         "width": 174,
         "bg": "rgba(140, 255, 165, 0.5)",
-        "border": "rgba(3, 130, 20, 0.5)"
+        "border": "rgba(3, 130, 20, 0.5)",
+        "count": 14
     },
     {
         "title": "Middlemarch",
@@ -2359,6 +2488,7 @@
         "height": 280,
         "width": 200,
         "bg": "rgba(131, 171, 252, 0.5)",
-        "border": "rgba(31, 8, 137, 0.5)"
+        "border": "rgba(31, 8, 137, 0.5)",
+        "count": 1
     }
 ]

@@ -130,24 +130,24 @@
 {
   "title": "The Odyssey",
   "author": "Homer",
-  "url": "https://www.gutenberg.org/ebooks/3160.epub.noimages",
-  "id": "3160",
-  "path": "/files/3160.epub",
+  "url": "https://www.gutenberg.org/ebooks/1727.epub.noimages",
+  "id": "1727",
+  "path": "/files/1727.epub",
   "height": 280,
   "width": 200,
-  "bg": "rgba(252, 231, 126, 0.5)",
-  "border": "rgba(198, 201, 4, 0.5)"
+  "bg": "rgba(255, 147, 180, 0.5)",
+  "border": "rgba(181, 20, 9, 0.5)"
 },
 {
   "title": "The Wonderful Wizard of Oz",
   "author": "L. Frank Baum",
-  "url": "https://www.gutenberg.org/ebooks/43936.epub.noimages",
-  "id": "43936",
-  "path": "/files/43936.epub",
-  "height": 300,
+  "url": "https://www.gutenberg.org/ebooks/55.epub.noimages",
+  "id": "55",
+  "path": "/files/55.epub",
+  "height": 266,
   "width": 200,
-  "bg": "rgba(198, 215, 255, 0.5)",
-  "border": "rgba(2, 93, 112, 0.5)"
+  "bg": "rgba(189, 146, 244, 0.5)",
+  "border": "rgba(79, 7, 130, 0.5)"
 },
 {
   "title": "Madame Bovary",

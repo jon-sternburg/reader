@@ -25,7 +25,7 @@ import RenditionType from '../../../node_modules/epubjs/types/rendition'
 import BookEpubType from '../../../node_modules/epubjs/types/book'
 import ContentsType from '../../../node_modules/epubjs/types/contents'
 import { EpubCFI } from 'epubjs'
-//let list =  require(`../data/scraped_book_list.json`)//.slice(0,2)
+//let list =  require(`../data/scraped_book_list.json`)
 type option_uc = {
   label: string
   value: string
@@ -112,32 +112,28 @@ function get_filtered_annotations() {
       let cfi_ = Array.isArray(x) ? x[1].cfiRange : ''
       let matching = search_highlights.current.filter(y => y.cfi == cfi_)
 
-console.log(x, ' => ', 'source = ', x_[1].data.source, ' matching = ', matching)
   if (!x_[1].data.source && matching.length == 0)  {
 return x
     }
   }
   })
 
-  console.log('FILTERED ANNOTATIONS a_:  ', a_)
   let a = a_.map(x => {
   if (Array.isArray(x)) { return x[1] }
   }).filter(y => y !== undefined)
-
-
-  console.log('FILTERED ANNOTATIONS: ', a)
 return a
-
-
 
 }
 
-
 /*
+
 // used to map cfis to scraped sparknote quote data
 
   useEffect(() => {
     async function write_quote_data(quote_data) {
+
+
+if (quote_data && quote_data.length > 0) { 
 
       return await fetch("/api/write_quote_data", {
         method: 'POST',
@@ -165,10 +161,23 @@ return a
           return null
         })
 
+
+         } else { 
+
+
+          let next_book_id = list.findIndex(x => x.id == props.selected_book.id)
+          if (next_book_id >= 0) { 
+
+            let next_book = list[next_book_id + 1]
+
+      
+          window.location.href = `http://localhost:3000/book/${next_book.id}`
+          }
+
+
+         }
     }
     async function search_text(q_) {
-
-
 
       if (book.current && book.current != null ) {
         let quote = q_.quote
@@ -193,8 +202,10 @@ return a
           let res_ = results.map(x => {
             let matching = toc.current.filter(y => y.href.slice(0, y.href.indexOf('#')) == x.x.href)
             let label = matching && matching[0] && matching[0].label ? matching[0].label : ''
-            return {section: label.trim(), cfi: x.s[0].cfi, quote: quote, desc: q_.desc, page: q_.page  }
+            let toc_id = matching && matching[0] && matching[0].id ? matching[0].id : ''
+            return {section: label.trim(), cfi: x.s[0].cfi, quote: quote, desc: q_.desc, page: q_.page, sd: toc_id  }
           })
+
                   //removes duplicate 
                   if (res_.length > 1) { res_.pop()}
                  return res_
@@ -218,10 +229,14 @@ return a
     return await search_text(x)
     })).catch(err => console.log(err))
     .then(async (d) => {
-    let final = [].concat.apply([], d).filter( x => x !== undefined)
+    let final_pre = [].concat.apply([], d).filter( x => x !== undefined)
+
+    let final =  final_pre.sort((a, b) => parseInt(a.sd.replace('np-', '')) - parseInt(b.sd.replace('np-', '')))
       console.log('final: ', final)
       console.log('found ', final.length ,' out of ', quote_data.length)
     
+
+
     await write_quote_data(final)
     
     }).catch(err => console.log(err))
@@ -236,8 +251,8 @@ if (props.selected_book.id) {
 
 }
       }, [props.selected_book.id])
-
 */
+
 
   useEffect(() => {
 let a_ = []
@@ -252,7 +267,7 @@ if (!x_[1].data.source )  { a_.push(x)} else { s_.push(x)}
     if (a_.length == 0 ) { 
 
       if (props.annotations.length > 0) { 
-        console.log('fired a')
+
       props.annotations.map((x_: AnnotationInner) => {
         if (x_ !== null) {
           rendition.current.annotations.add('highlight', 
@@ -270,7 +285,7 @@ if (!x_[1].data.source )  { a_.push(x)} else { s_.push(x)}
   }
     let sa = props.sparknotes_annotations
     if (s_.length == 0 && sa !== undefined && sa.length > 0) { 
-console.log('fired spark')
+
 
           sa.map((x_: SparkType) => {
             if (x_ !== null) {
@@ -383,7 +398,6 @@ function annotation_cb(cfiRange: string, text: string, section: string, loc: Cur
         document.addEventListener("keyup", keyListener);
 
         rendition.current.on("markClicked", function (cfiRange: string, data: renditionMarkClickedData) {
-          console.log(data)
           const sparknotes = data.source !== undefined ? true : false
           annotation_clicked(cfiRange, sparknotes)
         })
@@ -619,7 +633,6 @@ set_sidebar(null)
 
     let time = getTimeStamp()
 if (new_annotation.current !== null) {
-  console.log('saving new annotation...')
   let cfiRange = new_annotation.current.cfiRange
   let text = new_annotation.current.text
   let section = new_annotation.current.section
@@ -639,8 +652,6 @@ if (new_annotation.current !== null) {
  set_si(a_ls.length - 1)
 
 } else { 
-
-console.log('saving edited annotation...')
   let annotations = rendition.current.annotations.each()
 
   let dc_ = edit !== null ? edit.cfiRange : ''
@@ -664,8 +675,6 @@ console.log('saving edited annotation...')
       if (match_ !== null) {
 
         if (color !== match_.data.color) {
-
-          console.log('color change...')
 
 resolve(rendition.current.annotations.remove(match_.cfiRange, 'highlight'))
 
@@ -771,7 +780,6 @@ rendition.current.annotations.add('highlight', match_.cfiRange, { text: text, da
     rendition.current.display(x.cfi)
     set_url()
     handle_search_highlight(null, x.cfi, x.excerpt, x)
-    console.log(mobile)
     if (mobile) { set_sidebar(null) }
   }
 
