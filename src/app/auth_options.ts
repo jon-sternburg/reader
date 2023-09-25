@@ -1,84 +1,85 @@
-
-import CredentialsProvider from "next-auth/providers/credentials"
+import CredentialsProvider from "next-auth/providers/credentials";
 import User from "./models/user";
 import dbConnect from "./util/dbConnect";
-import type { NextAuthOptions } from 'next-auth'
- 
+import type { NextAuthOptions } from "next-auth";
 
-const auth_options:NextAuthOptions  =  {
-    // Enable JSON Web Tokens since we will not store sessions in our DB
-    session: {
-      //  jwt: true
-      strategy: "jwt",
-      maxAge: 30 * 24 * 60 * 60, // 30 days
+const auth_options: NextAuthOptions = {
+  // Enable JSON Web Tokens since we will not store sessions in our DB
+  session: {
+    //  jwt: true
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
 
-      // Seconds - Throttle how frequently to write to database to extend a session.
-      // Use it to limit write operations. Set to 0 to always update the database.
-      // Note: This option is ignored if using JSON Web Tokens
-      updateAge: 24 * 60 * 60, // 24 hours
-    },
-    jwt: {
-        // The maximum age of the NextAuth.js issued JWT in seconds.
-        // Defaults to `session.maxAge`.
-        maxAge: 60 * 60 * 24 * 30,
-        // You can define your own encode/decode functions for signing and encryption
-
+    // Seconds - Throttle how frequently to write to database to extend a session.
+    // Use it to limit write operations. Set to 0 to always update the database.
+    // Note: This option is ignored if using JSON Web Tokens
+    updateAge: 24 * 60 * 60, // 24 hours
+  },
+  jwt: {
+    // The maximum age of the NextAuth.js issued JWT in seconds.
+    // Defaults to `session.maxAge`.
+    maxAge: 60 * 60 * 24 * 30,
+    // You can define your own encode/decode functions for signing and encryption
+  },
+  // Here we add our login providers - this is where you could add Google or Github SSO as well
+  providers: [
+    CredentialsProvider({
+      name: "credentials",
+      // The credentials object is what's used to generate Next Auths default login page - We will not use it however.
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
-    // Here we add our login providers - this is where you could add Google or Github SSO as well
-    providers: [
-        CredentialsProvider({
-            name: "credentials",
-            // The credentials object is what's used to generate Next Auths default login page - We will not use it however.
-            credentials: {
-                email: {label: "Email", type: "email"},
-                password: {label: "Password", type: "password"}
-            },
-            // Authorize callback is ran upon calling the signin function
-            authorize: async (credentials) => {
-                dbConnect()
+      // Authorize callback is ran upon calling the signin function
+      authorize: async (credentials) => {
+        dbConnect();
 
-                // Try to find the user and also return the password field
-                const user = await User.findOne({email: credentials?.email}).select('+password')
+        // Try to find the user and also return the password field
+        const user = await User.findOne({ email: credentials?.email }).select(
+          "+password"
+        );
 
-                if(!user) { throw new Error('No user with a matching email was found.')}
-
-                // Use the comparePassword method we defined in our user.js Model file to authenticate
-                const pwValid = await user.comparePassword(credentials?.password)
-
-                if(!pwValid){ throw new Error("Your password is invalid") }
-
-                return user
-            }
-
-            
-        })
-    ],
-    // All of this is just to add user information to be accessible for our app in the token/session
-    callbacks: {
-        // We can pass in additional information from the user document MongoDB returns
-        // This could be avatars, role, display name, etc...
-        async jwt({token, user}){
-            if (user) {
-                token.user = {
-                    _id: user._id,
-                    email: user.email,
-                    role: user.role,
-                }
-            }
-            return token
-        },
-        // If we want to access our extra user info from sessions we have to pass it the token here to get them in sync:
-        session: async({session, token}) => {
-            if(token){
-                session.user = token.user as any
-            }
-            return session
+        if (!user) {
+          throw new Error("No user with a matching email was found.");
         }
-    },  
+
+        // Use the comparePassword method we defined in our user.js Model file to authenticate
+        const pwValid = await user.comparePassword(credentials?.password);
+
+        if (!pwValid) {
+          throw new Error("Your password is invalid");
+        }
+
+        return user;
+      },
+    }),
+  ],
+  // All of this is just to add user information to be accessible for our app in the token/session
+  callbacks: {
+    // We can pass in additional information from the user document MongoDB returns
+    // This could be avatars, role, display name, etc...
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = {
+          _id: user._id,
+          email: user.email,
+          role: user.role,
+        };
+      }
+      return token;
+    },
+    // If we want to access our extra user info from sessions we have to pass it the token here to get them in sync:
+    session: async ({ session, token }) => {
+      if (token) {
+        session.user = token.user as any;
+      }
+      return session;
+    },
+  },
   pages: {
     // Here you can define your own custom pages for login, recover password, etc.
-      signIn: '/login', // we are going to use a custom login page (we'll create this in just a second)
+    signIn: "/login", // we are going to use a custom login page (we'll create this in just a second)
   },
-}
+};
 
-export default auth_options
+export default auth_options;
