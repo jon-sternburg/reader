@@ -1,5 +1,7 @@
 ## Gutenberg Reader
 
+[Live link](https://reader-brown.vercel.app/)
+
 An ePub reader built for the Project Gutenberg free library of eBooks - allows users to read, annotate, highlight, and search hundreds of classic literature texts.
 
 Users can create an account to save, edit, and view their annotations from any device. Users can also save annotations locally.
